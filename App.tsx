@@ -13,7 +13,7 @@ const Tabs = createBottomTabNavigator()
 const customTabBarIcon = (focused: boolean, icon: IconDefinition) => <FontAwesomeIcon icon={icon} color={focused ? "#3EB6BA" : "#ABABAE"} size={30} />
 const customTabBarLabel = (focused: boolean, label: string) => <Text style={{ fontSize: 11, fontWeight: focused ? "bold" : "normal",  color: focused ? "#3EB6BA" : "#ABABAE" }}>{label}</Text>
 
-const bottomTabsRoutes = [
+const bottomTabsRoutes: Array<BottomTabsRoutesTypes> = [
   {
     name: "Home",
     label: "Accueil",
@@ -68,3 +68,10 @@ const App: React.FC = () => (
 );
 
 export default App;
+
+type BottomTabsRoutesTypes = {
+  name: string,
+  label: string,
+  icon: IconDefinition,
+  component: React.ComponentType<any>
+}
