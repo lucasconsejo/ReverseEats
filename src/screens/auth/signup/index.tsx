@@ -1,10 +1,12 @@
-import React, { useState } from "react"
-import { Text, TouchableOpacity, View, StyleSheet, TextInput, Image } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { ButtomPrimary, ButtomSecondary } from "../../../theme/buttons"
+import React  from "react"
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/dark-logo.svg"
 import { useFontsHook } from "../../../theme/fonts"
+import {StatusBar} from "expo-status-bar"
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+
 
 type Props = {
     navigation : any,
@@ -17,25 +19,39 @@ const Signup: React.FC<Props> = ({ navigation }) => {
     if (!loaded) {
         return null
     }
+    const goLoginScreen = () => {
+        navigation.goBack();
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
+            <StatusBar style="light" />
             <View style={{ flex: 1, justifyContent: "space-between" }}>
+
+                <TouchableOpacity style={styles.arrow} onPress={goLoginScreen}>
+                    <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
+                </TouchableOpacity>
+
                 <View style={styles.logoContainer}>
                     <Logo />
                 </View>
 
                 <View style={styles.container}>
-                    <View style={styles.inputContainer}>
+                    <View >
                        <Text style={styles.title}>Incription</Text>
                     </View>
 
-                    <View style={styles.inputContainer}>
+                    <View>
                        <Text style={styles.textWhite}>Nous vous proposons d’inviter un cuisinier chez vous afin de vous préparer un menu au choix.</Text>
                     </View>
 
-                    <View style={styles.inputContainer}>
-                    <Text style={styles.textYellow}>Vous savez cuisiner ? <Text style={styles.textWhite}>N’hésitez pas à proposer vos services à nos nombreux clients. </Text></Text>
-                    
+                    <View>
+                        <Text style={styles.textYellow}>
+                            Vous savez cuisiner ? 
+                            <Text style={styles.textWhite}>
+                                N’hésitez pas à proposer vos services à nos nombreux clients. 
+                            </Text>
+                        </Text>
                     </View>
                 </View>
 
@@ -55,14 +71,19 @@ const Signup: React.FC<Props> = ({ navigation }) => {
 export default Signup
 
 const styles = StyleSheet.create({
+    arrow: {
+        marginLeft: 30,
+        marginTop: 80,
+    },
     container: {
-        marginTop: -80,
+        marginTop: -120,
         marginHorizontal: 30,
     },
     title: {
         color: colors.white,
         fontFamily: "UberMoveMedium",
         fontSize: 30,
+        marginBottom: 30,
     },
     textYellow: {
         fontSize: 20,
@@ -73,23 +94,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "500",
         color: colors.white,
-    },
-    inputContainer: {
-        marginBottom: 10,
-    },
-    label: {
-        color: colors.black,
-        fontSize: 18,
-        fontWeight: "500"
-    },
-    input: {
-      height: 50,
-      marginVertical: 8,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 5,
-      borderColor: colors.secondary,
-      fontSize: 18
+        marginBottom: 50,
     },
     btnClient: {
         flexGrow: 1,
@@ -114,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     logoContainer: {
-        marginTop: 70,
+        marginTop: -170,
         flexDirection: "row",
         justifyContent: "center"
     },
