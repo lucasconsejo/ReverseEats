@@ -27,10 +27,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
     }
 
     const goSignupScreen = () => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Signup" }],
-        });
+        navigation.navigate("Signup")
     }
 
     return (
