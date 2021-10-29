@@ -3,6 +3,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import React from 'react';
 import Login from '../screens/auth/login';
 import Signup from '../screens/auth/signup';
+import SignupForm from '../screens/auth/signup/signupForm';
 import BottomTabsNavigation from './BottomTabsNavigation';
 
 const Stack = createStackNavigator();
@@ -12,6 +13,7 @@ const Navigation: React.FC = () => (
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS}}>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
+        <Stack.Screen name="SignupForm" component={SignupForm}/>
         <Stack.Screen name="Home" component={BottomTabsNavigation}/>
       </Stack.Navigator>
     </NavigationContainer>

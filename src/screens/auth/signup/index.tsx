@@ -6,6 +6,7 @@ import { useFontsHook } from "../../../theme/fonts"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import SignupForm from "./signupForm"
 
 
 type Props = {
@@ -21,6 +22,11 @@ const Signup: React.FC<Props> = ({ navigation }) => {
     }
     const goLoginScreen = () => {
         navigation.goBack();
+    }
+    const goSignupFromScreen = (role:string) => {
+        navigation.navigate('SignupForm', {
+            role,
+        });
     }
 
     return (
@@ -56,10 +62,10 @@ const Signup: React.FC<Props> = ({ navigation }) => {
                 </View>
 
                 <View style={{ flexDirection: "row", height: 100}}>
-                    <TouchableOpacity style={styles.btnClient}>
+                    <TouchableOpacity style={styles.btnClient} onPress={() => goSignupFromScreen("Client")}>
                         <Text style={styles.btnClientText}>Client</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnCuisinier}>
+                    <TouchableOpacity style={styles.btnCuisinier} onPress={() => goSignupFromScreen("Cuisinier")}>
                         <Text style={styles.btnCuisinierText}>Cuisinier</Text>
                     </TouchableOpacity>
                 </View>   

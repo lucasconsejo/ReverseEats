@@ -8,6 +8,8 @@ const Button: React.FC<ButtonProps> = ({ theme, title, style, onPress }) => {
             return <ButtomPrimary title={title} style={style} onPress={onPress} />
         case "secondary":
             return <ButtomSecondary title={title} style={style} onPress={onPress} />
+        case "secondaryDarkRight":
+            return <ButtomSecondary title={title} style={style} onPress={onPress} />
         default:
             return null
     }
@@ -20,6 +22,12 @@ const ButtomPrimary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) 
 )
 
 const ButtomSecondary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
+    <TouchableOpacity style={[secondary.btn, style]} onPress={onPress}>
+        <Text style={secondary.text}>{title}</Text>
+    </TouchableOpacity>
+)
+
+const ButtonSecondaryDarkRight: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
     <TouchableOpacity style={[secondary.btn, style]} onPress={onPress}>
         <Text style={secondary.text}>{title}</Text>
     </TouchableOpacity>
@@ -49,6 +57,20 @@ const secondary = StyleSheet.create({
     text: {
         color: colors.primary,
         textAlign: "center",
+        fontWeight: "500",
+        fontSize: 20,
+        paddingVertical: 15,
+    },
+});
+
+const secondaryDarkRight = StyleSheet.create({
+    btn: {
+        backgroundColor: colors.backgroundDark,
+        borderRadius: 5,
+    },
+    text: {
+        color: colors.primary,
+        textAlign: "right",
         fontWeight: "500",
         fontSize: 20,
         paddingVertical: 15,
