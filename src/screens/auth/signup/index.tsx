@@ -4,13 +4,19 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { ButtomPrimary, ButtomSecondary } from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/light-logo.svg"
-import { fonts } from "../../../theme/fonts"
+import { useFontsHook } from "../../../theme/fonts"
 
 type Props = {
     navigation : any,
 }
 
 const Signup: React.FC<Props> = ({ navigation }) => {
+
+    const [loaded] = useFontsHook();
+
+    if (!loaded) {
+        return null
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
             <View style={{ flex: 1, justifyContent: "space-between" }}>
@@ -54,9 +60,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     title: {
-        fontFamily: `${fonts.uberMoveMedium}`,
+        fontFamily: "UberMoveMedium",
         fontSize: 30,
-        fontWeight: "500",
     },
     inputContainer: {
         marginBottom: 10,
