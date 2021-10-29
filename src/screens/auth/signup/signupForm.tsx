@@ -1,7 +1,6 @@
 import React, { useState }  from "react"
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
 import { colors } from "../../../theme/colors"
-import { useFontsHook } from "../../../theme/fonts"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
@@ -24,13 +23,6 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
     const [password, setPassword] = useState<string>("");
     const [passwordConfirm, setPasswordConfirm] = useState<string>("");
 
-    const [loaded] = useFontsHook();
-
-
-
-    if (!loaded) {
-        return null
-    }
     const goSignupScreen = () => {
         navigation.goBack();
     }
@@ -45,7 +37,7 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
                         <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
                     </TouchableOpacity>
                     <View >
-                       <Text style={styles.title}>Incription</Text>
+                       <Text style={styles.title}>Inscription</Text>
                     </View>
 
                     <Text style={styles.titleLeft}> {role}</Text>

@@ -38,7 +38,7 @@ const Signup: React.FC<Props> = ({ navigation }) => {
 
                 <View style={styles.container}>
                     <View >
-                       <Text style={styles.title}>Incription</Text>
+                       <Text style={styles.title}>Inscription</Text>
                     </View>
 
                     <View>
