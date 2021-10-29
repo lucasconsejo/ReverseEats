@@ -4,29 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { ButtomPrimary, ButtomSecondary } from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/light-logo.svg"
+import { fonts } from "../../../theme/fonts"
 
 type Props = {
-    navigation: any
+    navigation : any,
 }
 
-const Login: React.FC<Props> = ({ navigation }) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-
-    const goHomeScreen = () => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Home" }],
-        });
-    }
-
-    const goSignupScreen = () => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Signup" }],
-        });
-    }
-
+const Signup: React.FC<Props> = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
             <View style={{ flex: 1, justifyContent: "space-between" }}>
@@ -36,33 +20,43 @@ const Login: React.FC<Props> = ({ navigation }) => {
 
                 <View style={styles.container}>
                     <View style={styles.inputContainer}>
-                       <Text style={styles.label}>Email</Text>
-                       <TextInput keyboardType="email-address" style={styles.input} value={email} onChangeText={setEmail} />
+                       <Text style={styles.title}>Incription</Text>
                     </View>
 
                     <View style={styles.inputContainer}>
-                       <Text style={styles.label}>Mot de passe</Text>
-                       <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+                       <Text style={styles.label}>Nous vous proposons d’inviter un cuisinier chez vous afin de vous préparer un menu au choix.</Text>
                     </View>
 
-                    <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
-                    <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={goSignupScreen} />
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Vous savez cuisiner ? </Text>
+                    <Text style={styles.label}>N’hésitez pas à proposer vos services à nos nombreux clients. </Text>
+                    </View>
                 </View>
 
-                <TouchableOpacity>
-                    <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "500", marginBottom: 30 }}>Mot de passe oublié ?</Text>
-                </TouchableOpacity>
+                <View>
+                    <TouchableOpacity>
+                        <Text>Client</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Text>Cuisinier</Text>
+                    </TouchableOpacity>
+                </View>   
             </View>
         </SafeAreaView>
     )
 }
 
-export default Login
+export default Signup
 
 const styles = StyleSheet.create({
     container: {
         marginTop: -80,
         marginHorizontal: 30,
+    },
+    title: {
+        fontFamily: `${fonts.uberMoveMedium}`,
+        fontSize: 30,
+        fontWeight: "500",
     },
     inputContainer: {
         marginBottom: 10,
@@ -90,4 +84,3 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
     },
 });
-  
