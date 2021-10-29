@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View, StyleSheet, TextInput, Image } from "reac
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ButtomPrimary, ButtomSecondary } from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
-import Logo from "../../../assets/light-logo.svg"
+import Logo from "../../../assets/dark-logo.svg"
 import { useFontsHook } from "../../../theme/fonts"
 
 type Props = {
@@ -18,7 +18,7 @@ const Signup: React.FC<Props> = ({ navigation }) => {
         return null
     }
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+        <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
             <View style={{ flex: 1, justifyContent: "space-between" }}>
                 <View style={styles.logoContainer}>
                     <Logo />
@@ -30,25 +30,25 @@ const Signup: React.FC<Props> = ({ navigation }) => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                       <Text style={styles.label}>Nous vous proposons d’inviter un cuisinier chez vous afin de vous préparer un menu au choix.</Text>
+                       <Text style={styles.textWhite}>Nous vous proposons d’inviter un cuisinier chez vous afin de vous préparer un menu au choix.</Text>
                     </View>
 
                     <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Vous savez cuisiner ? </Text>
-                    <Text style={styles.label}>N’hésitez pas à proposer vos services à nos nombreux clients. </Text>
+                    <Text style={styles.textYellow}>Vous savez cuisiner ? <Text style={styles.textWhite}>N’hésitez pas à proposer vos services à nos nombreux clients. </Text></Text>
+                    
                     </View>
                 </View>
 
-                <View>
-                    <TouchableOpacity>
-                        <Text>Client</Text>
+                <View style={{ flexDirection: "row", height: 100}}>
+                    <TouchableOpacity style={styles.btnClient}>
+                        <Text style={styles.btnClientText}>Client</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text>Cuisinier</Text>
+                    <TouchableOpacity style={styles.btnCuisinier}>
+                        <Text style={styles.btnCuisinierText}>Cuisinier</Text>
                     </TouchableOpacity>
                 </View>   
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -60,8 +60,19 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     title: {
+        color: colors.white,
         fontFamily: "UberMoveMedium",
         fontSize: 30,
+    },
+    textYellow: {
+        fontSize: 20,
+        fontWeight: "500",
+        color: colors.yellow,
+    },
+    textWhite: {
+        fontSize: 20,
+        fontWeight: "500",
+        color: colors.white,
     },
     inputContainer: {
         marginBottom: 10,
@@ -79,6 +90,28 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       borderColor: colors.secondary,
       fontSize: 18
+    },
+    btnClient: {
+        flexGrow: 1,
+        justifyContent: "center",
+        backgroundColor: colors.primary,
+    },
+    btnClientText: {
+        textAlign: "center",
+        fontWeight: "500",
+        color: colors.white,
+        fontSize: 24,
+    },
+    btnCuisinier: {
+        flexGrow: 1,
+        justifyContent: "center",
+        backgroundColor: colors.yellow,
+    },
+    btnCuisinierText: {
+        textAlign: "center",
+        fontWeight: "500",
+        color: colors.black,
+        fontSize: 24,
     },
     logoContainer: {
         marginTop: 70,
