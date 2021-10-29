@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/light-logo.svg"
-import { useFontsHook } from "../../../theme/fonts";
 
 type Props = {
     navigation: any
@@ -13,11 +12,6 @@ type Props = {
 const Login: React.FC<Props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [loaded] = useFontsHook();
-
-    if (!loaded) {
-        return null
-    }
 
     const goHomeScreen = () => {
         navigation.reset({
