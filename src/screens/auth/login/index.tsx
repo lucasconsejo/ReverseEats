@@ -43,7 +43,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
                 </View>
 
                 <TouchableOpacity>
-                    <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "500"}}>Mot de passe oublié ?</Text>
+                    <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "500", marginBottom: 30 }}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
