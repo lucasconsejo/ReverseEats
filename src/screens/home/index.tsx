@@ -1,12 +1,9 @@
 import React from "react"
 import { Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { ScreenProps } from "../../types/props.types"
 
-type Props = {
-    navigation: NavigationType
-}
-
-const Home: React.FC<Props> = ({ navigation }) => {
+const Home: React.FC<ScreenProps> = ({ navigation }) => {
     return (
         <SafeAreaView>
             <View>
