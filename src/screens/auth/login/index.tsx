@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react"
-import { Text, TouchableOpacity, View, StyleSheet, TextInput, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import React from "react"
+import { Text, TouchableOpacity, View, StyleSheet, TextInput, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, KeyboardTypeOptions } from 'react-native';
+import { useController, useForm } from 'react-hook-form';
 import { SafeAreaView } from "react-native-safe-area-context"
 import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/light-logo.svg"
 
-type Props = {
-    navigation: any
-}
 
 const Login: React.FC<Props> = ({ navigation }) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const { control, handleSubmit } = useForm<FormData>({
+        defaultValues: {
+          email: "",
+          password: "",
+        }
+    });
 
-    const goHomeScreen = () => {
+    const goHomeScreen = handleSubmit((data) => {
         navigation.reset({
             index: 0,
             routes: [{ name: "Home" }],
         });
-    }
+    });
 
     const goSignupScreen = () => {
         navigation.navigate("Signup")
@@ -41,12 +43,12 @@ const Login: React.FC<Props> = ({ navigation }) => {
                             <View style={styles.container}>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.label}>Email</Text>
-                                    <TextInput keyboardType="email-address" style={styles.input} value={email} onChangeText={setEmail} />
+                                    <Input name="email" control={control} keyboardType="email-address" required />
                                 </View>
 
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.label}>Mot de passe</Text>
-                                    <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+                                    <Input name="password" control={control} keyboardType="default" secureTextEntry required />
                                 </View>
 
                             <Button theme="primary" style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
@@ -65,6 +67,25 @@ const Login: React.FC<Props> = ({ navigation }) => {
 }
 
 export default Login
+
+const Input: React.FC<InputProps> = ({ name, control, keyboardType, secureTextEntry = false, required = false}) => {
+    const { field } = useController({
+        defaultValue: "",
+        control,
+        name,
+        rules: { required }
+    });
+
+    return (
+        <TextInput 
+            secureTextEntry={secureTextEntry}
+            keyboardType={keyboardType}
+            style={styles.input} 
+            value={field.value} 
+            onChangeText={field.onChange}
+        />
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -104,3 +125,19 @@ const styles = StyleSheet.create({
     }
 });
   
+type Props = {
+    navigation: any
+}
+
+interface FormData {
+    email: string;
+    password: string;
+}
+
+type InputProps = {
+    name: string,
+    control: any,
+    keyboardType: KeyboardTypeOptions,
+    secureTextEntry?: boolean
+    required?: boolean
+}
