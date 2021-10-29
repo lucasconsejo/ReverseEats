@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Text, TouchableOpacity, View, StyleSheet, TextInput, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context"
-import { ButtomPrimary, ButtomSecondary } from "../../../theme/buttons"
+import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/light-logo.svg"
 import { useFontsHook } from "../../../theme/fonts";
@@ -55,8 +55,8 @@ const Login: React.FC<Props> = ({ navigation }) => {
                                     <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
                                 </View>
 
-                            <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
-                            <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={goSignupScreen} />
+                            <Button theme="primary" style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
+                            <Button theme="secondary" style={{ marginTop: 10 }} title="Inscription" onPress={goSignupScreen} />
                         </View>
 
                             <TouchableOpacity>
