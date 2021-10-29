@@ -2,7 +2,6 @@ import React  from "react"
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/dark-logo.svg"
-import { useFontsHook } from "../../../theme/fonts"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
@@ -13,12 +12,7 @@ type Props = {
 }
 
 const Signup: React.FC<Props> = ({ navigation }) => {
-
-    const [loaded] = useFontsHook();
-
-    if (!loaded) {
-        return null
-    }
+    
     const goLoginScreen = () => {
         navigation.goBack();
     }
