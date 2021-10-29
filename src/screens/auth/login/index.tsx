@@ -58,15 +58,9 @@ const Login: React.FC<Props> = ({ navigation }) => {
                                     <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
                                 </View>
 
-<<<<<<< HEAD
-                    <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
-                    <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={goSignupScreen} />
-                </View>
-=======
-                                <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
-                                <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={() => console.log()} />
-                            </View>
->>>>>>> b248882734e920c4ef4a908540ae8af0e65e6252
+                            <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
+                            <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={goSignupScreen} />
+                        </View>
 
                             <TouchableOpacity>
                                 <Text style={styles.resetPassword}>Mot de passe oublié ?</Text>
