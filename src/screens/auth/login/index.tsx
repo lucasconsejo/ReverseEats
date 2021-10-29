@@ -13,6 +13,13 @@ const Login: React.FC<Props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    const goHomeScreen = () => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: "Home" }],
+        });
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
             <View style={{ flex: 1, justifyContent: "space-between" }}>
@@ -31,7 +38,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
                        <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
                     </View>
 
-                    <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={() => navigation.navigate("Home")} />
+                    <ButtomPrimary style={{ marginTop: 10 }} title="Connexion" onPress={goHomeScreen} />
                     <ButtomSecondary style={{ marginTop: 10 }} title="Inscription" onPress={() => console.log()} />
                 </View>
 
