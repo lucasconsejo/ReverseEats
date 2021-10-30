@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 
@@ -13,7 +13,7 @@ const useCachedResources = () => {
                     UberMoveMedium: require('../assets/fonts/UberMoveMedium.otf'),
                     UberMoveBold: require('../assets/fonts/UberMoveBold.otf'),
                 });
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, 1500));
             } catch (e) {
                 console.warn(e)
             } finally {
@@ -21,7 +21,6 @@ const useCachedResources = () => {
                 setIsLoadingComplete(true)
             }
         }
-
         loadDataAndResourcesAsync()
     }, [])
 
