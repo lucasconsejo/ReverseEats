@@ -4,15 +4,22 @@ import { colors } from "../../../theme/colors"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import { text } from "@fortawesome/fontawesome-svg-core"
 import { TextInput } from "react-native-gesture-handler"
 import Button from "../../../theme/buttons"
-
+import { Controller, useForm } from 'react-hook-form';
 
 type Props = {
     navigation : any,
     route: any,
 }
+
+interface FormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+  }
 
 const SignupForm: React.FC<Props> = ({ route, navigation }) => {
     const { role } = route.params;
@@ -22,6 +29,20 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+
+    const { control, handleSubmit } = useForm<FormData>({
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            passwordConfirm: '',
+        },
+      });
+      
+      const onSubmit = handleSubmit(() => {
+        console.log();
+      });
 
     const goSignupScreen = () => {
         navigation.goBack();
@@ -45,26 +66,51 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
                     <View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Nom</Text>
-                            <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
+                            <Controller
+                            control={control}
+                            name="firstName"
+                            render={({ onChange, value }) => (
+                                <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
+                            )}/>
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Prénom</Text>
+                            <Controller
+                            control={control}
+                            name="lastName"
+                            render={({ onChange, value }) => (
                             <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
+                            )}/>
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Email</Text>
+                            <Controller
+                            control={control}
+                            name="email"
+                            render={({ onChange, value }) => (
                             <TextInput keyboardType="email-address" style={styles.input} value={email} onChangeText={setEmail} />
+                            )}/>
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Mot de passe</Text>
-                            <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+                            <Controller
+                            control={control}
+                            name="password"
+                            render={({ onChange, value }) => (
+                                <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
+                            )}/>
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.label}>Confirmation du mot de passe</Text>
-                            <TextInput secureTextEntry style={styles.input} value={passwordConfirm} onChangeText={setPasswordConfirm} />
+                            <Controller
+                            control={control}
+                            name="passwordConfirm"
+                            render={({ onChange, value }) => (
+                                <TextInput secureTextEntry style={styles.input} value={passwordConfirm} onChangeText={setPasswordConfirm} />
+                            )}/>
                         </View>
 
-                        <Button theme="secondaryDarkRight" style={{ marginTop: 10 }} title="Suivant" onPress={() => console.log()} />
+                        <Button theme="secondaryDarkRight" style={{ marginTop: 10 }} title="Suivant" onPress={onSubmit} />
                     </View>
 
                 </View>

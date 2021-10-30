@@ -47,10 +47,8 @@ const Signup: React.FC<Props> = ({ navigation }) => {
 
                     <View>
                         <Text style={styles.textYellow}>
-                            Vous savez cuisiner ? 
-                            <Text style={styles.textWhite}>
-                                N’hésitez pas à proposer vos services à nos nombreux clients. 
-                            </Text>
+                            Vous savez cuisiner ?
+                            <Text style={styles.textWhite}> N’hésitez pas à proposer vos services à nos nombreux clients.</Text>
                         </Text>
                     </View>
                 </View>
