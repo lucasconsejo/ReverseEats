@@ -23,7 +23,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
         if (errors.email || errors.password) {
             setMsgError("Email ou mot de passe incorrect")
         } else {
-            setMsgError("setMsgError")
+            setMsgError("")
         }
     }, [errors.email, errors.password])
 
