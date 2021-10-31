@@ -8,6 +8,7 @@ import Logo from "../../../assets/light-logo.svg"
 import Input from "../../../theme/inputs";
 import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
+import { StatusBar } from "expo-status-bar";
 
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
@@ -51,6 +52,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
+            <StatusBar style="dark" />
             <View style={{ flex: 1 }}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : "padding"}
