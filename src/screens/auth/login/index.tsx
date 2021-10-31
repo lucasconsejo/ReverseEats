@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Text, TouchableOpacity, View, StyleSheet, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { SafeAreaView } from "react-native-safe-area-context"
 import Button from "../../../theme/buttons"
@@ -9,10 +9,11 @@ import Input from "../../../theme/inputs";
 import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
 import { StatusBar } from "expo-status-bar";
-
+import { loginRequest } from "../../../firebase/authRequests";
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
     const [msgError, setMsgError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
         defaultValues: {
           email: "",
@@ -22,32 +23,57 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
 
     useEffect(() => {
         if (errors.email || errors.password) {
-            setMsgError("Email ou mot de passe incorrect")
+            setMsgError("Champs incomplet.")
         } else {
             setMsgError("")
         }
     }, [errors.email, errors.password])
 
-    const goHomeScreen = handleSubmit((data) => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Home" }],
+    const submitLogin = handleSubmit(({ email, password }) => {
+        setLoading(true);
+        loginRequest(email, password).then(res => {
+            setLoading(false);
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Home" }],
+            });
+        }).catch(err => {
+            if (err.message.includes("too-many-requests")) {
+                setMsgError("Trop de tentative, réesayez plus tard.");
+            }
+            if (err.message.includes("wrong-password") || err.message.includes("user-not-found")) {
+                setMsgError("Email ou mot de passe incorrect.");
+            }
+            else {
+                setMsgError(err.message);
+            }
+            setLoading(false);
         });
     });
 
-    const goSignupScreen = () => {
-        navigation.navigate("Signup");
-    }
-
-    const HandleError = (msg: string) => {
+    const handleError = () => {
         if (msgError.length) {
             return (
                 <View style={styles.error}>
-                    <Text style={styles.textError}>{msg}</Text>
+                    <Text style={styles.textError}>{msgError}</Text>
                 </View>
             );
         }
         return null;
+    }
+
+    const connectionBtn = () => {
+        return loading ? (
+            <ActivityIndicator size={32} color={colors.primary} />
+        )
+        : ( 
+            <Button 
+                theme="primary" 
+                style={{ marginTop: 10 }} 
+                title="Connexion" 
+                onPress={submitLogin} 
+            />
+        )
     }
 
     return (
@@ -80,24 +106,19 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
                                     theme="light" 
                                     control={control} 
                                     keyboardType="default" 
-                                    onSubmitEditing={goHomeScreen} 
+                                    onSubmitEditing={submitLogin} 
                                     secureTextEntry 
                                     required 
                                 />
 
-                                {HandleError(msgError)}
-
-                                <Button 
-                                    theme="primary" 
-                                    style={{ marginTop: 10 }} 
-                                    title="Connexion" 
-                                    onPress={goHomeScreen} 
-                                />
+                                {handleError()}
+                                {connectionBtn()}
+                                
                                 <Button 
                                     theme="secondary" 
                                     style={{ marginTop: 10 }} 
                                     title="Inscription" 
-                                    onPress={goSignupScreen} 
+                                    onPress={() => navigation.navigate("Signup")} 
                                 />
                             </View>
 
