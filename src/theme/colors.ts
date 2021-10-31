@@ -6,4 +6,5 @@ export const colors = {
     yellow: "#FDD015",
     background: "#E5E5E5",
     backgroundDark: "#122828",
+    textError: "#c71e1e"
 }

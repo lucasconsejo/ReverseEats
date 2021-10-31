@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Text, TouchableOpacity, View, StyleSheet, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { SafeAreaView } from "react-native-safe-area-context"
 import Button from "../../../theme/buttons"
-import { colors } from "../../../theme/colors"
+import { colors } from '../../../theme/colors';
 import Logo from "../../../assets/light-logo.svg"
 import Input from "../../../theme/inputs";
 import { ScreenProps } from "../../../types/props.types";
@@ -11,12 +11,21 @@ import { LoginFormData } from "../../../types/global.types";
 
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
-    const { control, handleSubmit } = useForm<LoginFormData>({
+    const [msgError, setMsgError] = useState<string>("");
+    const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
         defaultValues: {
           email: "",
           password: "",
         }
     });
+
+    useEffect(() => {
+        if (errors.email || errors.password) {
+            setMsgError("Email ou mot de passe incorrect")
+        } else {
+            setMsgError("setMsgError")
+        }
+    }, [errors.email, errors.password])
 
     const goHomeScreen = handleSubmit((data) => {
         navigation.reset({
@@ -27,6 +36,17 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
 
     const goSignupScreen = () => {
         navigation.navigate("Signup");
+    }
+
+    const HandleError = (msg: string) => {
+        if (msgError.length) {
+            return (
+                <View style={styles.error}>
+                    <Text style={styles.textError}>{msg}</Text>
+                </View>
+            );
+        }
+        return null;
     }
 
     return (
@@ -62,6 +82,9 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
                                     secureTextEntry 
                                     required 
                                 />
+
+                                {HandleError(msgError)}
+
                                 <Button 
                                     theme="primary" 
                                     style={{ marginTop: 10 }} 
@@ -101,6 +124,15 @@ const styles = StyleSheet.create({
     },
     logo: {
         resizeMode: 'stretch',
+    },
+    error: { 
+        marginHorizontal: 0, 
+        borderRadius: 5 
+    },
+    textError: {
+        color: colors.textError,
+        fontSize: 16,
+        paddingVertical: 8,
     },
     resetPassword: {
         textAlign: "center", 
