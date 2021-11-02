@@ -6,7 +6,10 @@ export type LoginFormData =  {
 export type User = {
     id: string,
     email: string,
+    address: string | null,
+    city: string | null,
+    zipCode: number | null,
     firstName: string,
     lastName: string,
-    role: string
+    role: "customer" | "cook"
 }

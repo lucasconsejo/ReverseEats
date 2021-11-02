@@ -34,6 +34,8 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     <Text>{user!.email}</Text>
                     <Text>{user!.firstName}</Text>
                     <Text>{user!.lastName}</Text>
+                    <Text>{user!.address}</Text>
+                    <Text>{user!.zipCode} {user!.city}</Text>
                     <Text>{user!.role}</Text>
                     <Button title="Déconnexion" onPress={() => logout()} />
                 </View>
