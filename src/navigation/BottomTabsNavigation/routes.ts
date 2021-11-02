@@ -1,5 +1,6 @@
 import { faHome, faSearch, faShoppingCart, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import Home from '../../screens/home';
+import Profil from '../../screens/profil';
 
 const TabsRoutes: Array<BottomTabsRoutesTypes> = [
     {
@@ -24,7 +25,7 @@ const TabsRoutes: Array<BottomTabsRoutesTypes> = [
       name: "ProfileScreen",
       label: "Profil",
       icon: faUser,
-      component: Home,
+      component: Profil,
     }
 ];
 

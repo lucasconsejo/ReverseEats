@@ -22,3 +22,7 @@ export type InputProps = {
     secureTextEntry?: boolean
     required?: boolean
 }
+
+export type HomeHeaderProps = {
+    firstName: string 
+}

@@ -1,48 +1,39 @@
 import React from "react"
-import { Text, View, Button } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { StyleSheet, View, SafeAreaView } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
-import { useEffect, useState } from 'react';
-import { clearCacheUser, getCacheUser } from "../../cache/user";
-import { User } from "../../types/global.types";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar"
+import useCachedUser from "../../hooks/useCachedUser"
+import { colors } from "../../theme/colors"
+import Header from "./header"
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const user = useCachedUser();
 
-    const logout = () => {
-        clearCacheUser();
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "Login" }],
-        });
-    }
-
-    useEffect(() => {
-        getCacheUser()
-        .then(res => {
-            setUser(JSON.parse(`${res}`));
-        });
-    }, [])
-
-    if (user) {
+    if (user && user.role === "customer") {
         return (
-            <SafeAreaView>
+            <SafeAreaView style={styles.view}>
                 <StatusBar style="dark" />
-                <View>
-                    <Text>{user!.id}</Text>
-                    <Text>{user!.email}</Text>
-                    <Text>{user!.firstName}</Text>
-                    <Text>{user!.lastName}</Text>
-                    <Text>{user!.address}</Text>
-                    <Text>{user!.zipCode} {user!.city}</Text>
-                    <Text>{user!.role}</Text>
-                    <Button title="Déconnexion" onPress={() => logout()} />
+                <Header firstName={user.firstName} />
+                
+                <View style={styles.container}>
+                    
                 </View>
             </SafeAreaView>
-        )
-    } 
+        );
+    }
     return null;
 }
 
-export default Home
+export default Home;
+
+const styles = StyleSheet.create({
+    view: {
+        flex: 1,
+        backgroundColor: colors.white
+    },
+    container: {
+        flex: 1,
+        paddingVertical: 0,
+        backgroundColor: colors.background
+    },
+})
