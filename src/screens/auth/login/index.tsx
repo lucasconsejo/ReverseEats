@@ -9,7 +9,8 @@ import Input from "../../../theme/inputs";
 import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
 import { StatusBar } from "expo-status-bar";
-import { loginRequest } from "../../../firebase/authRequests";
+import { getUser, loginRequest } from '../../../firebase/authRequests';
+import { setCacheUser } from "../../../cache/user";
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
     const [msgError, setMsgError] = useState<string>("");
@@ -31,13 +32,19 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
 
     const submitLogin = handleSubmit(({ email, password }) => {
         setLoading(true);
-        loginRequest(email, password).then(res => {
-            setLoading(false);
-            navigation.reset({
+        loginRequest(email, password)
+        .then(res => {
+            getUser(res.user.uid)
+            .then(res => res.json())
+            .then(res => {
+                setCacheUser(res.data)
+                navigation.reset({
                 index: 0,
-                routes: [{ name: "Home" }],
+                    routes: [{ name: "Home" }],
+                });
             });
-        }).catch(err => {
+        })
+        .catch(err => {
             if (err.message.includes("too-many-requests")) {
                 setMsgError("Trop de tentative, réesayez plus tard.");
             }
@@ -47,8 +54,8 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
             else {
                 setMsgError(err.message);
             }
-            setLoading(false);
-        });
+        })
+        .finally(() => setLoading(false));
     });
 
     const handleError = () => {

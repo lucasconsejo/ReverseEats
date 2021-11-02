@@ -5,12 +5,13 @@ import Login from '../screens/auth/login';
 import Signup from '../screens/auth/signup';
 import SignupForm from '../screens/auth/signup/signupForm';
 import BottomTabsNavigation from './BottomTabsNavigation';
+import { NavigationProps } from '../types/props.types';
 
 const Stack = createStackNavigator();
 
-const Navigation: React.FC = () => (
+const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS}}>
+      <Stack.Navigator initialRouteName={defaultRoute} screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS}}>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
         <Stack.Screen name="SignupForm" component={SignupForm}/>

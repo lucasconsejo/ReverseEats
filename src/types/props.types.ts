@@ -7,6 +7,10 @@ export type ScreenProps = {
     route: any,
 }
 
+export type NavigationProps = {
+    defaultRoute: string
+}
+
 export type InputProps = {
     name: string,
     label?: string,
