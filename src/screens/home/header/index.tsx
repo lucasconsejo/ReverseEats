@@ -21,7 +21,7 @@ export default Header;
 const styles = StyleSheet.create({
     headerContainer: {
         backgroundColor: colors.white,
-        paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 30 : 30,
+        paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 40 : 40,
         paddingBottom: 15
     },
     headerTitle: {
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
         fontFamily: "UberMoveBold",
     },
     headerSubTitle: {
-        fontSize: 20,
+        fontSize: 18,
     },
     headerTitleContainer: {
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
     },
     filters: {
         marginVertical: 15

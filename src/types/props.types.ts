@@ -26,3 +26,7 @@ export type InputProps = {
 export type HomeHeaderProps = {
     firstName: string 
 }
+
+export type HomeRestaurantsProps = {
+    restaurants: Array<any>
+}
