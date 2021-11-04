@@ -1,6 +1,7 @@
 import { NavigationProp } from "@react-navigation/native";
 import { Control } from "react-hook-form";
 import { KeyboardTypeOptions, StyleProp, ViewStyle } from "react-native";
+import { Restaurant } from "./global.types";
 
 export type ScreenProps = {
     navigation: NavigationProp<ReactNavigation.RootParamList|any>,
@@ -28,5 +29,5 @@ export type HomeHeaderProps = {
 }
 
 export type HomeRestaurantsProps = {
-    restaurants: Array<any>
+    restaurants: Array<Restaurant>
 }
