@@ -10,13 +10,9 @@ import { useForm } from 'react-hook-form';
 import { SignupFormData } from "../../../types/global.types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ScreenProps } from "../../../types/props.types";
 
-type Props = {
-    navigation : any,
-    route: any,
-}
-
-const SignupForm: React.FC<Props> = ({ route, navigation }) => {
+const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
     const { role } = route.params;
 
     const [msgError, setMsgError] = useState<string>("");
@@ -51,8 +47,10 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
         else{setFormCompleted(true);}
     }, [getValues()]);
 
-    const submitSignup = handleSubmit(({firstName, lastName, email, password, passwordConfirm}) => {
-        console.log();
+    const submitSignup = handleSubmit(({firstName, lastName, email, password}) => {
+        navigation.navigate('SignupAdress', {
+            firstName, lastName, email, password, role
+        })
     });
 
     const handleError = () => {

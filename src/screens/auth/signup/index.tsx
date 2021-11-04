@@ -5,8 +5,6 @@ import Logo from "../../../assets/dark-logo.svg"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import SignupForm from "./signupForm"
-
 
 type Props = {
     navigation : any,
