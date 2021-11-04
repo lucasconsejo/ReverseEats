@@ -21,7 +21,9 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
 
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const { control, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
+    const [formCompleted, setFormCompleted] = useState<boolean>(false);
+
+    const { control, handleSubmit, getValues, formState: { errors } } = useForm<SignupFormData>({
         defaultValues: {
             firstName: '',
             lastName: '',
@@ -39,6 +41,16 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
         }
     }, [errors.firstName, errors.lastName, errors.email, errors.password, errors.passwordConfirm])
       
+    useEffect(() => {
+        const inputValues = getValues();
+        const inputValuesTab = Object.entries(inputValues);
+        let emptyFields = inputValuesTab.filter( (elem) => elem[1] === "")
+        if(emptyFields.length){
+            setFormCompleted(false);
+        }
+        else{setFormCompleted(true);}
+    }, [getValues()]);
+
     const submitSignup = handleSubmit(({firstName, lastName, email, password, passwordConfirm}) => {
         console.log();
     });
@@ -63,7 +75,8 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
                 theme="secondaryDarkRight" 
                 style={{ marginTop: 10 }} 
                 title="Suivant" 
-                onPress={submitSignup} 
+                onPress={submitSignup}
+                active={formCompleted} 
             />
         )
     }
