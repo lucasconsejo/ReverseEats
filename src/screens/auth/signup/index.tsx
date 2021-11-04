@@ -5,8 +5,6 @@ import Logo from "../../../assets/dark-logo.svg"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import SignupForm from "./signupForm"
-
 
 type Props = {
     navigation : any,
@@ -95,7 +93,7 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
     btnClient: {
-        flexGrow: 1,
+        width:"50%",
         justifyContent: "center",
         backgroundColor: colors.primary,
     },
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     btnCuisinier: {
-        flexGrow: 1,
+        width: "50%",
         justifyContent: "center",
         backgroundColor: colors.yellow,
     },

@@ -12,6 +12,11 @@ export type SignupFormData = {
     password: string;
     passwordConfirm: string;
 }
+export type SignupAdressFormData = {
+    adress: string;
+}
+
+
 
 export type User = {
     id: string,
