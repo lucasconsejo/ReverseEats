@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from "react"
-import { Text, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, Platform} from "react-native"
+import { Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, ScrollView, ActivityIndicator} from "react-native"
 import { colors } from "../../../theme/colors"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -8,6 +8,8 @@ import Input from "../../../theme/inputs";
 import Button from "../../../theme/buttons"
 import { useForm } from 'react-hook-form';
 import { SignupFormData } from "../../../types/global.types";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {
     navigation : any,
@@ -52,6 +54,19 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
         return null;
     }
 
+    const signupBtn = () => {
+        return loading ? (
+            <ActivityIndicator size={32} color={colors.primary} />
+        )
+        : ( 
+            <Button 
+                theme="secondaryDarkRight" 
+                style={{ marginTop: 10 }} 
+                title="Suivant" 
+                onPress={submitSignup} 
+            />
+        )
+    }
 
     const goSignupScreen = () => {
         navigation.goBack();
@@ -60,67 +75,69 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
             <StatusBar style="light" />
-            <View style={{ flex: 1, justifyContent: "space-between" }}>
-                <View style={styles.container}>
-                    <TouchableOpacity style={styles.arrow} onPress={goSignupScreen}>
-                        <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
-                    </TouchableOpacity>
-                    <View >
-                       <Text style={styles.title}>Inscription</Text>
-                    </View>
-                    <View>
-                    <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "padding"}
-                    style={{ flex: 1 }}
-                    keyboardVerticalOffset={-150}
-                >
+            
+            <View style={{ flex: 1  }}>
+                <KeyboardAwareScrollView style={{ flex: 1 }}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={styles.container}>
+                            <View>
+                                <TouchableOpacity style={styles.arrow} onPress={goSignupScreen}>
+                                    <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
+                                </TouchableOpacity>
+                                <Text style={styles.title}>Inscription</Text>
+                               <Text style={styles.titleLeft}>{role}</Text>
+                            </View>
+                            <View >
+                                <Input
+                                    name="firstName" 
+                                    label="Nom" 
+                                    theme="dark" 
+                                    control={control} 
+                                    keyboardType="default" 
+                                    required 
+                                />
+                                <Input
+                                    name="lastName" 
+                                    label="Prénom" 
+                                    theme="dark" 
+                                    control={control} 
+                                    keyboardType="default" 
+                                    required 
+                                />
+                                <Input
+                                    name="email" 
+                                    label="Email" 
+                                    theme="dark" 
+                                    control={control} 
+                                    keyboardType="email-address" 
+                                    required 
+                                />
+                                <Input
+                                    name="password" 
+                                    label="Mot de passe" 
+                                    theme="dark" 
+                                    control={control} 
+                                    keyboardType="visible-password" 
+                                    secureTextEntry
+                                    required 
+                                />
+                                <Input
+                                    name="passwordConfirm" 
+                                    label="Confirmation du mot de passe" 
+                                    theme="dark" 
+                                    control={control} 
+                                    keyboardType="default" 
+                                    secureTextEntry
+                                    required 
+                                />
 
-                        <Text style={styles.titleLeft}>{role}</Text>
-                        <Input
-                            name="firstName" 
-                            label="Nom" 
-                            theme="dark" 
-                            control={control} 
-                            keyboardType="default" 
-                            required 
-                        />
-                        <Input
-                            name="lastName" 
-                            label="Prénom" 
-                            theme="dark" 
-                            control={control} 
-                            keyboardType="default" 
-                            required 
-                        />
-                        <Input
-                            name="email" 
-                            label="Email" 
-                            theme="dark" 
-                            control={control} 
-                            keyboardType="email-address" 
-                            required 
-                        />
-                        <Input
-                            name="password" 
-                            label="Mot de passe" 
-                            theme="dark" 
-                            control={control} 
-                            keyboardType="visible-password" 
-                            required 
-                        />
-                        <Input
-                            name="passwordConfirm" 
-                            label="Confirmation du mot de passe" 
-                            theme="dark" 
-                            control={control} 
-                            keyboardType="visible-password" 
-                            required 
-                        />
+                                {handleError()}
+                                {signupBtn()}
 
-                        <Button theme="secondaryDarkRight" style={{ marginTop: 10 }} title="Suivant" onPress={submitSignup} />
-                    </View>
-
-                </View>
+                            </View>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </KeyboardAwareScrollView>
             </View>
         </View>
     )
@@ -160,13 +177,5 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginBottom: 30,
         textAlign: "left",
-    },
-    logoContainer: {
-        marginTop: -170,
-        flexDirection: "row",
-        justifyContent: "center"
-    },
-    logo: {
-        resizeMode: 'stretch',
     },
 });
