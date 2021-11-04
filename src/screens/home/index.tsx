@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { StyleSheet, SafeAreaView, ScrollView, ActivityIndicator } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
 import { StatusBar } from "expo-status-bar"
 import useCachedUser from "../../hooks/useCachedUser"
-import { colors } from "../../theme/colors"
+import { colors } from '../../theme/colors';
 import Header from "./header"
 import Restaurants from "./restaurants"
 import { getRestaurants } from "../../firebase/restaurantsRequests"
@@ -15,11 +15,16 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     
     useEffect(() => {
+        onRefresh()
+    }, [])
+
+    const onRefresh = () => {
+        setLoading(true)
         getRestaurants()
         .then(res => res.json())
         .then(res => setRestaurants(res.data))
         .finally(() => setLoading(false));
-    }, [])
+    }
 
     const showRestaurant = () => {
         return loading ? <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 200 }} />
@@ -30,7 +35,10 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         return (
             <SafeAreaView style={styles.view}>
                 <StatusBar style="dark" />
-                <ScrollView style={{ backgroundColor: colors.background}}>
+                <ScrollView  
+                    style={{ backgroundColor: colors.background}}
+                    refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
+                >
                     <Header firstName={user.firstName} />
                     {showRestaurant()}
                 </ScrollView>
