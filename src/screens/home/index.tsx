@@ -11,7 +11,7 @@ import { Restaurant } from "../../types/global.types"
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const user = useCachedUser();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     
     useEffect(() => {
@@ -22,7 +22,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     }, [])
 
     const showRestaurant = () => {
-        return loading ? <ActivityIndicator size={32} color={colors.primary} />
+        return loading ? <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 200 }} />
         : <Restaurants restaurants={restaurants} />
     }
 
