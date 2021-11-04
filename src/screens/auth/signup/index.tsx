@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
     btnClient: {
-        flexGrow: 1,
+        width:"50%",
         justifyContent: "center",
         backgroundColor: colors.primary,
     },
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     btnCuisinier: {
-        flexGrow: 1,
+        width: "50%",
         justifyContent: "center",
         backgroundColor: colors.yellow,
     },
