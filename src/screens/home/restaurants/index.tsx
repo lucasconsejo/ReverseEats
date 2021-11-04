@@ -24,7 +24,7 @@ const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (
                 return (
                     <TouchableOpacity style={styles.restaurant} key={index}>
                         <View>
-                            <Image source={item.cover}/>
+                            <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
                             <View style={styles.restaurantsContainer}>
                                 <View style={styles.restaurantsHeader}>
                                     <Text style={styles.restaurantTitle}>{item.name}</Text>
