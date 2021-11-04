@@ -1,4 +1,5 @@
 import { getAuth, signInWithEmailAndPassword } from "@firebase/auth";
+import { API_URL } from "./firebaseConfig";
 
 export const loginRequest = (email: string, password: string) => {
     const auth = getAuth();
@@ -6,5 +7,5 @@ export const loginRequest = (email: string, password: string) => {
 }
 
 export const getUser = async (id: string) => {
-    return await fetch(`https://europe-west1-reverse-eats.cloudfunctions.net/users?id=${id}`);
+    return await fetch(`${API_URL}/users?id=${id}`);
 }

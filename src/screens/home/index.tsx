@@ -1,34 +1,30 @@
-import React from "react"
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import React, { useEffect, useState } from "react"
+import { StyleSheet, SafeAreaView, ScrollView, ActivityIndicator } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
 import { StatusBar } from "expo-status-bar"
 import useCachedUser from "../../hooks/useCachedUser"
 import { colors } from "../../theme/colors"
 import Header from "./header"
 import Restaurants from "./restaurants"
-import Montagnard from "../../assets/img/le-montagnard.png"
-import Guibole from "../../assets/img/la-guibole.png"
+import { getRestaurants } from "../../firebase/restaurantsRequests"
+import { Restaurant } from "../../types/global.types"
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const user = useCachedUser();
-    const restaurants: Array<any> = [{
-        id: "fsdfsdfsfsdfsdf",
-        name: "Le Montagnard",
-        cook: "Lucas Consejo",
-        cover: Montagnard,
-        note: 4.8,
-        duration: "5 min",
-        category: "Savoyard"
-    },
-    {
-        id: "fsdfsdfsfsdfsdsdfgfg",
-        name: "La guibole du père Coin-Coin",
-        cook: "Tony Pedrero",
-        cover: Guibole,
-        note: 3.5,
-        duration: "5 min",
-        category: "Authentique"
-    }];
+    const [loading, setLoading] = useState<boolean>(false);
+    const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+    
+    useEffect(() => {
+        getRestaurants()
+        .then(res => res.json())
+        .then(res => setRestaurants(res.data))
+        .finally(() => setLoading(false));
+    }, [])
+
+    const showRestaurant = () => {
+        return loading ? <ActivityIndicator size={32} color={colors.primary} />
+        : <Restaurants restaurants={restaurants} />
+    }
 
     if (user && user.role === "customer") {
         return (
@@ -36,7 +32,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                 <StatusBar style="dark" />
                 <ScrollView style={{ backgroundColor: colors.background}}>
                     <Header firstName={user.firstName} />
-                    <Restaurants restaurants={restaurants} />
+                    {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>
         );
