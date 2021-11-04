@@ -5,9 +5,11 @@ import { colors } from './colors';
 const Button: React.FC<ButtonProps> = ({ theme, title, style, onPress, active }) => {
     switch (theme) {
         case "primary":
-            return <ButtomPrimary title={title} style={style} onPress={onPress} />
+            return <ButtonPrimary title={title} style={style} onPress={onPress} />
         case "secondary":
-            return <ButtomSecondary title={title} style={style} onPress={onPress} />
+            return <ButtonSecondary title={title} style={style} onPress={onPress} />
+        case "secondaryLeft":
+            return <ButtonSecondaryLeft title={title} style={style} onPress={onPress} />
         case "secondaryDarkRight":
             return <ButtonSecondaryDarkRight title={title} style={style} onPress={onPress} active={active}/>
         default:
@@ -15,15 +17,20 @@ const Button: React.FC<ButtonProps> = ({ theme, title, style, onPress, active })
     }
 }
 
-const ButtomPrimary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
+const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
     <TouchableOpacity style={[primary.btn, style]} onPress={onPress}>
         <Text style={primary.text}>{title}</Text>
     </TouchableOpacity>
 )
 
-const ButtomSecondary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
+const ButtonSecondary: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
     <TouchableOpacity style={[secondary.btn, style]} onPress={onPress}>
         <Text style={secondary.text}>{title}</Text>
+    </TouchableOpacity>
+)
+const ButtonSecondaryLeft: React.FC<ButtonPrimaryProps> = ({ title, style, onPress }) => (
+    <TouchableOpacity style={[secondaryLeft.btn, style]} onPress={onPress}>
+        <Text style={secondaryLeft.text}>{title}</Text>
     </TouchableOpacity>
 )
 
@@ -57,6 +64,18 @@ const secondary = StyleSheet.create({
     text: {
         color: colors.primary,
         textAlign: "center",
+        fontWeight: "500",
+        fontSize: 20,
+        paddingVertical: 15,
+    },
+});
+const secondaryLeft = StyleSheet.create({
+    btn: {
+        borderRadius: 5,
+    },
+    text: {
+        color: colors.primary,
+        textAlign: "left",
         fontWeight: "500",
         fontSize: 20,
         paddingVertical: 15,
