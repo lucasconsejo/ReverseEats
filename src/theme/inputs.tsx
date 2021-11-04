@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({ name, label, theme, control, style, keybo
             <TextInput
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
-                style={[styles.input, { borderColor }]} 
+                style={[styles.input, { borderColor, color }]} 
                 value={field.value} 
                 onChangeText={field.onChange}
                 autoCapitalize="none"

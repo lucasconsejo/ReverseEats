@@ -1,36 +1,25 @@
-import React, { useState }  from "react"
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
+import React, { useEffect, useState }  from "react"
+import { Text, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, Platform} from "react-native"
 import { colors } from "../../../theme/colors"
 import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import { TextInput } from "react-native-gesture-handler"
+import Input from "../../../theme/inputs";
 import Button from "../../../theme/buttons"
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { SignupFormData } from "../../../types/global.types";
 
 type Props = {
     navigation : any,
     route: any,
 }
 
-interface FormData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
-  }
-
 const SignupForm: React.FC<Props> = ({ route, navigation }) => {
     const { role } = route.params;
-    
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [passwordConfirm, setPasswordConfirm] = useState<string>("");
 
-    const { control, handleSubmit } = useForm<FormData>({
+    const [msgError, setMsgError] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const { control, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
         defaultValues: {
             firstName: '',
             lastName: '',
@@ -39,10 +28,30 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
             passwordConfirm: '',
         },
       });
+
+    useEffect(() => {
+        if ( errors.firstName || errors.lastName || errors.email || errors.password || errors.passwordConfirm) {
+            setMsgError("Champs incomplet.")
+        } else {
+            setMsgError("")
+        }
+    }, [errors.firstName, errors.lastName, errors.email, errors.password, errors.passwordConfirm])
       
-      const onSubmit = handleSubmit(() => {
+    const submitSignup = handleSubmit(({firstName, lastName, email, password, passwordConfirm}) => {
         console.log();
-      });
+    });
+
+    const handleError = () => {
+        if (msgError.length) {
+            return (
+                <View style={styles.error}>
+                    <Text style={styles.textError}>{msgError}</Text>
+                </View>
+            );
+        }
+        return null;
+    }
+
 
     const goSignupScreen = () => {
         navigation.goBack();
@@ -53,69 +62,65 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
             <StatusBar style="light" />
             <View style={{ flex: 1, justifyContent: "space-between" }}>
                 <View style={styles.container}>
-
                     <TouchableOpacity style={styles.arrow} onPress={goSignupScreen}>
                         <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
                     </TouchableOpacity>
                     <View >
                        <Text style={styles.title}>Inscription</Text>
                     </View>
-
-                    <Text style={styles.titleLeft}> {role}</Text>
-
                     <View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Nom</Text>
-                            <Controller
-                            control={control}
-                            name="firstName"
-                            render={({ onChange, value }) => (
-                                <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
-                            )}/>
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Prénom</Text>
-                            <Controller
-                            control={control}
-                            name="lastName"
-                            render={({ onChange, value }) => (
-                            <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
-                            )}/>
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Email</Text>
-                            <Controller
-                            control={control}
-                            name="email"
-                            render={({ onChange, value }) => (
-                            <TextInput keyboardType="email-address" style={styles.input} value={email} onChangeText={setEmail} />
-                            )}/>
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Mot de passe</Text>
-                            <Controller
-                            control={control}
-                            name="password"
-                            render={({ onChange, value }) => (
-                                <TextInput secureTextEntry style={styles.input} value={password} onChangeText={setPassword} />
-                            )}/>
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <Text style={styles.label}>Confirmation du mot de passe</Text>
-                            <Controller
-                            control={control}
-                            name="passwordConfirm"
-                            render={({ onChange, value }) => (
-                                <TextInput secureTextEntry style={styles.input} value={passwordConfirm} onChangeText={setPasswordConfirm} />
-                            )}/>
-                        </View>
+                    <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "padding"}
+                    style={{ flex: 1 }}
+                    keyboardVerticalOffset={-150}
+                >
 
-                        <Button theme="secondaryDarkRight" style={{ marginTop: 10 }} title="Suivant" onPress={onSubmit} />
+                        <Text style={styles.titleLeft}>{role}</Text>
+                        <Input
+                            name="firstName" 
+                            label="Nom" 
+                            theme="dark" 
+                            control={control} 
+                            keyboardType="default" 
+                            required 
+                        />
+                        <Input
+                            name="lastName" 
+                            label="Prénom" 
+                            theme="dark" 
+                            control={control} 
+                            keyboardType="default" 
+                            required 
+                        />
+                        <Input
+                            name="email" 
+                            label="Email" 
+                            theme="dark" 
+                            control={control} 
+                            keyboardType="email-address" 
+                            required 
+                        />
+                        <Input
+                            name="password" 
+                            label="Mot de passe" 
+                            theme="dark" 
+                            control={control} 
+                            keyboardType="visible-password" 
+                            required 
+                        />
+                        <Input
+                            name="passwordConfirm" 
+                            label="Confirmation du mot de passe" 
+                            theme="dark" 
+                            control={control} 
+                            keyboardType="visible-password" 
+                            required 
+                        />
+
+                        <Button theme="secondaryDarkRight" style={{ marginTop: 10 }} title="Suivant" onPress={submitSignup} />
                     </View>
 
                 </View>
-
-                  
             </View>
         </View>
     )
@@ -124,23 +129,14 @@ const SignupForm: React.FC<Props> = ({ route, navigation }) => {
 export default SignupForm
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        marginBottom: 10,
+    error: { 
+        marginHorizontal: 0, 
+        borderRadius: 5 
     },
-    label: {
-        color: colors.white,
-        fontSize: 18,
-        fontWeight: "500"
-    },
-    input: {
-      height: 50,
-      marginVertical: 8,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 5,
-      borderColor: colors.white,
-      fontSize: 18,
-      color: colors.white,
+    textError: {
+        color: colors.textError,
+        fontSize: 16,
+        paddingVertical: 8,
     },
     arrow: {
         marginTop: 80,
@@ -164,39 +160,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginBottom: 30,
         textAlign: "left",
-    },
-    textYellow: {
-        fontSize: 20,
-        fontWeight: "500",
-        color: colors.yellow,
-    },
-    textWhite: {
-        fontSize: 20,
-        fontWeight: "500",
-        color: colors.white,
-        marginBottom: 50,
-    },
-    btnClient: {
-        flexGrow: 1,
-        justifyContent: "center",
-        backgroundColor: colors.primary,
-    },
-    btnClientText: {
-        textAlign: "center",
-        fontWeight: "500",
-        color: colors.white,
-        fontSize: 24,
-    },
-    btnCuisinier: {
-        flexGrow: 1,
-        justifyContent: "center",
-        backgroundColor: colors.yellow,
-    },
-    btnCuisinierText: {
-        textAlign: "center",
-        fontWeight: "500",
-        color: colors.black,
-        fontSize: 24,
     },
     logoContainer: {
         marginTop: -170,

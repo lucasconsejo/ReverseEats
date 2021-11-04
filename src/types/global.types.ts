@@ -1,6 +1,14 @@
-export type LoginFormData =  {
+export type LoginFormData = {
     email: string;
     password: string;
+}
+
+export type SignupFormData = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
 }
 
 export type User = {
