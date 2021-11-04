@@ -28,7 +28,7 @@ export type Restaurant = {
     id: string,
     name: string,
     cook: string,
-    cover: ImageSourcePropType,
+    cover: string,
     note: number,
     duration: string,
     category: string
