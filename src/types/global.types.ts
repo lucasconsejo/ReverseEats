@@ -1,4 +1,6 @@
-export type LoginFormData = {
+import { ImageSourcePropType } from "react-native"
+
+export type LoginFormData =  {
     email: string;
     password: string;
 }
@@ -20,4 +22,14 @@ export type User = {
     firstName: string,
     lastName: string,
     role: "customer" | "cook"
+}
+
+export type Restaurant = {
+    id: string,
+    name: string,
+    cook: string,
+    cover: ImageSourcePropType,
+    note: number,
+    duration: string,
+    category: string
 }
