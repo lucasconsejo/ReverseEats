@@ -36,8 +36,10 @@ const { role } = route.params;
     }
 
     const submitAdress = handleSubmit(({adress}) => {
-        navigation.navigate('SignupConfirm', {
-            adress})
+        navigation.reset({
+            index: 0,
+                routes: [{ name: "SignupConfirm" }],
+            });
     });
 
     const signupAdressBtn = () => {
