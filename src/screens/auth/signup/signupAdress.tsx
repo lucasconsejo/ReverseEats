@@ -36,7 +36,7 @@ const { role } = route.params;
     }
 
     const submitAdress = handleSubmit(({adress}) => {
-        navigation.navigate('Home', {
+        navigation.navigate('SignupConfirm', {
             adress})
     });
 
@@ -61,7 +61,7 @@ const { role } = route.params;
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
             <StatusBar style="light" />
             
-            <View style={{ flex: 1  }}>
+            <View style={{ flex: 1 }}>
                 <KeyboardAwareScrollView style={{ flex: 1 }}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
