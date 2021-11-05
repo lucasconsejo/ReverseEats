@@ -7,6 +7,6 @@ const firebaseConfig = {
     appId: "1:219707143145:web:08eb862116250e62461178"
 };
 
-export const API_URL = "https://europe-west1-reverse-eats.cloudfunctions.net/"
+export const API_URL = "https://europe-west1-reverse-eats.cloudfunctions.net"
 
 export default firebaseConfig;

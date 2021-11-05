@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { StatusBar } from "expo-status-bar"
 import React, { useEffect, useState }  from "react"
 import { useForm } from "react-hook-form"
-import {View, Text, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView} from "react-native"
+import {View, Text, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView, Alert} from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
@@ -12,9 +12,10 @@ import { SignupAdressFormData } from "../../../types/global.types"
 import { ScreenProps } from "../../../types/props.types"
 import Autocomplete from "../../../theme/autocomplete"
 import { searchAddress } from "../../../firebase/addressApi"
+import { createUser, postUser } from "../../../firebase/authRequests"
 
 const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
-    const { role } = route.params;
+    const { firstName, lastName, email, password, role } = route.params;
 
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -64,22 +65,48 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
             .then(res => res.json())
             .then(res => {
                 if(res.features.length == 1 && res.features[0].properties.label === input){
-                    navigation.reset({
-                        index: 0,
-                            routes: [{ name: "SignupConfirm" }],
-                        });
+                    createUser(email, password)
+                    .then(res => {
+                        const id = res.user.uid;
+                        postUser(id, firstName, lastName, email, role, input)
+                        .then(() => {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: "SignupConfirm" }],
+                            });
+                        })
+                    })
+                    .catch( (err) => {
+                        console.log(err);
+                    })
                 }
                 else{
                     setMsgError("Adresse non valide.");
                 }
             })
         } else {
-            navigation.reset({
-                index: 0,
-                    routes: [{ name: "SignupConfirm" }],
-                });
+            createUser(email, password)
+            .then(res => {
+                const id = res.user.uid;
+                postUser(id, firstName, lastName, email, role, null)
+                .then((res) => {
+                    // Alert.alert("Coucou", `${res.json()}`)
+                    console.log(res.json())
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "SignupConfirm" }],
+                    });
+                }).catch( (err) => {
+                    console.log(err);
+                })
+            })
+            .catch( (err) => {
+                console.log(err);
+            })
         }
     };
+    
+    
 
     const goSignupFormScreen = () => {
         navigation.goBack();
