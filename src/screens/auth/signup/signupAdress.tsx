@@ -10,13 +10,17 @@ import { colors } from "../../../theme/colors"
 import Input from "../../../theme/inputs"
 import { SignupAdressFormData } from "../../../types/global.types"
 import { ScreenProps } from "../../../types/props.types"
-
+import Autocomplete from "../../../theme/autocomplete"
 
 const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
 const { role } = route.params;
 
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [input, setInput] = useState<string>("");
+    const [data, setdata] = useState<Array<any>>([
+        
+    ]);
 
     const { control, handleSubmit, formState: { errors } } = useForm<SignupAdressFormData>({
         defaultValues: {
@@ -49,7 +53,7 @@ const { role } = route.params;
         : ( 
             <Button 
                 theme="secondaryDarkRight" 
-                style={{ marginTop: 10, paddingTop: 360}} 
+                style={{ marginTop: 370}} 
                 title="Ignorer et terminer" 
                 onPress={submitAdress}
                 active={true}
@@ -73,14 +77,9 @@ const { role } = route.params;
                                 </TouchableOpacity>
                                 <Text style={styles.title}>Inscription</Text>
                                 <Text style={styles.titleLeft}>{role}</Text>
-                                <Input
-                                    name="adress" 
-                                    label="Adresse par défaut" 
-                                    theme="dark" 
-                                    control={control} 
-                                    keyboardType="default" 
-                                    required 
-                                />
+
+                                <Autocomplete onChangeText={setInput} input={input} data={data}/>
+
                                 <TouchableOpacity>
                                     <Text style={{color: colors.primary }}>Ou utiliser ma position actuelle</Text> 
                                 </TouchableOpacity>
