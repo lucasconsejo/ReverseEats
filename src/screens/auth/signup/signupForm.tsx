@@ -101,7 +101,7 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
                             <View >
                                 <Input
                                     name="firstName" 
-                                    label="Nom" 
+                                    label="Prémon" 
                                     theme="dark" 
                                     control={control} 
                                     keyboardType="default" 
@@ -109,7 +109,7 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
                                 />
                                 <Input
                                     name="lastName" 
-                                    label="Prénom" 
+                                    label="Nom" 
                                     theme="dark" 
                                     control={control} 
                                     keyboardType="default" 
