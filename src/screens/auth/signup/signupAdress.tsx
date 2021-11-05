@@ -11,16 +11,39 @@ import Input from "../../../theme/inputs"
 import { SignupAdressFormData } from "../../../types/global.types"
 import { ScreenProps } from "../../../types/props.types"
 import Autocomplete from "../../../theme/autocomplete"
+import { searchAddress } from "../../../firebase/addressApi"
 
 const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
-const { role } = route.params;
+    const { role } = route.params;
 
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [input, setInput] = useState<string>("");
     const [data, setdata] = useState<Array<any>>([
-        
     ]);
+
+    useEffect(() => {
+        searchAddress(input)
+        .then(res => res.json())
+        .then(res => {
+            const features = res.features;
+            console.log("Patate", features);
+            const apiData:any = [];
+            if(features !== undefined && features.length ){
+                features.forEach((f:any) => {
+                    apiData.push({
+                        id: f.properties.id,
+                        address: f.properties.name,
+                        zipCode: f.properties.postcode,
+                        city: f.properties.city,
+                    })
+                });
+                setdata(apiData);
+            }else {
+                setdata([]);
+            }
+        })
+    }, [input])
 
     const { control, handleSubmit, formState: { errors } } = useForm<SignupAdressFormData>({
         defaultValues: {
