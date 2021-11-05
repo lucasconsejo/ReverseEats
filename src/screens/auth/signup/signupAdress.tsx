@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { StatusBar } from "expo-status-bar"
 import React, { useEffect, useState }  from "react"
 import { useForm } from "react-hook-form"
-import {View, Text, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, ActivityIndicator} from "react-native"
+import {View, Text, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView} from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
@@ -18,16 +18,17 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
 
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [isAddressValid, setIsAddressValid] = useState<boolean>(false);
     const [input, setInput] = useState<string>("");
     const [data, setdata] = useState<Array<any>>([
     ]);
 
     useEffect(() => {
+        setMsgError("")
         searchAddress(input)
         .then(res => res.json())
         .then(res => {
             const features = res.features;
-            console.log("Patate", features);
             const apiData:any = [];
             if(features !== undefined && features.length ){
                 features.forEach((f:any) => {
@@ -45,12 +46,6 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
         })
     }, [input])
 
-    const { control, handleSubmit, formState: { errors } } = useForm<SignupAdressFormData>({
-        defaultValues: {
-            adress: '',
-        },
-      });
-
     const handleError = () => {
         if (msgError.length) {
             return (
@@ -62,27 +57,30 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
         return null;
     }
 
-    const submitAdress = handleSubmit(({adress}) => {
-        navigation.reset({
-            index: 0,
-                routes: [{ name: "SignupConfirm" }],
-            });
-    });
+    const submitAdress = () => {
+        setdata([]);
+        if(input.trim().length){
+            searchAddress(input)
+            .then(res => res.json())
+            .then(res => {
+                if(res.features.length == 1 && res.features[0].properties.label === input){
+                    navigation.reset({
+                        index: 0,
+                            routes: [{ name: "SignupConfirm" }],
+                        });
+                }
+                else{
+                    setMsgError("Adresse non valide.");
+                }
+            })
+        } else {
+            navigation.reset({
+                index: 0,
+                    routes: [{ name: "SignupConfirm" }],
+                });
+        }
+    };
 
-    const signupAdressBtn = () => {
-        return loading ? (
-            <ActivityIndicator size={32} color={colors.primary} />
-        )
-        : ( 
-            <Button 
-                theme="secondaryDarkRight" 
-                style={{ marginTop: 370}} 
-                title="Ignorer et terminer" 
-                onPress={submitAdress}
-                active={true}
-            />
-        )
-    }
     const goSignupFormScreen = () => {
         navigation.goBack();
     }
@@ -90,29 +88,33 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
             <StatusBar style="light" />
             
-            <View style={{ flex: 1 }}>
-                <KeyboardAwareScrollView style={{ flex: 1 }}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
-                            <View>
-                                <TouchableOpacity style={styles.arrow} onPress={goSignupFormScreen}>
-                                    <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
-                                </TouchableOpacity>
-                                <Text style={styles.title}>Inscription</Text>
-                                <Text style={styles.titleLeft}>{role}</Text>
+            <View style={{ flex: 1}}>
+                <KeyboardAwareScrollView 
+                    style={styles.container} 
+                    contentContainerStyle={{ flex: 1, justifyContent: "space-between"}}>
+                    <View>
+                        <TouchableOpacity style={styles.arrow} onPress={goSignupFormScreen}>
+                            <FontAwesomeIcon icon={faArrowLeft} color={colors.white} size={30} />
+                        </TouchableOpacity>
+                        <Text style={styles.title}>Inscription</Text>
+                        <Text style={styles.titleLeft}>{role}</Text>
 
-                                <Autocomplete onChangeText={setInput} input={input} data={data}/>
-
-                                <TouchableOpacity>
-                                    <Text style={{color: colors.primary }}>Ou utiliser ma position actuelle</Text> 
-                                </TouchableOpacity>
-                                {handleError()}
-                            </View>
-                            <View>
-                                {signupAdressBtn()}
-                            </View>
-                        </View>
-                    </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                            <Autocomplete onChangeText={setInput} input={input} data={data}/>
+                        </TouchableWithoutFeedback>
+                        <TouchableOpacity>
+                            <Text style={{color: colors.primary }}>Ou utiliser ma position actuelle</Text> 
+                        </TouchableOpacity>
+                        {handleError()}
+                        
+                    </View>
+                    <Button 
+                            theme="secondaryDarkRight" 
+                            style={{ marginBottom: 70, }} 
+                            title={input.length ? "Terminer" : "Ignorer et terminer" }
+                            onPress={submitAdress}
+                            active={true}
+                    />
                 </KeyboardAwareScrollView>
             </View>
         </View>
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
         marginTop: 80,
     },
     container: {
-        flex:1,
+        flex: 1,
         marginTop: -20,
         marginHorizontal: 30,
     },
