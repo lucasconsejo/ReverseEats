@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background
     },
     img: {
-        marginTop: 40
+        marginTop: 30
     },
     title: {
         fontSize: 24,

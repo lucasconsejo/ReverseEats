@@ -2,13 +2,17 @@ import React from 'react';
 import { Platform, StatusBar, View, StyleSheet, Text } from "react-native";
 import { colors } from "../../../theme/colors";
 import { HomeHeaderProps } from '../../../types/props.types';
+import SelectAddress from '../address';
 import Filters from "./filters";
 
-const Header: React.FC<HomeHeaderProps> = ({ firstName }) => (
+const Header: React.FC<HomeHeaderProps> = ({ firstName, address }) => (
     <View style={styles.headerContainer}>
         <View style={styles.headerTitleContainer}>
             <Text style={styles.headerTitle}>Bonjour {firstName}</Text>
             <Text style={styles.headerSubTitle}>Qu’allez-vous commander aujourd’hui ?</Text>
+        </View>
+        <View style={styles.selectAddress}>
+            <SelectAddress address={address}/>
         </View>
         <View style={styles.filters}>
             <Filters />
@@ -33,6 +37,10 @@ const styles = StyleSheet.create({
     },
     headerTitleContainer: {
         paddingHorizontal: 20,
+    },
+    selectAddress: {
+        marginTop: 15,
+        marginHorizontal: 20,
     },
     filters: {
         marginVertical: 15

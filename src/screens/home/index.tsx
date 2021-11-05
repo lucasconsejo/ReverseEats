@@ -20,10 +20,16 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
 
     const onRefresh = () => {
         setLoading(true)
-        getRestaurants()
-        .then(res => res.json())
-        .then(res => setRestaurants(res.data))
-        .finally(() => setLoading(false));
+        const address = `${user?.address} ${user?.zipCode} ${user?.city}`;
+        if (!address.includes("null")) {
+            getRestaurants()
+            .then(res => res.json())
+            .then(res => setRestaurants(res.data))
+            .finally(() => setLoading(false));
+        } else {
+            setRestaurants([]);
+            setLoading(false)
+        }
     }
 
     const showRestaurant = () => {
@@ -39,7 +45,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
                 >
-                    <Header firstName={user.firstName} />
+                    <Header firstName={user.firstName} address={`${user.address} ${user.zipCode} ${user.city}`}/>
                     {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>
