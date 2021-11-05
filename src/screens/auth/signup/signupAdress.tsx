@@ -68,7 +68,8 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
                     createUser(email, password)
                     .then(res => {
                         const id = res.user.uid;
-                        postUser(id, firstName, lastName, email, role, input)
+                        const bddRole = role === "Client" ? "customer" : "cook";
+                        postUser(id, firstName, lastName, email, bddRole, input)
                         .then(() => {
                             navigation.reset({
                                 index: 0,
@@ -88,7 +89,8 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
             createUser(email, password)
             .then(res => {
                 const id = res.user.uid;
-                postUser(id, firstName, lastName, email, role, null)
+                const bddRole = role === "Client" ? "customer" : "cook";
+                postUser(id, firstName, lastName, email, bddRole, null)
                 .then((res) => {
                     // Alert.alert("Coucou", `${res.json()}`)
                     console.log(res.json())
