@@ -20,7 +20,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
 
     const onRefresh = () => {
         setLoading(true)
-        const address = `${user?.address} ${user?.zipCode} ${user?.city}`;
+        const address = `${user?.address}`;
         if (!address.includes("null")) {
             getRestaurants()
             .then(res => res.json())
@@ -45,7 +45,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
                 >
-                    <Header firstName={user.firstName} address={`${user.address} ${user.zipCode} ${user.city}`}/>
+                    <Header firstName={user.firstName} address={`${user.address}`}/>
                     {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>

@@ -38,16 +38,7 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
             );
         }
     }
-    const cityOrCodeNotNull = () => {
-        if(user!.city !== null || user!.zipCode !== null) {
-            return (
-                <View>
-                    <Text style={styles.label}>Adresse</Text>
-                    <Text style={styles.text}>{user!.address}</Text>
-                </View>
-            );
-        }
-    }
+
     const roleNotNull = () => {
         if(user!.role !== null) {
             return (
@@ -75,7 +66,6 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
                 
                     {emailNotNull()}  
                     {adressNotNull()}
-                    {cityOrCodeNotNull()}
                     {roleNotNull()}
 
                     <Button 
