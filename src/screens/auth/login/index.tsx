@@ -129,7 +129,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
                                 />
                             </View>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
                                 <Text style={styles.resetPassword}>Mot de passe oublié ?</Text>
                             </TouchableOpacity>
                         </View>

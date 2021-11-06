@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "@firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "@firebase/auth";
 import { API_URL } from "./firebaseConfig";
 
 export const loginRequest = (email: string, password: string) => {
@@ -29,4 +29,9 @@ export const postUser = async (id: string, firstName:string, lastName:string, em
         })
     };
     return await fetch(`${API_URL}/users`, requestOptions);
+}
+
+export const resetPassword = (email: string) => {
+    const auth = getAuth();
+    return sendPasswordResetEmail(auth, email);
 }

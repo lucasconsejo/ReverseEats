@@ -1,17 +1,20 @@
 export type LoginFormData =  {
-    email: string;
-    password: string;
+    email: string,
+    password: string
 }
 
 export type SignupFormData = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    passwordConfirm: string
 }
 export type SignupAdressFormData = {
-    adress: string;
+    adress: string
+}
+export type ForgetPasswordFormData = {
+    email: string
 }
 
 export type User = {

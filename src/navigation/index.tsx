@@ -8,6 +8,8 @@ import SignupAdress from '../screens/auth/signup/signupAdress';
 import SignupConfirm from '../screens/auth/signup/signupConfirm';
 import BottomTabsNavigation from './BottomTabsNavigation';
 import { NavigationProps } from '../types/props.types';
+import ForgotPassword from '../screens/auth/forgotPassword';
+import ForgotPasswordConfirm from '../screens/auth/forgotPassword/forgotPasswordConfirm';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +18,8 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
       <Stack.Navigator initialRouteName={defaultRoute} screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS}}>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+        <Stack.Screen name="ForgotPasswordConfirm" component={ForgotPasswordConfirm}/>
         <Stack.Screen name="SignupForm" component={SignupForm}/>
         <Stack.Screen name="SignupAdress" component={SignupAdress}/>
         <Stack.Screen name="SignupConfirm" component={SignupConfirm}/>
