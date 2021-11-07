@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { StyleSheet, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
 import { StatusBar } from "expo-status-bar"
 import { colors } from '../../theme/colors';
@@ -51,8 +51,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     }
 
     const showRestaurant = () => {
-        return loading ? <ActivityIndicator size="large" color={colors.primary} style={{ marginTop: 200 }} />
-        : <Restaurants restaurants={restaurants} />
+        return loading ? <View /> : <Restaurants restaurants={restaurants} />
     }
 
     if (user && user.role === "customer") {
