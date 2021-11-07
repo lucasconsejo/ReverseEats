@@ -4,6 +4,7 @@ import firebaseConfig from './src/firebase/firebaseConfig';
 import useCachedResources from './src/hooks/useCachedResources';
 import Navigation from './src/navigation';
 import { getCacheUser } from './src/cache/user';
+import UserProvider from './src/context/userProvider';
 
 if (!getApps().length) {
   initializeApp(firebaseConfig);
@@ -25,7 +26,11 @@ const App: React.FC = () => {
   if (!isLoadingComplete) {
     return null;
   } 
-  return <Navigation defaultRoute={defaultRoute} />
+  return (
+    <UserProvider>
+      <Navigation defaultRoute={defaultRoute} />
+    </UserProvider>
+    )
 };
 
 export default App;

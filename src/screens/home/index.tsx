@@ -2,18 +2,36 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
 import { StatusBar } from "expo-status-bar"
-import useCachedUser from "../../hooks/useCachedUser"
 import { colors } from '../../theme/colors';
 import Header from "./header"
 import Restaurants from "./restaurants"
 import { getRestaurants } from "../../firebase/restaurantsRequests"
 import { Restaurant } from "../../types/global.types"
+import useUser from "../../hooks/useUser"
+import { getCacheUser } from "../../cache/user";
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
-    const user = useCachedUser();
+    const [user, userDispatch] = useUser();
     const [loading, setLoading] = useState<boolean>(true);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     
+    useEffect(() => {
+        getCacheUser()
+        .then(res => {
+            if (res?.length) {
+                userDispatch({ 
+                    type: "ADD_USER",
+                    payload: JSON.parse(`${res}`)
+                });
+            } else {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Login" }],
+                });
+            }
+        });
+    }, []);
+
     useEffect(() => {
         onRefresh()
     }, [])

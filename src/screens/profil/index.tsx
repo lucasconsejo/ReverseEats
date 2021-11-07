@@ -3,16 +3,17 @@ import { Text, View, StyleSheet, Image } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ScreenProps } from "../../types/props.types"
 import { clearCacheUser } from "../../cache/user";
-import { StatusBar } from "expo-status-bar";
-import useCachedUser from "../../hooks/useCachedUser";
 import { colors } from "../../theme/colors";
 import Button from "../../theme/buttons";
+import useUser from "../../hooks/useUser";
+import { StatusBar } from "expo-status-bar";
 
 const Profil: React.FC<ScreenProps> = ({ navigation }) => {
-    const user = useCachedUser();
+    const [user, userDispatch] = useUser();
 
     const logout = () => {
         clearCacheUser();
+        userDispatch({ type: "REMOVE_USER" });
         navigation.reset({
             index: 0,
             routes: [{ name: "Login" }],

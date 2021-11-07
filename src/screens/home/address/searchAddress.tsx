@@ -8,11 +8,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { searchAddress, updateAddress } from "../../../firebase/addressApi";
 import { useNavigation } from "@react-navigation/native";
+import useUser from "../../../hooks/useUser";
 
 const SearchAddress: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { id } = route.params;
     const [input, setInput] = useState<string>("");
     const [address, setAddress] = useState<Array<any>>([]);
+    const [user, userDispatch] = useUser();
     const textInputRef: any = useRef();
 
    const setFocus = useCallback(() => {
@@ -56,6 +58,10 @@ const SearchAddress: React.FC<ScreenProps> = ({ navigation, route }) => {
     const handleClick = (address: string) => {
         updateAddress(id, address)
         .then(() => {
+            userDispatch({ 
+                type: "UPDATE_USER_ADDRESS",
+                payload: address
+            });
             navigation.goBack();
         });
     };

@@ -10,11 +10,12 @@ import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
 import { StatusBar } from "expo-status-bar";
 import { getUser, loginRequest } from '../../../firebase/authRequests';
-import { setCacheUser } from "../../../cache/user";
+import useUser from "../../../hooks/useUser";
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [user, userDispatch] = useUser();
     const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
         defaultValues: {
           email: "",
@@ -37,7 +38,10 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
             getUser(res.user.uid)
             .then(res => res.json())
             .then(res => {
-                setCacheUser(res.data)
+                userDispatch({ 
+                    type: "ADD_USER",
+                    payload: res.data
+                });
                 navigation.reset({
                 index: 0,
                     routes: [{ name: "Home" }],
