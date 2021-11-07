@@ -5,14 +5,14 @@ import { SelectAddressProps } from "../../../types/props.types";
 import { colors } from '../../../theme/colors';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const SelectAddress: React.FC<SelectAddressProps> = ({ address }) => {
+const SelectAddress: React.FC<SelectAddressProps> = ({ id, address, navigation }) => {
     const isAddress = !address.includes("null");
     const color = isAddress ? colors.black : colors.white;
     const backgroundColor = { backgroundColor: isAddress ? colors.lightGray : colors.black };
     const text = isAddress ? address : "Veuillez saisir une adresse";
 
     return (
-        <TouchableOpacity style={[styles.container, backgroundColor]}>
+        <TouchableOpacity style={[styles.container, backgroundColor]} onPress={() => navigation.navigate("SearchAddress", { id })}>
             <View style={styles.textContainer}>
                 <Text numberOfLines={1} style={[styles.text, { color: color }]}>{text}</Text>
             </View>

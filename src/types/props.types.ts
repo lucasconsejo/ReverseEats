@@ -25,8 +25,10 @@ export type InputProps = {
 }
 
 export type HomeHeaderProps = {
+    id: string,
     firstName: string,
-    address: string
+    address: string,
+    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
 }
 
 export type HomeRestaurantsProps = {
@@ -34,5 +36,7 @@ export type HomeRestaurantsProps = {
 }
 
 export type SelectAddressProps = {
-    address: string
+    id: string,
+    address: string,
+    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
 }

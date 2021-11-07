@@ -5,14 +5,14 @@ import { HomeHeaderProps } from '../../../types/props.types';
 import SelectAddress from '../address';
 import Filters from "./filters";
 
-const Header: React.FC<HomeHeaderProps> = ({ firstName, address }) => (
+const Header: React.FC<HomeHeaderProps> = ({ id, firstName, address, navigation }) => (
     <View style={styles.headerContainer}>
         <View style={styles.headerTitleContainer}>
             <Text style={styles.headerTitle}>Bonjour {firstName}</Text>
             <Text style={styles.headerSubTitle}>Qu’allez-vous commander aujourd’hui ?</Text>
         </View>
         <View style={styles.selectAddress}>
-            <SelectAddress address={address}/>
+            <SelectAddress id={id} address={address} navigation={navigation} />
         </View>
         <View style={styles.filters}>
             <Filters />

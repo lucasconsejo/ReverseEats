@@ -26,7 +26,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
 
     useEffect(() => {
         setMsgError("")
-        searchAddress(input)
+        searchAddress(input, 4)
         .then(res => res.json())
         .then(res => {
             const features = res.features;
@@ -61,7 +61,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
     const submitAdress = () => {
         setdata([]);
         if(input.trim().length){
-            searchAddress(input)
+            searchAddress(input, 4)
             .then(res => res.json())
             .then(res => {
                 if(res.features.length == 1 && res.features[0].properties.label === input){

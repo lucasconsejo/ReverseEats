@@ -45,7 +45,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
                 >
-                    <Header firstName={user.firstName} address={`${user.address}`}/>
+                    <Header id={user.id} firstName={user.firstName} address={`${user.address}`} navigation={navigation} />
                     {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>
