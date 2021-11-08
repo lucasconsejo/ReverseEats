@@ -10,7 +10,7 @@ import BottomTabsNavigation from './BottomTabsNavigation';
 import { NavigationProps } from '../types/props.types';
 import ForgotPassword from '../screens/auth/forgotPassword';
 import ForgotPasswordConfirm from '../screens/auth/forgotPassword/forgotPasswordConfirm';
-import SearchAddress from '../screens/home/address/searchAddress';
+import SearchAddress from '../screens/home/header/address/searchAddress';
 
 const Stack = createStackNavigator();
 

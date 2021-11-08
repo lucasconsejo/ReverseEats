@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { ScreenProps } from "../../../types/props.types";
-import { colors } from '../../../theme/colors';
+import { ScreenProps } from "../../../../types/props.types";
+import { colors } from '../../../../theme/colors';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { searchAddress, updateAddress } from "../../../firebase/addressApi";
+import { searchAddress, updateAddress } from "../../../../firebase/addressApi";
 import { useNavigation } from "@react-navigation/native";
-import useUser from "../../../hooks/useUser";
+import useUser from "../../../../hooks/useUser";
 
-const SearchAddress: React.FC<ScreenProps> = ({ navigation, route }) => {
-    const { id } = route.params;
+const SearchAddress: React.FC<ScreenProps> = ({ navigation }) => {
     const [input, setInput] = useState<string>("");
     const [address, setAddress] = useState<Array<any>>([]);
     const [user, userDispatch] = useUser();
@@ -56,7 +55,7 @@ const SearchAddress: React.FC<ScreenProps> = ({ navigation, route }) => {
     }, [input]);
 
     const handleClick = (address: string) => {
-        updateAddress(id, address)
+        updateAddress(user.id, address)
         .then(() => {
             userDispatch({ 
                 type: "UPDATE_USER_ADDRESS",

@@ -9,18 +9,16 @@ export const userReducer = (state: any, action: any) => {
         return action.payload;
     case "UPDATE_USER_ADDRESS": 
         setCacheUser({ 
-            ...state.user, 
+            ...state, 
             address: action.payload
         });
         return { 
-            ...state.user, 
+            ...state, 
             address: action.payload
         };
     case "REMOVE_USER":
         clearCacheUser();
-        return {
-            user: null,
-        }
+        return null;
     default:
         return initState;
     }

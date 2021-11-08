@@ -1,24 +1,28 @@
 import React from 'react';
 import { Platform, StatusBar, View, StyleSheet, Text } from "react-native";
+import useUser from '../../../hooks/useUser';
 import { colors } from "../../../theme/colors";
 import { HomeHeaderProps } from '../../../types/props.types';
-import SelectAddress from '../address';
+import SelectAddress from './address';
 import Filters from "./filters";
 
-const Header: React.FC<HomeHeaderProps> = ({ id, firstName, address, navigation }) => (
-    <View style={styles.headerContainer}>
-        <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerTitle}>Bonjour {firstName}</Text>
-            <Text style={styles.headerSubTitle}>Qu’allez-vous commander aujourd’hui ?</Text>
+const Header: React.FC<HomeHeaderProps> = ({ navigation }) => {
+    const [user] = useUser();
+    return (
+        <View style={styles.headerContainer}>
+            <View style={styles.headerTitleContainer}>
+                <Text style={styles.headerTitle}>Bonjour {user.firstName}</Text>
+                <Text style={styles.headerSubTitle}>Qu’allez-vous commander aujourd’hui ?</Text>
+            </View>
+            <View style={styles.selectAddress}>
+                <SelectAddress navigation={navigation} />
+            </View>
+            <View style={styles.filters}>
+                <Filters />
+            </View>
         </View>
-        <View style={styles.selectAddress}>
-            <SelectAddress id={id} address={address} navigation={navigation} />
-        </View>
-        <View style={styles.filters}>
-            <Filters />
-        </View>
-    </View>
-);
+    );
+}
 
 export default Header;
 
