@@ -55,9 +55,10 @@ const SelectDateTime: React.FC<SelectDateTimeProps> = ({ navigation, icon, type 
                 value={time}
                 mode={mode}
                 is24Hour={true}
-                display="default"
+                display={type == "date" ? "inline" : "spinner"}
                 onChange={onChange}
                 style={{width: "100%"}}
+                minimumDate={new Date()}
             />
         ) : (
             show && <DateTimePicker
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: colors.lightGray
+        backgroundColor: Platform.OS === "ios" ? colors.white : colors.lightGray 
     },
     textContainer: { 
         width: "90%" 

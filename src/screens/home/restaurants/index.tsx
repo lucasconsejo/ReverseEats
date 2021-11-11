@@ -10,10 +10,10 @@ const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (!resta
 const NoResults: React.FC = () => (
     <View style={styles.container}>
         <View style={styles.img}>
-            <Image source={Thai} style={{ width: 200, height: 200 }}/>
+            <Image source={Thai} style={{ width: 150, height: 150 }}/>
         </View>
         <Text style={styles.title}>Aucun résultat trouvé</Text>
-        <Text style={styles.subTitle}>Saisissez une adresse pour afficher les cuisiniers près de chez vous.</Text>
+        <Text style={styles.subTitle}>Modifiez les options de livraison pour trouver plus de résultats.</Text>
     </View>
 )
 

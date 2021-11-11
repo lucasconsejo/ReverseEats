@@ -25,7 +25,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         <Stack.Screen name="SignupAdress" component={SignupAdress}/>
         <Stack.Screen name="SignupConfirm" component={SignupConfirm}/>
         <Stack.Screen name="Home" component={BottomTabsNavigation}/>
-        <Stack.Screen name="SelectOptions" component={SelectOptions}/>
+        <Stack.Screen name="DeliveryOptions" component={SelectOptions}/>
       </Stack.Navigator>
     </NavigationContainer>
 );

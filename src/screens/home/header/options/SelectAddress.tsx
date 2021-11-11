@@ -80,9 +80,9 @@ const SelectAddress: React.FC = () => {
                         />
                     )
                     : (
-                        <TouchableOpacity onPress={() => setShowInput(true)}>
+                        <TouchableOpacity style={[{ borderRadius: 5 }, backgroundColor ]} onPress={() => setShowInput(true)}>
                             <Text 
-                                style={[styles.text, { color: color, borderRadius: 5, }, backgroundColor]}
+                                style={[styles.text, { color: color }]}
                                 numberOfLines={1}
                             >
                                 {input}

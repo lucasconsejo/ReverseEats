@@ -56,7 +56,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
             })
         }
         const address = `${user?.address}`;
-        if (address.length) {
+        if (address.length && address !== "undefined") {
             getRestaurants()
             .then(res => res.json())
             .then(res => setRestaurants(res.data))
