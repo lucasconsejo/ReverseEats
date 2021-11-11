@@ -11,6 +11,7 @@ import { NavigationProps } from '../types/props.types';
 import ForgotPassword from '../screens/auth/forgotPassword';
 import ForgotPasswordConfirm from '../screens/auth/forgotPassword/forgotPasswordConfirm';
 import SelectOptions from '../screens/home/index/header/options/SelectOptions';
+import Restaurant from '../screens/home/restaurant';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         <Stack.Screen name="SignupConfirm" component={SignupConfirm}/>
         <Stack.Screen name="Home" component={BottomTabsNavigation}/>
         <Stack.Screen name="DeliveryOptions" component={SelectOptions}/>
+        <Stack.Screen name="Restaurant" component={Restaurant}/>
       </Stack.Navigator>
     </NavigationContainer>
 );

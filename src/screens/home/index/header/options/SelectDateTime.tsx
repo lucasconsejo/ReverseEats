@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { DateContext } from '../../../../../context/DateProvider';
 import { capitalizeFirstLetter } from "../../../../../utils/utils";
 
-const SelectDateTime: React.FC<SelectDateTimeProps> = ({ navigation, icon, type }) => {
+const SelectDateTime: React.FC<SelectDateTimeProps> = ({ icon, type }) => {
     const format = type == "date" ? "DDDD" : "HH:mm";
     const { dateState, dateDispatch } = useContext(DateContext);
     const [time, setTime] = useState<Date>(new Date(dateState.date));

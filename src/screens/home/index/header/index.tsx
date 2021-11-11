@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Platform, StatusBar, View, StyleSheet, Text, Animated } from "react-native";
 import useUser from '../../../../hooks/useUser';
 import { colors } from '../../../../theme/colors';
-import { HomeHeaderProps } from '../../../../types/props.types';
 import Filters from "./filters";
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-const Header: React.FC<HomeHeaderProps> = ({ navigation }) => {
+const Header: React.FC = () => {
+    const navigation: NavigationProp<ReactNavigation.RootParamList|any> = useNavigation();
     const [user] = useUser();
     const [animation, setAnimation] = useState<any>(new Animated.Value(0));
 

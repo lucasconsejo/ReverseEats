@@ -25,20 +25,11 @@ export type InputProps = {
     required?: boolean
 }
 
-export type HomeHeaderProps = {
-    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
-}
-
 export type HomeRestaurantsProps = {
     restaurants: Array<Restaurant>
 }
 
-export type SelectOptionsProps = {
-    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
-}
-
 export type SelectDateTimeProps = {
-    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
     type: "date" | "time",
     icon: IconDefinition
 }

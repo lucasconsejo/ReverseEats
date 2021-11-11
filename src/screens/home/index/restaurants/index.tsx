@@ -4,6 +4,7 @@ import { HomeRestaurantsProps } from '../../../../types/props.types';
 import Thai from "../../../../assets/icons/thai.png"
 import TimeIcon from "../../../../assets/icons/time.png"
 import { colors } from '../../../../theme/colors';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (!restaurants.length) ? <NoResults /> : <RestaurantsList restaurants={restaurants} />;
 
@@ -17,39 +18,47 @@ const NoResults: React.FC = () => (
     </View>
 )
 
-const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (
-    <View>
-        {
-            restaurants.map((item, index) => {
-                return (
-                    <TouchableOpacity style={styles.restaurant} key={index}>
-                        <View>
-                            <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
-                            <View style={styles.restaurantsContainer}>
-                                <View style={styles.restaurantsHeader}>
-                                    <Text style={styles.restaurantTitle}>{item.name}</Text>
-                                    <Text style={styles.cook}>par {item.cook}</Text>
+const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => {
+    const navigation: NavigationProp<ReactNavigation.RootParamList|any> = useNavigation();
+    const onPress = (restaurant: object) => {
+        navigation.navigate("Restaurant", {
+            restaurant,
+        });
+    }
+    return (
+        <View>
+            {
+                restaurants.map((item, index) => {
+                    return (
+                        <TouchableOpacity style={styles.restaurant} key={index} onPress={() => onPress(item)}>
+                            <View>
+                                <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
+                                <View style={styles.restaurantsContainer}>
+                                    <View style={styles.restaurantsHeader}>
+                                        <Text style={styles.restaurantTitle}>{item.name}</Text>
+                                        <Text style={styles.cook}>par {item.cook}</Text>
+                                    </View>
+                                    <View style={styles.opinion}>
+                                        <Text style={styles.textOpinion}>{item.note}</Text>
+                                    </View>
                                 </View>
-                                <View style={styles.opinion}>
-                                    <Text style={styles.textOpinion}>{item.note}</Text>
+                                <View style={styles.moreInfos}>
+                                    <View style={styles.duration}>
+                                        <Image source={TimeIcon}/>
+                                        <Text style={styles.textDuration}>{item.duration}</Text>
+                                    </View>
+                                    <View style={styles.tag}>
+                                        <Text style={styles.textTag}>{item.category}</Text>
+                                    </View>
                                 </View>
                             </View>
-                            <View style={styles.moreInfos}>
-                                <View style={styles.duration}>
-                                    <Image source={TimeIcon}/>
-                                    <Text style={styles.textDuration}>{item.duration}</Text>
-                                </View>
-                                <View style={styles.tag}>
-                                    <Text style={styles.textTag}>{item.category}</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                )
-            })
-        }
-    </View>
-)
+                        </TouchableOpacity>
+                    )
+                })
+            }
+        </View>
+    )   
+}
 
 export default Restaurants;
 

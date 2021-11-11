@@ -79,7 +79,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
                 >
-                    <Header navigation={navigation} />
+                    <Header />
                     {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>
