@@ -6,12 +6,13 @@ import { colors } from '../../../../theme/colors';
 import { DateTime } from "luxon";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { DateContext } from '../../../../context/DateProvider';
+import { capitalizeFirstLetter } from "../../../../utils/utils";
 
 const SelectDateTime: React.FC<SelectDateTimeProps> = ({ navigation, icon, type }) => {
     const format = type == "date" ? "DDDD" : "HH:mm";
     const { dateState, dateDispatch } = useContext(DateContext);
     const [time, setTime] = useState<Date>(new Date(dateState.date));
-    const [showTime, setShowTime] = useState<string>(DateTime.fromISO(dateState.date).setLocale("fr").toFormat(format));
+    const [showTime, setShowTime] = useState<string>(capitalizeFirstLetter(DateTime.fromISO(dateState.date).setLocale("fr").toFormat(format)));
     const [mode, setMode] = useState<"date" | "time">(type);
     const [show, setShow] = useState<boolean>(false);
 
@@ -27,7 +28,7 @@ const SelectDateTime: React.FC<SelectDateTimeProps> = ({ navigation, icon, type 
     };
 
     useEffect(() => {
-        setShowTime(DateTime.fromJSDate(time).setLocale("fr").toFormat(format));
+        setShowTime(capitalizeFirstLetter(DateTime.fromJSDate(time).setLocale("fr").toFormat(format)));
         dateDispatch({
             type: "UPDATE_DATE", 
             payload: {

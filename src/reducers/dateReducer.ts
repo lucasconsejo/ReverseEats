@@ -1,12 +1,13 @@
 import { DateTime } from 'luxon';
 import "intl";
 import "intl/locale-data/jsonp/fr";
+import { capitalizeFirstLetter } from '../utils/utils';
 
 const currentDate = DateTime.now().setLocale("fr");
 
 export const initState = {
     date: currentDate,
-    dateFormat: currentDate.toFormat("ccc DDD à HH:mm"),
+    dateFormat: capitalizeFirstLetter(currentDate.toFormat("ccc DDD à HH:mm")),
 };
 
 export const dateReducer = (state: any, action: any) => {
@@ -15,12 +16,12 @@ export const dateReducer = (state: any, action: any) => {
         const now = DateTime.now().setLocale("fr");
         return {
             date: now,
-            dateFormat: now.toFormat("ccc DDD à HH:mm"),
+            dateFormat: capitalizeFirstLetter(now.toFormat("ccc DDD à HH:mm")),
         }
     case "UPDATE_DATE":
         return {
             date: action.payload.date,
-            dateFormat: action.payload.dateFormat
+            dateFormat: capitalizeFirstLetter(action.payload.dateFormat)
         }
     default:
         return initState;
