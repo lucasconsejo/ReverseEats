@@ -5,6 +5,7 @@ import useCachedResources from './src/hooks/useCachedResources';
 import Navigation from './src/navigation';
 import { getCacheUser } from './src/cache/user';
 import UserProvider from './src/context/userProvider';
+import DateProvider from './src/context/DateProvider';
 
 if (!getApps().length) {
   initializeApp(firebaseConfig);
@@ -28,7 +29,9 @@ const App: React.FC = () => {
   } 
   return (
     <UserProvider>
-      <Navigation defaultRoute={defaultRoute} />
+      <DateProvider>
+        <Navigation defaultRoute={defaultRoute} />
+      </DateProvider>
     </UserProvider>
     )
 };

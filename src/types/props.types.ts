@@ -1,3 +1,4 @@
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { NavigationProp } from "@react-navigation/native";
 import { Control } from "react-hook-form";
 import { KeyboardTypeOptions, StyleProp, ViewStyle } from "react-native";
@@ -32,6 +33,12 @@ export type HomeRestaurantsProps = {
     restaurants: Array<Restaurant>
 }
 
-export type SelectAddressProps = {
+export type SelectOptionsProps = {
     navigation: NavigationProp<ReactNavigation.RootParamList|any>,
+}
+
+export type SelectDateTimeProps = {
+    navigation: NavigationProp<ReactNavigation.RootParamList|any>,
+    type: "date" | "time",
+    icon: IconDefinition
 }

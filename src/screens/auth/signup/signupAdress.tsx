@@ -91,9 +91,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
                 const id = res.user.uid;
                 const bddRole = role === "Client" ? "customer" : "cook";
                 postUser(id, firstName, lastName, email, bddRole, null)
-                .then((res) => {
-                    // Alert.alert("Coucou", `${res.json()}`)
-                    console.log(res.json())
+                .then(() => {
                     navigation.reset({
                         index: 0,
                         routes: [{ name: "SignupConfirm" }],

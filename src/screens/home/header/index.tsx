@@ -3,8 +3,8 @@ import { Platform, StatusBar, View, StyleSheet, Text } from "react-native";
 import useUser from '../../../hooks/useUser';
 import { colors } from "../../../theme/colors";
 import { HomeHeaderProps } from '../../../types/props.types';
-import SelectAddress from './address';
 import Filters from "./filters";
+import Options from './options';
 
 const Header: React.FC<HomeHeaderProps> = ({ navigation }) => {
     const [user] = useUser();
@@ -15,7 +15,7 @@ const Header: React.FC<HomeHeaderProps> = ({ navigation }) => {
                 <Text style={styles.headerSubTitle}>Qu’allez-vous commander aujourd’hui ?</Text>
             </View>
             <View style={styles.selectAddress}>
-                <SelectAddress navigation={navigation} />
+                <Options navigation={navigation} />
             </View>
             <View style={styles.filters}>
                 <Filters />
