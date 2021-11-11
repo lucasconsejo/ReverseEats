@@ -5,17 +5,19 @@ import { SelectOptionsProps } from "../../../../types/props.types";
 import { colors } from '../../../../theme/colors';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { DateContext } from "../../../../context/DateProvider";
+import useUser from "../../../../hooks/useUser";
 
 const Options: React.FC<SelectOptionsProps> = ({ navigation }) => {
+    const [user] = useUser();
     const { dateState } = useContext(DateContext);
     const date = dateState.dateFormat;
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("SelectOptions")}>
+        <TouchableOpacity style={[styles.container, { backgroundColor: user.address.length ? colors.lightGray : colors.black }]} onPress={() => navigation.navigate("SelectOptions")}>
             <View style={styles.textContainer}>
-                <Text numberOfLines={1} style={styles.text}>{date}</Text>
+                <Text numberOfLines={1} style={[styles.text, { color: user.address.length ? colors.black : colors.white }]}>{user.address.length ? date : "Veuillez saisir une adresse"}</Text>
             </View>
-            <FontAwesomeIcon icon={faChevronDown} size={25} color={colors.black} />
+            <FontAwesomeIcon icon={faChevronDown} size={25} color={user.address.length ? colors.black : colors.white} />
         </TouchableOpacity>
     )
 };
@@ -31,7 +33,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: colors.lightGray
     },
     textContainer: { 
         width: "90%" 
@@ -39,6 +40,5 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         fontWeight: "500",
-        color: colors.black
-    },
+    }
 });

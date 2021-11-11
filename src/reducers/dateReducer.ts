@@ -11,6 +11,12 @@ export const initState = {
 
 export const dateReducer = (state: any, action: any) => {
     switch (action.type) {
+    case "CURRENT_DATE": 
+        const now = DateTime.now().setLocale("fr");
+        return {
+            date: now,
+            dateFormat: now.toFormat("ccc DDD à HH:mm"),
+        }
     case "UPDATE_DATE":
         return {
             date: action.payload.date,

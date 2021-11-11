@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl } from 'react-native'
 import { ScreenProps } from "../../types/props.types"
 import { StatusBar } from "expo-status-bar"
@@ -9,9 +9,12 @@ import { getRestaurants } from "../../firebase/restaurantsRequests"
 import { Restaurant } from "../../types/global.types"
 import useUser from "../../hooks/useUser"
 import { getCacheUser } from "../../cache/user";
+import { DateContext } from "../../context/DateProvider";
+import { DateTime } from "luxon";
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
+    const { dateState, dateDispatch } = useContext(DateContext);
     const [loading, setLoading] = useState<boolean>(true);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     
@@ -36,10 +39,24 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         onRefresh()
     }, [])
 
+    useEffect(() => {
+        onRefresh()
+    }, [user?.address])
+
     const onRefresh = () => {
         setLoading(true)
+        if (dateState.date.diffNow("minute").minutes < 0) {
+            const now = DateTime.now().setLocale("fr");
+            dateDispatch({
+                type: "UPDATE_DATE",
+                payload: {
+                    date: now,
+                    dateFormat: now.toFormat('ccc DDD à HH:mm'),
+                }
+            })
+        }
         const address = `${user?.address}`;
-        if (!address.includes("null")) {
+        if (address.length) {
             getRestaurants()
             .then(res => res.json())
             .then(res => setRestaurants(res.data))

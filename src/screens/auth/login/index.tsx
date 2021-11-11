@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Text, TouchableOpacity, View, StyleSheet, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -11,8 +11,10 @@ import { LoginFormData } from "../../../types/global.types";
 import { StatusBar } from "expo-status-bar";
 import { getUser, loginRequest } from '../../../firebase/authRequests';
 import useUser from "../../../hooks/useUser";
+import { DateContext } from "../../../context/DateProvider";
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
+    const { dateDispatch } = useContext(DateContext);
     const [msgError, setMsgError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [user, userDispatch] = useUser();
@@ -38,6 +40,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
             getUser(res.user.uid)
             .then(res => res.json())
             .then(res => {
+                dateDispatch({ type: "CURRENT_DATE" });
                 userDispatch({ 
                     type: "ADD_USER",
                     payload: res.data

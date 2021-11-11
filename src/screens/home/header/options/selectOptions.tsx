@@ -31,7 +31,7 @@ const SelectOptions: React.FC<ScreenProps> = ({ navigation }) => {
                 </View>
                 <View style={styles.selectContainer}>
                     <Text style={styles.subTitle}>Adresse</Text>
-                    <SelectAddress navigation={navigation} />
+                    <SelectAddress />
                 </View>
             </View>
         </SafeAreaView>
