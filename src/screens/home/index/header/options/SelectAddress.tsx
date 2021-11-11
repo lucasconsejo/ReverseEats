@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, ScrollView } from 'react-native';
-import { colors } from '../../../../theme/colors';
-import useUser from "../../../../hooks/useUser";
-import { searchAddress, updateAddress } from "../../../../firebase/addressApi";
+import { colors } from '../../../../../theme/colors';
+import useUser from "../../../../../hooks/useUser";
+import { searchAddress, updateAddress } from "../../../../../firebase/addressApi";
 
 const SelectAddress: React.FC = () => {
     const [user, userDispatch] = useUser();

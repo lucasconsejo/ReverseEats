@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { HomeRestaurantsProps } from '../../../types/props.types';
-import Thai from "../../../assets/icons/thai.png"
-import TimeIcon from "../../../assets/icons/time.png"
-import { colors } from '../../../theme/colors';
+import { HomeRestaurantsProps } from '../../../../types/props.types';
+import Thai from "../../../../assets/icons/thai.png"
+import TimeIcon from "../../../../assets/icons/time.png"
+import { colors } from '../../../../theme/colors';
 
 const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (!restaurants.length) ? <NoResults /> : <RestaurantsList restaurants={restaurants} />;
 

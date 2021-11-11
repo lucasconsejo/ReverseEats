@@ -1,13 +1,13 @@
-import Healthy from "../../../../assets/icons/healthy.png";
-import French from "../../../../assets/icons/french.png";
-import Asian from "../../../../assets/icons/asian.png";
-import Italian from "../../../../assets/icons/italian.png";
-import American from "../../../../assets/icons/american.png";
-import Burger from "../../../../assets/icons/burger.png";
-import Japanese from "../../../../assets/icons/japanese.png";
-import Pizza from "../../../../assets/icons/pizza.png";
-import Sushi from "../../../../assets/icons/sushi.png";
-import Vietnamien from "../../../../assets/icons/vietnamese.png";
+import Healthy from "../../../../../assets/icons/healthy.png";
+import French from "../../../../../assets/icons/french.png";
+import Asian from "../../../../../assets/icons/asian.png";
+import Italian from "../../../../../assets/icons/italian.png";
+import American from "../../../../../assets/icons/american.png";
+import Burger from "../../../../../assets/icons/burger.png";
+import Japanese from "../../../../../assets/icons/japanese.png";
+import Pizza from "../../../../../assets/icons/pizza.png";
+import Sushi from "../../../../../assets/icons/sushi.png";
+import Vietnamien from "../../../../../assets/icons/vietnamese.png";
 
 export const filterItems = [
     {

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react"
 import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl } from 'react-native'
-import { ScreenProps } from "../../types/props.types"
+import { ScreenProps } from "../../../types/props.types"
 import { StatusBar } from "expo-status-bar"
-import { colors } from '../../theme/colors';
+import { colors } from '../../../theme/colors';
 import Header from "./header"
 import Restaurants from "./restaurants"
-import { getRestaurants } from "../../firebase/restaurantsRequests"
-import { Restaurant } from "../../types/global.types"
-import useUser from "../../hooks/useUser"
-import { getCacheUser } from "../../cache/user";
-import { DateContext } from "../../context/DateProvider";
+import { getRestaurants } from "../../../firebase/restaurantsRequests"
+import { Restaurant } from "../../../types/global.types"
+import useUser from "../../../hooks/useUser"
+import { getCacheUser } from "../../../cache/user";
+import { DateContext } from "../../../context/DateProvider";
 import { DateTime } from "luxon";
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {

@@ -1,5 +1,5 @@
 import { faHome, faSearch, faShoppingCart, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import Home from '../../screens/home';
+import Home from '../../screens/home/index';
 import Profil from '../../screens/profil';
 
 const TabsRoutes: Array<BottomTabsRoutesTypes> = [

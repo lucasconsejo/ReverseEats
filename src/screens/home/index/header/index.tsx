@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useState, useEffect } from 'react';
 import { Platform, StatusBar, View, StyleSheet, Text, Animated } from "react-native";
-import useUser from '../../../hooks/useUser';
-import { colors } from '../../../theme/colors';
-import { HomeHeaderProps } from '../../../types/props.types';
+import useUser from '../../../../hooks/useUser';
+import { colors } from '../../../../theme/colors';
+import { HomeHeaderProps } from '../../../../types/props.types';
 import Filters from "./filters";
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';

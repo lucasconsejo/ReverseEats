@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { SelectDateTimeProps } from "../../../../types/props.types";
-import { colors } from '../../../../theme/colors';
+import { SelectDateTimeProps } from "../../../../../types/props.types";
+import { colors } from '../../../../../theme/colors';
 import { DateTime } from "luxon";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { DateContext } from '../../../../context/DateProvider';
-import { capitalizeFirstLetter } from "../../../../utils/utils";
+import { DateContext } from '../../../../../context/DateProvider';
+import { capitalizeFirstLetter } from "../../../../../utils/utils";
 
 const SelectDateTime: React.FC<SelectDateTimeProps> = ({ navigation, icon, type }) => {
     const format = type == "date" ? "DDDD" : "HH:mm";
