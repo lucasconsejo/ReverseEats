@@ -61,7 +61,7 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
 
     if (user) {
         return (
-            <SafeAreaView style={{backgroundColor: colors.white}}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
 
                 <View style={{ marginHorizontal: 30, marginTop: 80}}>
