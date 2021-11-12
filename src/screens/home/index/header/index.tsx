@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, Animated } from "react-native";
 import useUser from '../../../../hooks/useUser';
 import { colors } from '../../../../theme/colors';
 import Filters from "./filters";
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
@@ -39,10 +39,10 @@ const Header: React.FC = () => {
     });
 
     const renderFilterIcon = () => {
-        return (user.address.length && user.address !== "undefined") ? <FontAwesomeIcon icon={faFilter} size={25} color={colors.black}/> :
+        return (user.address.length && user.address !== "undefined") ? <FontAwesomeIcon icon={faEllipsisV} size={25} color={colors.black}/> :
         (
             <Animated.View style={{ opacity: boxInterpolation }}>
-                <FontAwesomeIcon icon={faFilter} size={25} color={colors.black}/>
+                <FontAwesomeIcon icon={faEllipsisV} size={25} color={colors.black}/>
             </Animated.View>
         )
     }
