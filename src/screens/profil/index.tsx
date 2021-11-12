@@ -1,11 +1,13 @@
 import React from "react"
-import { Text, View, StyleSheet, StatusBar } from "react-native"
+import { Text, View, StyleSheet, StatusBar, Image } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ScreenProps } from "../../types/props.types"
 import { clearCacheUser } from "../../cache/user";
 import { colors } from "../../theme/colors";
 import Button from "../../theme/buttons";
 import useUser from "../../hooks/useUser";
+import Profile from "../../assets/img/Profile.svg";
+
 
 const Profil: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
@@ -18,7 +20,6 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
             routes: [{ name: "Login" }],
         });
     }
-
     const emailNotNull = () => {
         if(user!.email !== null)
             return (
@@ -38,29 +39,39 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
             );
         }
     }
-
     const roleNotNull = () => {
         if(user!.role !== null) {
+            if(user!.role == "customer"){
             return (
                 <View>
                     <Text style={styles.label}>Role</Text>
-                    <Text style={styles.text}>{user!.role}</Text>
+                    <Text style={styles.text}>Client</Text>
                 </View>
             );
+            } else {
+                return (
+                    <View>
+                        <Text style={styles.label}>Role</Text>
+                        <Text style={styles.text}>Cuisinier</Text>
+                    </View>
+                );
+            }
         }
     }
 
     if (user) {
         return (
-            <SafeAreaView>
-                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-                <View style={{ marginHorizontal: 30, marginTop: 180}}>
+            <SafeAreaView style={{backgroundColor: colors.white}}>
+                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+
+                <View style={{ marginHorizontal: 30, marginTop: 80}}>
                     <View style={{alignItems: "center"}}>
+                        <Profile style={{ marginBottom: 20 }}/>
                         <Text style={styles.name}>{user!.firstName} {user!.lastName}</Text>
                         <Button 
                             theme="secondary" 
                             title="Modifier le profil" 
-                            style={{ backgroundColor: colors.lightGray, paddingBottom: 40 }} 
+                            style={{ backgroundColor: colors.white, marginBottom: 40 }} 
                             onPress={() => console.log("modifier le profil")} />
                     </View>
                 
@@ -71,7 +82,7 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
                     <Button 
                         theme="secondaryLeft" 
                         title="Se déconnecter" 
-                        style={{ backgroundColor: colors.lightGray, paddingTop: 30 }} 
+                        style={{ backgroundColor: colors.white, marginTop: 30, marginBottom: 60 }} 
                         onPress={() => logout()} />
                 </View>
             </SafeAreaView>
