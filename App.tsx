@@ -6,6 +6,7 @@ import Navigation from './src/navigation';
 import { getCacheUser } from './src/cache/user';
 import UserProvider from './src/context/userProvider';
 import DateProvider from './src/context/DateProvider';
+import OrderProvider from './src/context/orderProvider';
 
 if (!getApps().length) {
   initializeApp(firebaseConfig);
@@ -30,7 +31,9 @@ const App: React.FC = () => {
   return (
     <UserProvider>
       <DateProvider>
-        <Navigation defaultRoute={defaultRoute} />
+        <OrderProvider>
+          <Navigation defaultRoute={defaultRoute} />
+        </OrderProvider>
       </DateProvider>
     </UserProvider>
     )

@@ -1,3 +1,5 @@
+import { int32ARGBColor } from "react-native-svg"
+
 export type LoginFormData =  {
     email: string,
     password: string
@@ -34,4 +36,14 @@ export type Restaurant = {
     note: number,
     duration: string,
     category: string
+}
+
+export type Order = {
+    id: string,
+    userID: string,
+    plats: Array<{id: string, quantity: number}>,
+    restaurantID: string,
+    status: string,
+    orderDate: string,
+    total: number,
 }

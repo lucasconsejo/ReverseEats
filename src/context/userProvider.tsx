@@ -2,7 +2,7 @@ import React, { useReducer } from "react"
 import { initState, userReducer } from "../reducers/userReducer"
 import { User } from "../types/global.types"
 
-const defaultValueType: UserContextType = {
+export const defaultValueType: UserContextType = {
     userState: initState,
     userDispatch: () => null
 }
