@@ -5,9 +5,11 @@ import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, 
 import { colors } from '../../../theme/colors';
 import { ScreenProps } from '../../../types/props.types';
 import TimeIcon from "../../../assets/icons/time.png"
+import { menu } from "./data"
 
 const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
-    const { restaurant } = route.params
+    const { restaurant } = route.params;
+    const { starters, mainCourses, desserts } = menu;
 
     const onScroll = (e: any) => {
         const scrollY = e.nativeEvent.contentOffset.y
@@ -18,7 +20,25 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
             StatusBar.setBarStyle('light-content', true);
             Platform.OS == "android" && StatusBar.setBackgroundColor("#1919195e", true);
         }
-    } 
+    }
+
+    const renderProducts = (products: any, type: string) => (
+        <View style={styles.productContainer}>
+            <Text style={styles.productType}>{type}</Text>
+            {
+                products.map((item: any) => (
+                    <TouchableOpacity key={item.id} style={styles.product}>
+                        <View style={styles.productTexts}>
+                            <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
+                            <Text style={styles.productIngredients} numberOfLines={2}>{item.ingredients}</Text>
+                            <Text style={styles.productPrice}>{item.price}€</Text>
+                        </View>
+                        <Image style={{ width: 120, height: 120 }} source={{ uri: item.img }}/>
+                    </TouchableOpacity>
+                ))
+            }
+        </View>
+    )
 
     return (
        <ScrollView onScroll={(e) => onScroll(e)} style={{ flex: 1, backgroundColor: colors.white}}>
@@ -46,6 +66,17 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
                     </View>
                     <View style={styles.tag}>
                         <Text style={styles.textTag}>{restaurant.category}</Text>
+                    </View>
+                </View>
+                <View style={styles.container}>
+                    {starters.length ? renderProducts(starters, "Entrées") : <View />}
+                    {mainCourses.length ? renderProducts(mainCourses, "Plats") : <View />}
+                    {desserts.length ? renderProducts(desserts, "Désserts") : <View />}
+                </View>
+                <View style={styles.comment}>
+                    <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>
+                    <View style={styles.commentContainer}>
+                        <Text style={styles.commentText}>{restaurant.comments}</Text>
                     </View>
                 </View>
             </View>
@@ -109,4 +140,58 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 2
     },
+    container: {
+        marginTop: 30,
+    },
+    productContainer: {
+        marginBottom: 20,
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderColor: colors.lineGray
+    },
+    productType: {
+        fontFamily: "UberMoveMedium",
+        fontSize: 23,
+    },
+    product: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginVertical: 15,
+    }, 
+    productTexts: {
+        width: "65%",
+        paddingLeft: 5,
+    },
+    productName: {
+        fontFamily: "UberMoveMedium",
+        fontSize: 20,
+    },
+    productIngredients: {
+        marginVertical: 7,
+        fontSize: 17,
+        color: colors.cookGray
+    },
+    productPrice: {
+        fontSize: 20,
+        color: colors.primary
+    },
+    comment: {
+        marginBottom: 150
+    },
+    commentTitle: {
+        fontFamily: "UberMoveMedium",
+        fontSize: 23,
+    },
+    commentContainer: {
+        marginTop: 15,
+        backgroundColor: "#F3F3F3",
+        borderRadius: 5,
+        paddingVertical: 15,
+        paddingHorizontal: 15
+    },
+    commentText: {
+        fontSize: 18,
+        lineHeight: 23
+    }
 });

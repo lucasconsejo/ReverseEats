@@ -11,5 +11,6 @@ export const colors = {
     graySubTitle: "#494949",
     lightGray: "#F1F1F1",
     cookGray: "#838383",
-    timeGray: "#666666"
+    timeGray: "#666666",
+    lineGray: "#E3E3E3",
 }
