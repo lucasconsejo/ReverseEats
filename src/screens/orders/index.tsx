@@ -17,26 +17,6 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     
 
     const dataToDisplay = () => {
-        if(!orderState.length) {
-            orderDispatch({ 
-                type: "ADD_ORDER",
-                payload: {
-                    id: "1",
-                }
-            });
-            orderDispatch({ 
-                type: "ADD_ORDER",
-                payload: {
-                    id: "2",
-                }
-            });
-            orderDispatch({ 
-                type: "ADD_ORDER",
-                payload: {
-                    id: "3",
-                }
-            });
-        }
         
         if(!orderState.length) {
             return (

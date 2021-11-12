@@ -1,12 +1,16 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { useContext } from 'react'
 import { ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { OrderContext } from '../../../context/orderProvider'
 import { colors } from '../../../theme/colors'
+import { Food as FoodType } from '../../../types/global.types';
 import { ScreenProps } from '../../../types/props.types'
 
 const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { food } = route.params
+    const {orderState, orderDispatch} = useContext(OrderContext);
+
 
     const onScroll = (e: any) => {
         const scrollY = e.nativeEvent.contentOffset.y
@@ -19,8 +23,13 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
         }
     }
 
-    const addOrder = (food: any) => {
-        // TODO ORDER DISPATCH !!!!!!!!!
+    const addOrder = (food: FoodType) => {
+        orderDispatch({ 
+            type: "ADD_ORDER",
+            payload: {
+                id: food.id,
+            }
+        });
     }
 
     return (
