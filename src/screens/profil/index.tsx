@@ -1,12 +1,11 @@
 import React from "react"
-import { Text, View, StyleSheet, Image } from "react-native"
+import { Text, View, StyleSheet, StatusBar } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ScreenProps } from "../../types/props.types"
 import { clearCacheUser } from "../../cache/user";
 import { colors } from "../../theme/colors";
 import Button from "../../theme/buttons";
 import useUser from "../../hooks/useUser";
-import { StatusBar } from "expo-status-bar";
 
 const Profil: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
@@ -54,7 +53,7 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
     if (user) {
         return (
             <SafeAreaView>
-                <StatusBar style="dark" />
+                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <View style={{ marginHorizontal: 30, marginTop: 180}}>
                     <View style={{alignItems: "center"}}>
                         <Text style={styles.name}>{user!.firstName} {user!.lastName}</Text>

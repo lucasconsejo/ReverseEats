@@ -1,8 +1,7 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, StatusBar, TouchableOpacity, View } from "react-native";
 import { colors } from "../../../theme/colors";
 import { ScreenProps } from "../../../types/props.types";
 import Logo from "../../../assets/dark-logo.svg"
@@ -14,7 +13,7 @@ const SignupConfirm: React.FC<ScreenProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor={colors.backgroundDark} barStyle="light-content" />
             <View style={ styles.container}>
 
                 <View style={styles.logoContainer}>

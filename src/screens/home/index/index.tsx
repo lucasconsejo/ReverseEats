@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
-import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl, StatusBar } from 'react-native'
 import { ScreenProps } from "../../../types/props.types"
-import { StatusBar } from "expo-status-bar"
 import { colors } from '../../../theme/colors';
 import Header from "./header"
 import Restaurants from "./restaurants"
@@ -74,7 +73,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     if (user && user.role === "customer") {
         return (
             <SafeAreaView style={styles.view}>
-                <StatusBar style="dark" />
+                <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
                 <ScrollView  
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}

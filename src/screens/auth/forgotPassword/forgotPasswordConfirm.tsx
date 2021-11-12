@@ -1,7 +1,6 @@
 import { ScreenProps } from '../../../types/props.types';
 import React from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView, View, Text, Image, StyleSheet, StatusBar } from 'react-native';
 import { colors } from '../../../theme/colors';
 import Button from '../../../theme/buttons';
 import Logo from "../../../assets/light-logo.svg"
@@ -10,7 +9,7 @@ import Success from "../../../assets/late-night-seth-lnsm.gif"
 const ForgotPasswordConfirm: React.FC<ScreenProps> = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
                     <Logo />

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
+import { StatusBar } from 'react-native'
 
 const useCachedResources = () => {
     const [isLoadingComplete, setIsLoadingComplete] = useState(false)
+
+    StatusBar.setBarStyle("light-content");
 
     useEffect(() => {
         const loadDataAndResourcesAsync = async () => {
@@ -17,6 +20,7 @@ const useCachedResources = () => {
             } catch (e) {
                 console.warn(e)
             } finally {
+                StatusBar.setBarStyle("dark-content");
                 SplashScreen.hideAsync()
                 setIsLoadingComplete(true)
             }

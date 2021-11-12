@@ -1,9 +1,8 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { StatusBar } from "expo-status-bar"
 import React, { useEffect, useState }  from "react"
 import { useForm } from "react-hook-form"
-import {View, Text, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView, Alert} from "react-native"
+import {View, Text, TouchableWithoutFeedback, Keyboard, StatusBar, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView, Alert} from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Button from "../../../theme/buttons"
 import { colors } from "../../../theme/colors"
@@ -113,8 +112,8 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
     }
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
-            <StatusBar style="light" />
-            
+            <StatusBar backgroundColor={colors.backgroundDark} barStyle="light-content" />
+
             <View style={{ flex: 1}}>
                 <KeyboardAwareScrollView 
                     style={styles.container} 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState }  from "react"
-import { Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, ScrollView, ActivityIndicator} from "react-native"
+import { Text, TouchableOpacity, StatusBar, TouchableWithoutFeedback, View, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, ScrollView, ActivityIndicator} from "react-native"
 import { colors } from "../../../theme/colors"
-import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import Input from "../../../theme/inputs";
@@ -85,7 +84,7 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor={colors.backgroundDark} barStyle="light-content" />
             
             <View style={{ flex: 1  }}>
                 <KeyboardAwareScrollView style={{ flex: 1 }}>

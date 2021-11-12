@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useState, useEffect } from 'react';
-import { Platform, StatusBar, View, StyleSheet, Text, Animated } from "react-native";
+import { View, StyleSheet, Text, Animated } from "react-native";
 import useUser from '../../../../hooks/useUser';
 import { colors } from '../../../../theme/colors';
 import Filters from "./filters";
@@ -70,7 +70,7 @@ export default Header;
 const styles = StyleSheet.create({
     headerContainer: {
         backgroundColor: colors.white,
-        paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 40 : 40,
+        paddingTop: 40,
         paddingBottom: 15
     },
     headerTitle: {

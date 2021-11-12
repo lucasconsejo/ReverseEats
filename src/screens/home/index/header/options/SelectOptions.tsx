@@ -1,8 +1,7 @@
 import { faArrowLeft, faClock, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { StatusBar } from "expo-status-bar";
 import React, { useContext, useState } from "react";
-import { TouchableOpacity, View, StyleSheet, Text, Platform } from 'react-native';
+import { TouchableOpacity, StatusBar, View, StyleSheet, Text, Platform } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../../../../theme/colors";
 import { ScreenProps } from "../../../../../types/props.types";
@@ -31,21 +30,21 @@ const SelectOptions: React.FC<ScreenProps> = ({ navigation }) => {
                     <FontAwesomeIcon icon={isDate ? faCalendarAlt : faClock} size={25} color={colors.black} />
                 </TouchableOpacity>
                 {isDate ? 
-                    showDate && <SelectDateTime navigation={navigation} type={type} icon={icon} />
-                    : showTime && <SelectDateTime navigation={navigation} type={type} icon={icon} />
+                    showDate && <SelectDateTime type={type} icon={icon} />
+                    : showTime && <SelectDateTime type={type} icon={icon} />
                 }
             </View>
         ) : (
             <View style={styles.selectContainer}>
                 <Text style={styles.subTitle}>{title}</Text>
-                <SelectDateTime navigation={navigation} type={type} icon={icon} />
+                <SelectDateTime type={type} icon={icon} />
             </View>
         )
     }
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-            <StatusBar style="dark" />
+            <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
             <ScrollView>
                 <KeyboardAwareScrollView style={{ flex: 1 }}>
                     <View style={styles.headerContainer}>

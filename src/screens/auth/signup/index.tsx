@@ -1,8 +1,7 @@
 import React  from "react"
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
+import { Text, TouchableOpacity, StatusBar, View, StyleSheet } from "react-native"
 import { colors } from "../../../theme/colors"
 import Logo from "../../../assets/dark-logo.svg"
-import {StatusBar} from "expo-status-bar"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
@@ -23,7 +22,7 @@ const Signup: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor={colors.backgroundDark} barStyle="light-content" />
             <View style={{ flex: 1, justifyContent: "space-between" }}>
 
                 <TouchableOpacity style={styles.arrow} onPress={goLoginScreen}>

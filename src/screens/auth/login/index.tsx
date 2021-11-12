@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Text, TouchableOpacity, View, StyleSheet, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, StatusBar, Platform, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { SafeAreaView } from "react-native-safe-area-context"
 import Button from "../../../theme/buttons"
@@ -8,7 +8,6 @@ import Logo from "../../../assets/light-logo.svg"
 import Input from "../../../theme/inputs";
 import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
-import { StatusBar } from "expo-status-bar";
 import { getUser, loginRequest } from '../../../firebase/authRequests';
 import useUser from "../../../hooks/useUser";
 import { DateContext } from "../../../context/DateProvider";
@@ -92,7 +91,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white}}>
-            <StatusBar style="dark" />
+           <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
             <View style={{ flex: 1 }}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : "padding"}
