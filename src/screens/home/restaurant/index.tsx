@@ -59,7 +59,7 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
                             <Text style={styles.productIngredients} numberOfLines={2}>{item.ingredients}</Text>
                             <Text style={styles.productPrice}>{item.price}€</Text>
                         </View>
-                        <Image style={{ width: 120, height: 120 }} source={{ uri: item.img }}/>
+                        <Image style={{ width: 120, height: 120 }} source={{ uri: item.img.replace(/ /g,"%20") }}/>
                     </TouchableOpacity>
                 ))
             }
