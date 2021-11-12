@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     }, 
     productTexts: {
-        width: "65%",
+        width: "60%",
         paddingLeft: 5,
     },
     productName: {
