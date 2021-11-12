@@ -30,6 +30,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
                 id: food.id,
             }
         });
+        navigation.goBack();
     }
 
     return (
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     textAddOrder: {
         color: colors.white,
         textAlign: "center",
-        paddingVertical: 40,
+        paddingVertical: 30,
         fontSize: 22
     }
 })

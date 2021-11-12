@@ -1,5 +1,3 @@
-import { int32ARGBColor } from "react-native-svg"
-
 export type LoginFormData =  {
     email: string,
     password: string

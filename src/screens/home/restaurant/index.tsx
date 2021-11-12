@@ -1,12 +1,13 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, StatusBar, Image, Platform, RefreshControl } from 'react-native';
 import { colors } from '../../../theme/colors';
 import { ScreenProps } from '../../../types/props.types';
 import TimeIcon from "../../../assets/icons/time.png"
 import { getFoods } from '../../../firebase/foodsRequests';
 import { Food } from '../../../types/global.types';
+import { OrderContext } from '../../../context/orderProvider';
 
 const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { restaurant } = route.params;
@@ -15,6 +16,7 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     const [startersResult, setStartersResult] = useState<Array<Food>>([]);
     const [mainCoursesResult, setMainCoursesResult] = useState<Array<Food>>([]);
     const [dessertsResult, setSDessertsResult] = useState<Array<Food>>([]);
+    const {orderState, orderDispatch} = useContext(OrderContext);
 
     useEffect(() => {
         onRefresh();
@@ -72,57 +74,68 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
         )
     }
 
+    const renderCartBn = () => {
+        return orderState.length ? (
+            <TouchableOpacity style={styles.cart} onPress={() => console.log("Voir mon panier")}>
+                <Text style={styles.textCart}>Voir le panier (1)</Text>
+            </TouchableOpacity>
+        ) : null;
+    }
+
     return (
-       <ScrollView 
-            onScroll={(e) => onScroll(e)} 
-            refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
-            style={{ flex: 1, backgroundColor: colors.white}}
-        >
-           <StatusBar backgroundColor="#1919195e" barStyle="light-content" translucent />
-           <ImageBackground source={{ uri: restaurant.cover }} style={styles.cover}>
-                <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-                    <FontAwesomeIcon icon={faArrowLeft} size={25} />
-                </TouchableOpacity>
-            </ImageBackground>
-            <View style={{ marginHorizontal: 15, marginTop: 10 }}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{restaurant.name}</Text>
-                    <Text style={styles.note}>{restaurant.note}/5</Text>
-                </View>
-                <View style={{ flexDirection: "row", marginTop: 3 }}>
-                    <Text style={[styles.cook, { marginRight: 5 }]}>par</Text>
-                    <TouchableOpacity style={{ borderBottomWidth: 1.3, borderColor: colors.cookGray, paddingBottom: 2 }}>
-                        <Text style={styles.cook}>{restaurant.cook}</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.moreInfos}>
-                    <View style={styles.duration}>
-                        <Image source={TimeIcon}/>
-                        <Text style={styles.textDuration}>{restaurant.duration}</Text>
-                    </View>
-                    <View style={styles.tag}>
-                        <Text style={styles.textTag}>{restaurant.category}</Text>
-                    </View>
-                </View>
-                {
-                    !loading && (
-                        <View>
-                            <View style={styles.container}>
-                                {startersResult.length ? renderProducts(startersResult, "Entrées") : <View />}
-                                {mainCoursesResult.length ? renderProducts(mainCoursesResult, "Plats") : <View />}
-                                {dessertsResult.length ? renderProducts(dessertsResult, "Désserts") : <View />}
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
+            <ScrollView 
+                    onScroll={(e) => onScroll(e)} 
+                    refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
+                    style={{ flex: 1, backgroundColor: colors.white}}
+                >
+                <StatusBar backgroundColor="#1919195e" barStyle="light-content" translucent />
+                <ImageBackground source={{ uri: restaurant.cover }} style={styles.cover}>
+                        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+                            <FontAwesomeIcon icon={faArrowLeft} size={25} />
+                        </TouchableOpacity>
+                    </ImageBackground>
+                    <View style={{ marginHorizontal: 15, marginTop: 10 }}>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{restaurant.name}</Text>
+                            <Text style={styles.note}>{restaurant.note}/5</Text>
+                        </View>
+                        <View style={{ flexDirection: "row", marginTop: 3 }}>
+                            <Text style={[styles.cook, { marginRight: 5 }]}>par</Text>
+                            <TouchableOpacity style={{ borderBottomWidth: 1.3, borderColor: colors.cookGray, paddingBottom: 2 }}>
+                                <Text style={styles.cook}>{restaurant.cook}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.moreInfos}>
+                            <View style={styles.duration}>
+                                <Image source={TimeIcon}/>
+                                <Text style={styles.textDuration}>{restaurant.duration}</Text>
                             </View>
-                            <View style={styles.comment}>
-                                <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>
-                                <View style={styles.commentContainer}>
-                                    <Text style={styles.commentText}>{restaurant.comments}</Text>
-                                </View>
+                            <View style={styles.tag}>
+                                <Text style={styles.textTag}>{restaurant.category}</Text>
                             </View>
                         </View>
-                    )
-                }
-            </View>
-        </ScrollView>
+                        {
+                            !loading && (
+                                <View>
+                                    <View style={styles.container}>
+                                        {startersResult.length ? renderProducts(startersResult, "Entrées") : <View />}
+                                        {mainCoursesResult.length ? renderProducts(mainCoursesResult, "Plats") : <View />}
+                                        {dessertsResult.length ? renderProducts(dessertsResult, "Désserts") : <View />}
+                                    </View>
+                                    <View style={styles.comment}>
+                                        <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>
+                                        <View style={styles.commentContainer}>
+                                            <Text style={styles.commentText}>{restaurant.comments}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        }
+                    </View>
+                </ScrollView>
+                {renderCartBn()}
+        </View>
     );
 };
 
@@ -235,5 +248,15 @@ const styles = StyleSheet.create({
     commentText: {
         fontSize: 18,
         lineHeight: 23
+    },
+    cart: {
+        width: "100%",
+        backgroundColor: colors.primary,
+    },
+    textCart: {
+        color: colors.white,
+        textAlign: "center",
+        paddingVertical: 30,
+        fontSize: 22
     }
 });
