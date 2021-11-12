@@ -13,6 +13,7 @@ import ForgotPasswordConfirm from '../screens/auth/forgotPassword/forgotPassword
 import SelectOptions from '../screens/home/index/header/options/SelectOptions';
 import Restaurant from '../screens/home/restaurant';
 import Orders from '../screens/orders';
+import Food from '../screens/home/food';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         <Stack.Screen name="Home" component={BottomTabsNavigation}/>
         <Stack.Screen name="DeliveryOptions" component={SelectOptions}/>
         <Stack.Screen name="Restaurant" component={Restaurant}/>
+        <Stack.Screen name="Food" component={Food}/>
 
         {/* Orders */}
         <Stack.Screen name="Orders" component={Orders}/>

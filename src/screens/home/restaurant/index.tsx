@@ -48,23 +48,28 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
         }
     }
 
-    const renderProducts = (products: any, type: string) => (
-        <View style={styles.productContainer}>
-            <Text style={styles.productType}>{type}</Text>
-            {
-                products.map((item: any) => (
-                    <TouchableOpacity key={item.id} style={styles.product}>
-                        <View style={styles.productTexts}>
-                            <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
-                            <Text style={styles.productIngredients} numberOfLines={2}>{item.ingredients}</Text>
-                            <Text style={styles.productPrice}>{item.price}€</Text>
-                        </View>
-                        <Image style={{ width: 120, height: 120 }} source={{ uri: item.img.replace(/ /g,"%20") }}/>
-                    </TouchableOpacity>
-                ))
-            }
-        </View>
-    )
+    const renderProducts = (products: any, type: string) => {
+        const onPress = (food: any) => {
+            navigation.navigate("Food", { food });
+        }
+        return (
+            <View style={styles.productContainer}>
+                <Text style={styles.productType}>{type}</Text>
+                {
+                    products.map((item: any) => (
+                        <TouchableOpacity key={item.id} style={styles.product} onPress={() => onPress(item)}>
+                            <View style={styles.productTexts}>
+                                <Text style={styles.productName} numberOfLines={2}>{item.name}</Text>
+                                <Text style={styles.productIngredients} numberOfLines={2}>{item.ingredients}</Text>
+                                <Text style={styles.productPrice}>{item.price}€</Text>
+                            </View>
+                            <Image style={{ width: 120, height: 120 }} source={{ uri: item.img.replace(/ /g,"%20") }}/>
+                        </TouchableOpacity>
+                    ))
+                }
+            </View>
+        )
+    }
 
     return (
        <ScrollView 
