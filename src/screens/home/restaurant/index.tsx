@@ -1,15 +1,41 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, StatusBar, Image, Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, StatusBar, Image, Platform, RefreshControl } from 'react-native';
 import { colors } from '../../../theme/colors';
 import { ScreenProps } from '../../../types/props.types';
 import TimeIcon from "../../../assets/icons/time.png"
-import { menu } from "./data"
+import { getFoods } from '../../../firebase/foodsRequests';
 
 const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { restaurant } = route.params;
-    const { starters, mainCourses, desserts } = menu;
+    const { starters, mainCourses, desserts } = restaurant.menu;
+    const [loading, setLoading] = useState<boolean>(true);
+    const [startersResult, setStartersResult] = useState<Array<any>>([]);
+    const [mainCoursesResult, setMainCoursesResult] = useState<Array<any>>([]);
+    const [dessertsResult, setSDessertsResult] = useState<Array<any>>([]);
+
+    useEffect(() => {
+        onRefresh();
+    }, []);
+
+    const onRefresh = () => {
+        setLoading(true);
+        getFoods(starters)
+            .then(res => res.json())
+            .then(res => {
+                setStartersResult(res.data)
+                getFoods(mainCourses)
+                .then(res => res.json())
+                .then(res => {
+                    setMainCoursesResult(res.data)
+                    getFoods(desserts)
+                    .then(res => res.json())
+                    .then(res => setSDessertsResult(res.data))
+                    .finally(() => setLoading(false))
+                })
+            })
+    }
 
     const onScroll = (e: any) => {
         const scrollY = e.nativeEvent.contentOffset.y
@@ -41,7 +67,11 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     )
 
     return (
-       <ScrollView onScroll={(e) => onScroll(e)} style={{ flex: 1, backgroundColor: colors.white}}>
+       <ScrollView 
+            onScroll={(e) => onScroll(e)} 
+            refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
+            style={{ flex: 1, backgroundColor: colors.white}}
+        >
            <StatusBar backgroundColor="#1919195e" barStyle="light-content" translucent />
            <ImageBackground source={{ uri: restaurant.cover }} style={styles.cover}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
@@ -68,17 +98,23 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
                         <Text style={styles.textTag}>{restaurant.category}</Text>
                     </View>
                 </View>
-                <View style={styles.container}>
-                    {starters.length ? renderProducts(starters, "Entrées") : <View />}
-                    {mainCourses.length ? renderProducts(mainCourses, "Plats") : <View />}
-                    {desserts.length ? renderProducts(desserts, "Désserts") : <View />}
-                </View>
-                <View style={styles.comment}>
-                    <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>
-                    <View style={styles.commentContainer}>
-                        <Text style={styles.commentText}>{restaurant.comments}</Text>
-                    </View>
-                </View>
+                {
+                    !loading && (
+                        <View>
+                            <View style={styles.container}>
+                                {startersResult.length ? renderProducts(startersResult, "Entrées") : <View />}
+                                {mainCoursesResult.length ? renderProducts(mainCoursesResult, "Plats") : <View />}
+                                {dessertsResult.length ? renderProducts(dessertsResult, "Désserts") : <View />}
+                            </View>
+                            <View style={styles.comment}>
+                                <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>
+                                <View style={styles.commentContainer}>
+                                    <Text style={styles.commentText}>{restaurant.comments}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    )
+                }
             </View>
         </ScrollView>
     );
