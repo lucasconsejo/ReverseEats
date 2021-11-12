@@ -15,8 +15,8 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
     const { role } = route.params;
 
     const [msgError, setMsgError] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
     const [formCompleted, setFormCompleted] = useState<boolean>(false);
+    const [isConfirmSameAsPassword, setIsConfirmSameAsPassword] = useState<boolean>(false);
 
     const { control, handleSubmit, getValues, formState: { errors } } = useForm<SignupFormData>({
         defaultValues: {
@@ -43,7 +43,14 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
         if(emptyFields.length){
             setFormCompleted(false);
         }
-        else{setFormCompleted(true);}
+        else{
+            setFormCompleted(true);
+            if(inputValues.password === inputValues.passwordConfirm) {
+                setIsConfirmSameAsPassword(true);
+            }else{
+                setIsConfirmSameAsPassword(false);
+            }
+        }
     }, [getValues()]);
 
     const submitSignup = handleSubmit(({firstName, lastName, email, password}) => {
@@ -64,8 +71,14 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
     }
 
     const signupBtn = () => {
-        return loading ? (
-            <ActivityIndicator size={32} color={colors.primary} />
+        return (formCompleted && isConfirmSameAsPassword ) ? (
+            <Button 
+                theme="secondaryDarkRight" 
+                style={{ marginTop: 10 }} 
+                title="Suivant" 
+                onPress={submitSignup}
+                active={true} 
+            />
         )
         : ( 
             <Button 
@@ -73,7 +86,7 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
                 style={{ marginTop: 10 }} 
                 title="Suivant" 
                 onPress={submitSignup}
-                active={formCompleted} 
+                active={false} 
             />
         )
     }

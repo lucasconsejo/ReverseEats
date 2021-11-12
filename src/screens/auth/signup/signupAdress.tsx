@@ -24,6 +24,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
     ]);
 
     useEffect(() => {
+        setLoading(false);
         setMsgError("")
         searchAddress(input, 4)
         .then(res => res.json())
@@ -59,6 +60,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
 
     const submitAdress = () => {
         setdata([]);
+        setLoading(true);
         if(input.trim().length){
             searchAddress(input, 4)
             .then(res => res.json())
@@ -77,11 +79,20 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
                         })
                     })
                     .catch( (err) => {
-                        console.log(err);
+                        console.log(err.message);
+                        if(err.message == "Firebase: Error (auth/email-already-in-use)."){
+                            setMsgError("L'adresse email est déjà utilisée.");
+                        }else if(err.message == "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+                            setMsgError("Le mot de passe doit faire au moins 6 caractères.");
+                        } else {
+                        setMsgError("Une erreur est survenue.");
+                        }
+                        setLoading(false);
                     })
                 }
                 else{
                     setMsgError("Adresse non valide.");
+                    setLoading(false);
                 }
             })
         } else {
@@ -97,18 +108,35 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
                     });
                 }).catch( (err) => {
                     console.log(err);
+                    setLoading(false);
                 })
             })
             .catch( (err) => {
                 console.log(err);
+                setLoading(false);
             })
         }
     };
-    
-    
 
     const goSignupFormScreen = () => {
         navigation.goBack();
+    }
+
+    const sendBtn = () => {
+        return loading ? (
+            <View style={{ flex: 1, marginTop: 100,}}>
+            <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+        )
+        : ( 
+            <Button 
+                theme="secondaryDarkRight" 
+                style={{ marginBottom: 70, }} 
+                title={input.length ? "Terminer" : "Ignorer et terminer" }
+                onPress={submitAdress}
+                active={true}
+            />
+        )
     }
     return (
         <View style={{ flex: 1, backgroundColor: colors.backgroundDark}}>
@@ -134,13 +162,10 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
                         {handleError()}
                         
                     </View>
-                    <Button 
-                            theme="secondaryDarkRight" 
-                            style={{ marginBottom: 70, }} 
-                            title={input.length ? "Terminer" : "Ignorer et terminer" }
-                            onPress={submitAdress}
-                            active={true}
-                    />
+
+                    {sendBtn()}
+                    
+                    
                 </KeyboardAwareScrollView>
             </View>
         </View>
