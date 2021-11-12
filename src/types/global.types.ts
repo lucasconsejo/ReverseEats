@@ -47,3 +47,11 @@ export type Order = {
     orderDate: string,
     total: number,
 }
+
+export type Food = {
+    id: string,
+    name: string,
+    ingredients: string,
+    img: string,
+    price: number
+}

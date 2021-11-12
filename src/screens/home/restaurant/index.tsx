@@ -6,14 +6,15 @@ import { colors } from '../../../theme/colors';
 import { ScreenProps } from '../../../types/props.types';
 import TimeIcon from "../../../assets/icons/time.png"
 import { getFoods } from '../../../firebase/foodsRequests';
+import { Food } from '../../../types/global.types';
 
 const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { restaurant } = route.params;
     const { starters, mainCourses, desserts } = restaurant.menu;
     const [loading, setLoading] = useState<boolean>(true);
-    const [startersResult, setStartersResult] = useState<Array<any>>([]);
-    const [mainCoursesResult, setMainCoursesResult] = useState<Array<any>>([]);
-    const [dessertsResult, setSDessertsResult] = useState<Array<any>>([]);
+    const [startersResult, setStartersResult] = useState<Array<Food>>([]);
+    const [mainCoursesResult, setMainCoursesResult] = useState<Array<Food>>([]);
+    const [dessertsResult, setSDessertsResult] = useState<Array<Food>>([]);
 
     useEffect(() => {
         onRefresh();
@@ -49,7 +50,7 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
     }
 
     const renderProducts = (products: any, type: string) => {
-        const onPress = (food: any) => {
+        const onPress = (food: Food) => {
             navigation.navigate("Food", { food });
         }
         return (
