@@ -8,7 +8,7 @@ const defaultValueType: OrderContextType = {
 };
 
 export interface OrderContextType {
-    orderState: Order | null;
+    orderState: Array<Order>;
     orderDispatch: any;
 }
 
