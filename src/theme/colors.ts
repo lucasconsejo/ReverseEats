@@ -13,4 +13,5 @@ export const colors = {
     cookGray: "#838383",
     timeGray: "#666666",
     lineGray: "#E3E3E3",
+    historyGray: "#F0F0F0"
 }

@@ -12,12 +12,15 @@ import ForgotPassword from '../screens/auth/forgotPassword';
 import ForgotPasswordConfirm from '../screens/auth/forgotPassword/forgotPasswordConfirm';
 import SelectOptions from '../screens/home/index/header/options/SelectOptions';
 import Restaurant from '../screens/home/restaurant';
+import Orders from '../screens/orders';
 
 const Stack = createStackNavigator();
 
 const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={defaultRoute} screenOptions={{ headerShown: false, ...TransitionPresets.SlideFromRightIOS}}>
+        
+        {/* Auth */}
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
@@ -25,9 +28,14 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         <Stack.Screen name="SignupForm" component={SignupForm}/>
         <Stack.Screen name="SignupAdress" component={SignupAdress}/>
         <Stack.Screen name="SignupConfirm" component={SignupConfirm}/>
+
+        {/* Home */}
         <Stack.Screen name="Home" component={BottomTabsNavigation}/>
         <Stack.Screen name="DeliveryOptions" component={SelectOptions}/>
         <Stack.Screen name="Restaurant" component={Restaurant}/>
+
+        {/* Orders */}
+        <Stack.Screen name="Orders" component={Orders}/>
       </Stack.Navigator>
     </NavigationContainer>
 );
