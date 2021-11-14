@@ -1,6 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { OrderContext } from '../../../context/orderProvider'
 import { colors } from '../../../theme/colors'
@@ -10,6 +10,9 @@ import { ScreenProps } from '../../../types/props.types'
 const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { food } = route.params
     const {orderState, orderDispatch} = useContext(OrderContext);
+    const [nbOrder, setNbOrder] = useState<number>(1);
+    const [increaseLongPress, setIncreaseLongPress] = useState<any>(null);
+    const [decreaseLongPress, setDecreaseLongPress] = useState<any>(null);
 
 
     const onScroll = (e: any) => {
@@ -24,14 +27,26 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
     }
 
     const addOrder = (food: FoodType) => {
-        orderDispatch({ 
-            type: "ADD_ORDER",
-            payload: {
-                id: food.id,
-            }
-        });
+        // orderDispatch({ 
+        //     type: "ADD_ORDER",
+        //     payload: {
+        //         id: food.id,
+        //     }
+        // });
         navigation.goBack();
     }
+
+    const increaseOrder = () => {
+        setNbOrder((prev: number) => prev < 99 ? prev+1 : prev);
+        setIncreaseLongPress(setTimeout(increaseOrder, 200));
+    }
+
+    const decreaseOrder = () => {
+        setNbOrder((prev: number) => prev > 1 ? prev-1 : prev);
+        setDecreaseLongPress(setTimeout(decreaseOrder, 200));
+    }
+
+    const total = (price: number) => (Math.round((price * nbOrder) * 100) / 100).toFixed(2);
 
     return (
         <View style={styles.container}>
@@ -49,9 +64,22 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
                     <Text style={styles.title}>{food.name}</Text>
                     <Text style={styles.ingredients}>{food.ingredients}</Text>
                 </View>
+                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                    <TouchableOpacity onPressIn={decreaseOrder} onPressOut={() => clearInterval(decreaseLongPress)}>
+                        <View style={[styles.increaseBtn, { opacity: nbOrder > 1 ? 1 : 0.3  }]}>
+                            <Text style={styles.textIncrease}>-</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 30, marginHorizontal: 30 }}>{nbOrder}</Text>
+                    <TouchableOpacity onPressIn={increaseOrder} onPressOut={() => clearInterval(increaseLongPress)}>
+                        <View style={styles.increaseBtn}>
+                            <Text style={styles.textIncrease}>+</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
             <TouchableOpacity style={styles.addOrder} onPress={() => addOrder(food)}>
-                <Text style={styles.textAddOrder}>Ajouter 1 au panier • {food.price}€</Text>
+                <Text style={styles.textAddOrder}>Ajouter {nbOrder} au panier • {total(food.price)}€</Text>
             </TouchableOpacity>
         </View>
     )
@@ -95,5 +123,16 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingVertical: 30,
         fontSize: 22
+    }, 
+    increaseBtn: {
+        width: 80,
+        height: 80,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 100,
+        backgroundColor: colors.lightGray,
+    },
+    textIncrease: {
+        fontSize: 50
     }
 })
