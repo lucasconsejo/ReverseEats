@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React, { useContext, useState } from 'react'
 import { ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { OrderContext } from '../../../context/orderProvider'
+import CollapseBtn from '../../../theme/collapseBtn'
 import { colors } from '../../../theme/colors'
 import { Food as FoodType } from '../../../types/global.types';
 import { ScreenProps } from '../../../types/props.types'
@@ -13,7 +14,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
     const [nbOrder, setNbOrder] = useState<number>(1);
     const [increaseLongPress, setIncreaseLongPress] = useState<any>(null);
     const [decreaseLongPress, setDecreaseLongPress] = useState<any>(null);
-
+    const [selectedOptions, setSelectedOptions] = useState<Array<string>>([]);
 
     const onScroll = (e: any) => {
         const scrollY = e.nativeEvent.contentOffset.y
@@ -64,7 +65,30 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
                     <Text style={styles.title}>{food.name}</Text>
                     <Text style={styles.ingredients}>{food.ingredients}</Text>
                 </View>
-                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+
+                <View style={{ marginVertical: 10 }}>
+                    <CollapseBtn
+                        title="Matériel requis"
+                        noDataTitle="Aucun matériel requis"
+                        data={food.materials}
+                        type="materials"
+                        defaultShow
+                    />
+                </View>
+
+                <View style={{ marginVertical: 10,  paddingBottom: 15, borderBottomWidth: 1, borderColor: colors.lineGray }}>
+                    <CollapseBtn
+                        title="Options"
+                        noDataTitle="Aucune option"
+                        data={food.options}
+                        type="options"
+                        selectedData={selectedOptions}
+                        onChangeSelectedData={setSelectedOptions}
+                        defaultShow
+                    />
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 50 }}>
                     <TouchableOpacity onPressIn={decreaseOrder} onPressOut={() => clearInterval(decreaseLongPress)}>
                         <View style={[styles.increaseBtn, { opacity: nbOrder > 1 ? 1 : 0.3  }]}>
                             <Text style={styles.textIncrease}>-</Text>

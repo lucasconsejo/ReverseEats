@@ -33,3 +33,13 @@ export type SelectDateTimeProps = {
     type: "date" | "time",
     icon: IconDefinition
 }
+
+export type CollapseBtnProps = {
+    title: string,
+    noDataTitle: string,
+    data: Array<any>,
+    type: "materials" | "options",
+    defaultShow?: boolean,
+    selectedData?: Array<string>,
+    onChangeSelectedData?: any
+}

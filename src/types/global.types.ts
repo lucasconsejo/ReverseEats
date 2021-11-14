@@ -51,5 +51,7 @@ export type Food = {
     name: string,
     ingredients: string,
     img: string,
-    price: number
+    price: number,
+    materials: Array<{ icon: string, name: string}>,
+    options: Array<string>
 }
