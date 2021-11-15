@@ -55,3 +55,11 @@ export type Food = {
     materials: Array<{ icon: string, name: string}>,
     options: Array<string>
 }
+
+export type Cart = {
+    id: string,
+    food: Food,
+    totalPrice: number,
+    quantity: number,
+    options: Array<string>
+}

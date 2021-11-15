@@ -2,7 +2,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { NavigationProp } from "@react-navigation/native";
 import { Control } from "react-hook-form";
 import { KeyboardTypeOptions, StyleProp, ViewStyle } from "react-native";
-import { Restaurant } from "./global.types";
+import { Cart, Food, Restaurant } from "./global.types";
 
 export type ScreenProps = {
     navigation: NavigationProp<ReactNavigation.RootParamList|any>,
@@ -42,4 +42,97 @@ export type CollapseBtnProps = {
     defaultShow?: boolean,
     selectedData?: Array<string>,
     onChangeSelectedData?: any
+}
+
+export type IncreaseAndDecreaseBtnProps = {
+    nbOrder: number,
+    setNbOrder: any
+}
+
+export type OptionsProps = {
+    options: Array<any>,
+    selectedOptions: Array<any>,
+    setSelectedOptions: any,
+}
+
+export type MaterialsProps = {
+    materials: Array<any>,
+}
+
+export type FoodBtnProps = {
+    text: string,
+    onPress: any
+}
+
+export type FoodHeaderProps = {
+    food: Food
+}
+
+export type DeleteFoodBtnProps ={
+    removeCart: any
+}
+
+export type CartRenderProps = {
+    restaurant: any,
+    navigation: any
+}
+
+export type CartItemsProps = {
+    title: string,
+    cartState: Array<Cart>,
+    setShowCart: any,
+    navigation: any,
+    caculTotal: number
+}
+
+export type SubTotalRenderProps = {
+    caculTotal: number
+}
+
+export type CartBtnProps = {
+    text: string,
+    setShowCart: any
+}
+
+export type CartItemProps = {
+    item: Cart, 
+    navigation: any
+}
+
+export type MenuItemsProps = {
+    foods: Food[],
+    title: string,
+    navigation:  any
+}
+
+export type MenuItemProps = {
+    food: Food,
+    onPress:  any
+}
+
+export type MenuContainerProps = {
+    navigation: any,
+    startersResult: Array<Food>, 
+    mainCoursesResult: Array<Food>, 
+    dessertsResult: Array<Food>,
+    comments: string
+
+}
+
+export type DurationRenderProps = {
+    duration: string,
+    category: string
+}
+
+export type CookRenderProps = {
+    cook: string
+}
+
+export type TitleRenderProps = {
+    title: string,
+    note: number
+}
+
+export type BackgroundRenderProps = {
+    cover: string
 }

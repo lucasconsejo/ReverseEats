@@ -9,7 +9,7 @@ import SelectAddress from "./SelectAddress";
 import SelectDateTime from "./SelectDateTime";
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { ScrollView } from "react-native-gesture-handler";
-import { DateContext } from "../../../../../context/DateProvider";
+import { DateContext } from "../../../../../context/dateProvider";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { capitalizeFirstLetter } from "../../../../../utils/utils";
 

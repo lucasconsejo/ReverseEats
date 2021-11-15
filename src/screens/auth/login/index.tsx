@@ -10,7 +10,7 @@ import { ScreenProps } from "../../../types/props.types";
 import { LoginFormData } from "../../../types/global.types";
 import { getUser, loginRequest } from '../../../firebase/authRequests';
 import useUser from "../../../hooks/useUser";
-import { DateContext } from "../../../context/DateProvider";
+import { DateContext } from "../../../context/dateProvider";
 
 const Login: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateDispatch } = useContext(DateContext);

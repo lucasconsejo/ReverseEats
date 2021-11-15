@@ -5,7 +5,7 @@ import { SelectDateTimeProps } from "../../../../../types/props.types";
 import { colors } from '../../../../../theme/colors';
 import { DateTime } from "luxon";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { DateContext } from '../../../../../context/DateProvider';
+import { DateContext } from '../../../../../context/dateProvider';
 import { capitalizeFirstLetter } from "../../../../../utils/utils";
 
 const SelectDateTime: React.FC<SelectDateTimeProps> = ({ icon, type }) => {

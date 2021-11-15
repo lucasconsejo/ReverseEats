@@ -40,7 +40,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                 <ScrollView>
                     {orderState.map((item, index) => {
                     return (
-                        <View style={{ flex: 1}}>
+                        <View key={index} style={{ flex: 1}}>
                             <View style={{ flexDirection: "column"}}>
 
                             </View>

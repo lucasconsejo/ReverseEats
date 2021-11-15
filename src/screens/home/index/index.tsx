@@ -8,7 +8,7 @@ import { getRestaurants } from "../../../firebase/restaurantsRequests"
 import { Restaurant } from "../../../types/global.types"
 import useUser from "../../../hooks/useUser"
 import { getCacheUser } from "../../../cache/user";
-import { DateContext } from "../../../context/DateProvider";
+import { DateContext } from "../../../context/dateProvider";
 import { DateTime } from "luxon";
 
 const Home: React.FC<ScreenProps> = ({ navigation }) => {
