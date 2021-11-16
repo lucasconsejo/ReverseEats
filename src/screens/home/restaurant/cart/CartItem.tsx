@@ -7,6 +7,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, navigation }) => {
     const onPress = () => {
         navigation.navigate("Food", {
             food: item.food,
+            restaurantId: item.restaurantId,
             quantity: item.quantity,
             options: item.options,
             openFromCart: true,

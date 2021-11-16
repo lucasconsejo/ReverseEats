@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { HomeRestaurantsProps } from '../../../../types/props.types';
 import Thai from "../../../../assets/icons/thai.png"
 import TimeIcon from "../../../../assets/icons/time.png"
 import { colors } from '../../../../theme/colors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { CartContext } from '../../../../context/cartProvider';
 
 const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (!restaurants.length) ? <NoResults /> : <RestaurantsList restaurants={restaurants} />;
 
@@ -20,11 +21,25 @@ const NoResults: React.FC = () => (
 
 const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => {
     const navigation: NavigationProp<ReactNavigation.RootParamList|any> = useNavigation();
+    const { cartState } = useContext(CartContext);
+    const nbFood = cartState.reduce((a, b) => a + (b.quantity || 0), 0);
+
     const onPress = (restaurant: object) => {
         navigation.navigate("Restaurant", {
             restaurant,
         });
     }
+
+    const SelectedCart = (restaurantId: string) => {
+        if (cartState.length && cartState[0].restaurantId === restaurantId) {
+            return (
+                <View style={styles.badge}>
+                    <Text style={{ color: colors.white, fontSize: nbFood > 99 ? 17 : 25 }}>{nbFood > 99 ? "99+" : nbFood}</Text>
+                </View>
+            )
+        } 
+    }
+
     return (
         <View>
             {
@@ -32,7 +47,10 @@ const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => {
                     return (
                         <TouchableOpacity style={styles.restaurant} key={index} onPress={() => onPress(item)}>
                             <View>
-                                <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
+                                <View style={{ position: "relative" }}>
+                                    <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
+                                    {SelectedCart(item.id)}
+                                </View>
                                 <View style={styles.restaurantsContainer}>
                                     <View style={styles.restaurantsHeader}>
                                         <Text style={styles.restaurantTitle}>{item.name}</Text>
@@ -142,4 +160,21 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 2
     },
+    badge: { 
+        position: "absolute", 
+        shadowColor: "#000", 
+        shadowOffset: { width: 0, height: 2, }, 
+        shadowOpacity: 0.25, 
+        shadowRadius: 3.84, 
+        elevation: 5, 
+        backgroundColor: colors.primary, 
+        top: -7, 
+        right: -10, 
+        width: 40, 
+        height: 40, 
+        padding: 5, 
+        borderRadius: 100, 
+        justifyContent: "center",
+        alignItems: "center"
+    }
 });

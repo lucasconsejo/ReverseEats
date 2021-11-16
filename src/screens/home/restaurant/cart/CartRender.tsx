@@ -17,7 +17,7 @@ const CartRender: React.FC<CartRenderProps> = ({ restaurant, navigation }) => {
 
     return cartState.length ? (
         <View>
-            {showCart && (
+            {showCart && cartState[0].restaurantId === restaurant.id && (
                 <CartItems 
                     title={restaurant.name}
                     cartState={cartState}
@@ -26,7 +26,7 @@ const CartRender: React.FC<CartRenderProps> = ({ restaurant, navigation }) => {
                     caculTotal={caculTotal}
                 />
             )}
-            <CartBtn text={showCart ? "Passer au paiement" : `Voir le panier (${nbFood})`} setShowCart={setShowCart} />
+           {cartState[0].restaurantId === restaurant.id && <CartBtn text={showCart ? "Passer au paiement" : `Voir le panier (${nbFood})`} setShowCart={setShowCart} />}
         </View>
     ) : null;
 }

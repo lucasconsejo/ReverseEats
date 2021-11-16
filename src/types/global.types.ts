@@ -59,6 +59,7 @@ export type Food = {
 export type Cart = {
     id: string,
     food: Food,
+    restaurantId: string,
     totalPrice: number,
     quantity: number,
     options: Array<string>

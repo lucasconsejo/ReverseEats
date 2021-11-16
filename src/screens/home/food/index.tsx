@@ -11,11 +11,12 @@ import Materials from './Materials';
 import Options from './Options';
 
 const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
-    const { food, cartId, quantity, options, openFromCart } = route.params
-    const { cartDispatch } = useContext(CartContext);
+    const { food, cartId, quantity, options, openFromCart, restaurantId } = route.params
+    const { cartState, cartDispatch } = useContext(CartContext);
     const [nbOrder, setNbOrder] = useState<number>(quantity || 1);
     const [selectedOptions, setSelectedOptions] = useState<Array<string>>(options || []);
     const scrollViewRef = useRef<any>();
+    const currentRestaurantCart = cartState.length ? cartState[0].restaurantId === restaurantId : true;
 
     const onScroll = (e: any) => {
         const scrollY = e.nativeEvent.contentOffset.y
@@ -33,6 +34,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
             type: "ADD_CART",
             payload: {
                 id: uuid.v4(),
+                restaurantId: restaurantId,
                 food: food,
                 totalPrice: total(food.price),
                 quantity: nbOrder,
@@ -48,6 +50,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
             payload: {
                 id: cartId, 
                 food,
+                restaurantId: restaurantId,
                 totalPrice: total(food.price),
                 quantity: nbOrder,
                 options: selectedOptions
@@ -78,13 +81,15 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
                 <FoodHeader food={food} />
                 <Materials materials={food.materials} />
                 <Options options={food.options} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
-                <IncreaseAndDecreaseBtn nbOrder={nbOrder} setNbOrder={setNbOrder} />
+                {currentRestaurantCart && <IncreaseAndDecreaseBtn nbOrder={nbOrder} setNbOrder={setNbOrder} />}
                 {openFromCart && <DeleteFoodBtn removeCart={removeCart}/>}
             </ScrollView>
-            <FoodBtn 
-                text={openFromCart ? `Mettre à jour • ${total(food.price).toFixed(2)}€` : `Ajouter ${nbOrder} au panier • ${total(food.price).toFixed(2)}€`} 
-                onPress={() => openFromCart ? updateCart() : addCart(food)}
-            />
+            {currentRestaurantCart && 
+                <FoodBtn 
+                    text={openFromCart ? `Mettre à jour • ${total(food.price).toFixed(2)}€` : `Ajouter ${nbOrder} au panier • ${total(food.price).toFixed(2)}€`} 
+                    onPress={() => openFromCart ? updateCart() : addCart(food)}
+                />
+            }
         </View>
     )
 }

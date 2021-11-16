@@ -101,6 +101,7 @@ export type CartItemProps = {
 
 export type MenuItemsProps = {
     foods: Food[],
+    restaurantId: string,
     title: string,
     navigation:  any
 }
@@ -112,6 +113,7 @@ export type MenuItemProps = {
 
 export type MenuContainerProps = {
     navigation: any,
+    restaurantId: string,
     startersResult: Array<Food>, 
     mainCoursesResult: Array<Food>, 
     dessertsResult: Array<Food>,
