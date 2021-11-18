@@ -41,6 +41,7 @@ export type Order = {
     userID: string,
     foods: Array<{food: Food, options: string[] , quantity: number}>,
     restaurantID: string,
+    restaurantName: string,
     status: string,
     orderDate: Date,
     total: number,

@@ -10,10 +10,16 @@ export const postOrder = async (order: Order) => {
             userID: order.userID,
             foods: order.foods,
             restaurantID: order.restaurantID,
+            restaurantName: order.restaurantName,
             status: order.status,
             orderDate: order.orderDate,
             total: order.total,
         })
     };
     return await fetch(`${API_URL}/orders`, requestOptions);
+}
+
+export const getOrders = async (id: string) => {
+    const parseArray = JSON.stringify(id);
+    return await fetch(`${API_URL}/orders?userId=${id}`);
 }

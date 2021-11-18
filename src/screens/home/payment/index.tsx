@@ -41,6 +41,7 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                     quantity: cart.quantity
                 }}),
             restaurantID: cartState[0].restaurantId,
+            restaurantName: cartState[0].restaurantName,
             status: "En attente",
             orderDate: new Date(),
             total: calculTotalFrais
