@@ -12,6 +12,8 @@ import CartItem from '../restaurant/cart/CartItem';
 import CartBtn from '../restaurant/cart/CartBtn';
 import { OrderContext } from '../../../context/orderProvider';
 import uuid from 'react-native-uuid';
+import { postOrder } from '../../../firebase/orderRequests';
+import { Order } from '../../../types/global.types';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);
@@ -29,24 +31,33 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     }, [cartState])
 
     const createOrder = () => {
+        const orderParams: Order = {
+            id: uuid.v4().toString(),
+            userID: user.id,
+            foods: cartState.map((cart) => {
+                return {
+                    food: cart.food, 
+                    options: cart.options,
+                    quantity: cart.quantity
+                }}),
+            restaurantID: cartState[0].restaurantId,
+            status: "En attente",
+            orderDate: new Date(),
+            total: calculTotalFrais
+        }
         orderDispatch({
             type: "ADD_ORDER",
-            payload: {
-                id: uuid.v4(),
-                userID: user.id,
-                foods: cartState.map((cart) => cart.food),
-                restaurantID: cartState[0].restaurantId,
-                status: "En attente",
-                orderDate: new Date(),
-                total: calculTotalFrais
-            }
+            payload: orderParams,
         })
-        cartDispatch({
-            type: "RESET_CART",
-        })
-        navigation.reset({
-            index: 0,
-                routes: [{ name: "PaymentRunning" }],
+        postOrder(orderParams)
+        .then(() => {
+            cartDispatch({
+                type: "RESET_CART",
+            })
+            navigation.reset({
+                index: 0,
+                    routes: [{ name: "PaymentRunning" }],
+            })
         })
     }
 

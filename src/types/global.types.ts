@@ -39,7 +39,7 @@ export type Restaurant = {
 export type Order = {
     id: string,
     userID: string,
-    foods: Food[],
+    foods: Array<{food: Food, options: string[] , quantity: number}>,
     restaurantID: string,
     status: string,
     orderDate: Date,
