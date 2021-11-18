@@ -15,6 +15,16 @@ const CartRender: React.FC<CartRenderProps> = ({ restaurant, navigation }) => {
         !cartState.length && setShowCart(false);
     }, [cartState]);
 
+    const onPress = () => {
+        if (showCart) {
+            navigation.navigate("Payment")
+            setShowCart(false); 
+        }
+        else {
+            setShowCart(true);
+        }
+    }
+
     return cartState.length ? (
         <View>
             {showCart && cartState[0].restaurantId === restaurant.id && (
@@ -26,7 +36,7 @@ const CartRender: React.FC<CartRenderProps> = ({ restaurant, navigation }) => {
                     caculTotal={caculTotal}
                 />
             )}
-           {cartState[0].restaurantId === restaurant.id && <CartBtn text={showCart ? "Passer au paiement" : `Voir le panier (${nbFood})`} setShowCart={setShowCart} />}
+           {cartState[0].restaurantId === restaurant.id && <CartBtn text={showCart ? "Passer au paiement" : `Voir le panier (${nbFood})`} onPress={onPress} />}
         </View>
     ) : null;
 }

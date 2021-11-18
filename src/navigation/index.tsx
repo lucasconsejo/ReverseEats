@@ -14,6 +14,7 @@ import SelectOptions from '../screens/home/index/header/options/SelectOptions';
 import Restaurant from '../screens/home/restaurant';
 import Orders from '../screens/orders';
 import Food from '../screens/home/food';
+import Payment from '../screens/home/payment';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         <Stack.Screen name="DeliveryOptions" component={SelectOptions}/>
         <Stack.Screen name="Restaurant" component={Restaurant}/>
         <Stack.Screen name="Food" component={Food}/>
+        <Stack.Screen name="Payment" component={Payment}/>
 
         {/* Orders */}
         <Stack.Screen name="Orders" component={Orders}/>

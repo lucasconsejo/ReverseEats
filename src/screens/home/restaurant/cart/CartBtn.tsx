@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { colors } from '../../../../theme/colors';
 import { CartBtnProps } from '../../../../types/props.types';
 
-const CartBtn: React.FC<CartBtnProps> = ({ text, setShowCart }) => (
-    <TouchableOpacity style={styles.cart} onPress={() => setShowCart(true)}>
+const CartBtn: React.FC<CartBtnProps> = ({ text, onPress }) => (
+    <TouchableOpacity style={styles.cart} onPress={() => onPress()}>
         <Text style={styles.textCart}>{text}</Text>
     </TouchableOpacity>
 )

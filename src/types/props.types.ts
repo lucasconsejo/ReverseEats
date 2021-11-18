@@ -91,7 +91,7 @@ export type SubTotalRenderProps = {
 
 export type CartBtnProps = {
     text: string,
-    setShowCart: any
+    onPress: any
 }
 
 export type CartItemProps = {
