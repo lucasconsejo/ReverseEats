@@ -13,7 +13,7 @@ const PaymentRunning: React.FC<ScreenProps> = ({ navigation }) => {
                 index: 0,
                     routes: [{ name: "PaymentResult" }],
             })
-       }, 5000);
+       }, 4000);
     }, [])
 
     return (
