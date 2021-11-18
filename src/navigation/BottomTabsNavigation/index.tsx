@@ -1,18 +1,32 @@
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { Platform, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { Platform, Text, View, StyleSheet } from 'react-native';
 import TabsRoutes from './routes';
 import HomeIcon from "../../assets/icons/home.svg"
+import { OrderContext } from '../../context/orderProvider';
+import { colors } from '../../theme/colors';
 
 const Tabs = createBottomTabNavigator();
 
 const customTabBarIcon = (focused: boolean, icon: IconDefinition, label: string) => {
-  return label === "Accueil" ? 
-    <HomeIcon width={Platform.OS == "android" ? 30 : 35 } height={Platform.OS == "android" ? 30 : 35 } style={{color: focused ? "#3EB6BA" : "#ABABAE"}} /> 
-  :
-    <FontAwesomeIcon icon={icon} color={focused ? "#3EB6BA" : "#ABABAE"} size={Platform.OS == "android" ? 25 : 30 } />
+  switch (label) {
+    case "Commandes":
+      const { orderState } = useContext(OrderContext);
+      return orderState.length ? (
+        <View style={styles.iconContainer}>
+          <FontAwesomeIcon icon={icon} color={focused ? "#3EB6BA" : "#ABABAE"} size={Platform.OS == "android" ? 25 : 30 } />
+          <View style={styles.badge}>
+            <Text style={styles.badgeColor}>{orderState.length}</Text>
+          </View>
+        </View>
+      ) : <FontAwesomeIcon icon={icon} color={focused ? "#3EB6BA" : "#ABABAE"} size={Platform.OS == "android" ? 25 : 30 } />
+    case "Accueil":
+      return <HomeIcon width={Platform.OS == "android" ? 30 : 35 } height={Platform.OS == "android" ? 30 : 35 } style={{color: focused ? "#3EB6BA" : "#ABABAE"}} /> 
+    default:
+      return <FontAwesomeIcon icon={icon} color={focused ? "#3EB6BA" : "#ABABAE"} size={Platform.OS == "android" ? 25 : 30 } />
+  }
 }
 
 const customTabBarLabel = (focused: boolean, label: string) => <Text style={{ fontSize: 11, fontWeight: focused ? "bold" : "normal",  color: focused ? "#3EB6BA" : "#ABABAE" }}>{label}</Text>;
@@ -46,3 +60,25 @@ const BottomTabsNavigation: React.FC = () => (
 );
 
 export default BottomTabsNavigation;
+
+const styles = StyleSheet.create({
+  iconContainer: { 
+    flexDirection: "row" 
+  },
+  badge: { 
+    top: -7, 
+    right: -12, 
+    position: "absolute", 
+    justifyContent: "center", 
+    alignItems: "center", 
+    backgroundColor: colors.primary, 
+    width: 20, 
+    height: 20, 
+    borderRadius: 100 
+  },
+  badgeColor: { 
+    color: colors.white, 
+    fontSize: 10 
+  }
+});
+
