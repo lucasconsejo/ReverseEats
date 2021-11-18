@@ -10,10 +10,14 @@ import { DateContext } from '../../../context/dateProvider';
 import { CartContext } from '../../../context/cartProvider';
 import CartItem from '../restaurant/cart/CartItem';
 import CartBtn from '../restaurant/cart/CartBtn';
+import { OrderContext } from '../../../context/orderProvider';
+import uuid from 'react-native-uuid';
+import { Cart } from '../../../types/global.types';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);
     const { cartState } = useContext(CartContext);
+    const { orderState, orderDispatch } = useContext(OrderContext);
     const [user] = useUser();
 
     const calculTotal = cartState.reduce((a, b) => a + (b.totalPrice || 0), 0);
@@ -24,6 +28,25 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
             navigation.goBack();
         }
     }, [cartState])
+
+    const createOrder = () => {
+        orderDispatch({
+            type: "ADD_ORDER",
+            payload: {
+                id: uuid.v4(),
+                userID: user.id,
+                foods: cartState.map((cart) => cart.food),
+                restaurantID: cartState[0].restaurantId,
+                status: "En attente",
+                orderDate: new Date(),
+                total: calculTotalFrais
+            }
+        })
+        navigation.reset({
+            index: 0,
+                routes: [{ name: "PaymentRunning" }],
+        })
+    }
 
     return cartState.length ?(
         <View style={{ backgroundColor: colors.white, flex:1, justifyContent: "space-between"}}>
@@ -72,10 +95,7 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                         <Text style={{ fontSize: 18,  fontWeight: "600"}}>{calculTotalFrais.toFixed(2)} €</Text>
                     </View>
                 </View>
-                <CartBtn text="Valider la transaction" onPress={() => navigation.reset({
-                    index: 0,
-                        routes: [{ name: "PaymentRunning" }],
-                    })} />
+                <CartBtn text="Valider la transaction" onPress={createOrder} />
         </View>
     ) : null
 }

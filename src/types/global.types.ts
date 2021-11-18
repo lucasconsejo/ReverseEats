@@ -39,10 +39,10 @@ export type Restaurant = {
 export type Order = {
     id: string,
     userID: string,
-    plats: Array<{id: string, quantity: number}>,
+    foods: Food[],
     restaurantID: string,
     status: string,
-    orderDate: string,
+    orderDate: Date,
     total: number,
 }
 
