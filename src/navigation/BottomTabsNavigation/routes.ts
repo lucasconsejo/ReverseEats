@@ -2,6 +2,7 @@ import { faHome, faSearch, faShoppingCart, faUser, IconDefinition } from '@forta
 import Home from '../../screens/home/index';
 import Orders from '../../screens/orders';
 import Profil from '../../screens/profil';
+import Search from '../../screens/search';
 
 const TabsRoutes: Array<BottomTabsRoutesTypes> = [
     {
@@ -14,7 +15,7 @@ const TabsRoutes: Array<BottomTabsRoutesTypes> = [
       name: "SearchScreen",
       label: "Parcourir",
       icon: faSearch,
-      component: Home,
+      component: Search,
     },
     {
       name: "OrdersScreen",
