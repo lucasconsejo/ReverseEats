@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Logo from '../../../assets/light-logo.svg'
+import Navigation from '../../../navigation'
 import { colors } from '../../../theme/colors'
+import { ScreenProps } from '../../../types/props.types'
 
-const paiementRunning: React.FC = () => {
+const PaymentRunning: React.FC<ScreenProps> = ({ navigation }) => {
 
     useEffect( () => {
         setTimeout(()=>{
-            console.log("waited");
+            navigation.reset({
+                index: 0,
+                    routes: [{ name: "PaymentResult" }],
+            })
        }, 5000);
     }, [])
 
@@ -25,6 +30,6 @@ const paiementRunning: React.FC = () => {
     )
 }
 
-export default paiementRunning
+export default PaymentRunning
 
 const styles = StyleSheet.create({})

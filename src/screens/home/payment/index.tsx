@@ -12,7 +12,6 @@ import CartItem from '../restaurant/cart/CartItem';
 import CartBtn from '../restaurant/cart/CartBtn';
 import { OrderContext } from '../../../context/orderProvider';
 import uuid from 'react-native-uuid';
-import { Cart } from '../../../types/global.types';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);

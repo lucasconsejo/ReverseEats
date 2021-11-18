@@ -16,6 +16,7 @@ import Orders from '../screens/orders';
 import Food from '../screens/home/food';
 import Payment from '../screens/home/payment/';
 import PaymentRunning from '../screens/home/payment/paiementRunning';
+import PaymentResult from '../screens/home/payment/paymentResult';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
         {/* Paiements */}
         <Stack.Screen name="Payment" component={Payment}/>
         <Stack.Screen name="PaymentRunning" component={PaymentRunning}/>
+        <Stack.Screen name="PaymentResult" component={PaymentResult}/>
 
         {/* Orders */}
         <Stack.Screen name="Orders" component={Orders}/>
