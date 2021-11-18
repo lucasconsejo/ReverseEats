@@ -84,6 +84,7 @@ const Restaurant: React.FC<ScreenProps> = ({ navigation, route }) => {
                         {
                             !loading && (
                                 <MenuContainer
+                                    restaurantName={restaurant.name}
                                     startersResult={startersResult}
                                     mainCoursesResult={mainCoursesResult}
                                     dessertsResult={dessertsResult}

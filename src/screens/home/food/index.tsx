@@ -11,7 +11,7 @@ import Materials from './Materials';
 import Options from './Options';
 
 const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
-    const { food, cartId, quantity, options, openFromCart, restaurantId } = route.params
+    const { food, cartId, quantity, options, openFromCart, restaurantId, restaurantName } = route.params
     const { cartState, cartDispatch } = useContext(CartContext);
     const [nbOrder, setNbOrder] = useState<number>(quantity || 1);
     const [selectedOptions, setSelectedOptions] = useState<Array<string>>(options || []);
@@ -35,6 +35,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
             payload: {
                 id: uuid.v4(),
                 restaurantId: restaurantId,
+                restaurantName: restaurantName,
                 food: food,
                 totalPrice: total(food.price),
                 quantity: nbOrder,
@@ -51,6 +52,7 @@ const Food: React.FC<ScreenProps> = ({ navigation, route }) => {
                 id: cartId, 
                 food,
                 restaurantId: restaurantId,
+                restaurantName: restaurantName,
                 totalPrice: total(food.price),
                 quantity: nbOrder,
                 options: selectedOptions

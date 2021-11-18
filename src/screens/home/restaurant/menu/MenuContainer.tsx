@@ -3,12 +3,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import { MenuContainerProps } from '../../../../types/props.types'
 import MenuItems from './MenuItems'
 
-const MenuContainer: React.FC<MenuContainerProps> = ({ restaurantId, startersResult, mainCoursesResult, dessertsResult, comments, navigation }) => (
+const MenuContainer: React.FC<MenuContainerProps> = ({ restaurantId, restaurantName, startersResult, mainCoursesResult, dessertsResult, comments, navigation }) => (
     <View>
         <View style={styles.menuContainer}>
-            <MenuItems restaurantId={restaurantId} foods={startersResult} title="Entrées" navigation={navigation} />
-            <MenuItems restaurantId={restaurantId} foods={mainCoursesResult} title="Plats" navigation={navigation} />
-            <MenuItems restaurantId={restaurantId} foods={dessertsResult} title="Désserts" navigation={navigation} />
+            <MenuItems restaurantId={restaurantId} restaurantName={restaurantName} foods={startersResult} title="Entrées" navigation={navigation} />
+            <MenuItems restaurantId={restaurantId} restaurantName={restaurantName} foods={mainCoursesResult} title="Plats" navigation={navigation} />
+            <MenuItems restaurantId={restaurantId} restaurantName={restaurantName} foods={dessertsResult} title="Désserts" navigation={navigation} />
         </View>
         <View style={styles.comment}>
             <Text style={styles.commentTitle}>Commentaire du cuisinier</Text>

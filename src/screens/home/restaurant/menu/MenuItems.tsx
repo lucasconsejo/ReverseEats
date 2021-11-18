@@ -5,9 +5,9 @@ import { Food } from '../../../../types/global.types';
 import { MenuItemsProps } from '../../../../types/props.types';
 import MenuItem from './MenuItem';
 
-const MenuItems: React.FC<MenuItemsProps> = ({ restaurantId, foods, title, navigation }) => {
+const MenuItems: React.FC<MenuItemsProps> = ({ restaurantId, restaurantName, foods, title, navigation }) => {
     const onPress = (food: Food) => {
-        navigation.navigate("Food", { food, restaurantId });
+        navigation.navigate("Food", { food, restaurantId, restaurantName });
     }
     return (
         <View style={styles.container}>
