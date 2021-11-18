@@ -16,7 +16,7 @@ const PaymentResult: React.FC<ScreenProps> = ({ navigation }) => {
                     <PaymentValid/>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 20, fontFamily: "UberMoveMedium"}}>Paiment effectué avec succès</Text>
+                    <Text style={{ fontSize: 20, fontFamily: "UberMoveMedium"}}>Paiement effectué avec succès</Text>
                     <Text style={{ fontSize: 18, marginTop: 15}}>Vous allez être notifié quand le cuisinier se déplacera vers le lieu de rendez-vous.</Text>
                 </View>
             </View>

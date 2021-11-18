@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Logo from '../../../assets/light-logo.svg'
-import Navigation from '../../../navigation'
 import { colors } from '../../../theme/colors'
 import { ScreenProps } from '../../../types/props.types'
 

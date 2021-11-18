@@ -15,7 +15,7 @@ import uuid from 'react-native-uuid';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);
-    const { cartState } = useContext(CartContext);
+    const { cartState, cartDispatch } = useContext(CartContext);
     const { orderState, orderDispatch } = useContext(OrderContext);
     const [user] = useUser();
 
@@ -40,6 +40,9 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                 orderDate: new Date(),
                 total: calculTotalFrais
             }
+        })
+        cartDispatch({
+            type: "RESET_CART",
         })
         navigation.reset({
             index: 0,

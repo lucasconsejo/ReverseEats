@@ -13,6 +13,8 @@ export const cartReducer = (state: any, action: any) => {
         case "REMOVE_CART":
             const newState = state.filter((f:Cart) => f.id !== action.payload);
             return newState;
+        case "RESET_CART":
+            return [];
     default:
         return initState;
     }
