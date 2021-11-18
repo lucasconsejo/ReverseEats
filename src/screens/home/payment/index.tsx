@@ -72,7 +72,10 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                         <Text style={{ fontSize: 18,  fontWeight: "600"}}>{calculTotalFrais.toFixed(2)} €</Text>
                     </View>
                 </View>
-                <CartBtn text="Valider la transaction" onPress={() => console.log("ffpoaiegj")} />
+                <CartBtn text="Valider la transaction" onPress={() => navigation.reset({
+                    index: 0,
+                        routes: [{ name: "PaymentRunning" }],
+                    })} />
         </View>
     ) : null
 }
