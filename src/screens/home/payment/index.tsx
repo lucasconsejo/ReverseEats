@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { useContext, useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenProps } from '../../../types/props.types';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { colors } from '../../../theme/colors';
@@ -36,6 +35,7 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                             <FontAwesomeIcon icon={faArrowLeft} color={colors.black} size={30} />
                         </TouchableOpacity>
                         <Text style={styles.title}>Paiement</Text>
+                        <FontAwesomeIcon icon={faArrowLeft} color={colors.black} size={30} style={{ opacity: 0}}/> 
                     </View>
 
                     <View >
@@ -51,15 +51,14 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                     <Text style={{ fontSize: 22, fontFamily: "UberMoveMedium", marginBottom:6, marginHorizontal: 25}}>Résumé ({cartState.length})</Text>
                     <Text style={{ fontSize: 18, fontFamily: "UberMoveMedium", marginHorizontal: 25}}>{cartState[0].restaurantName}</Text>
                     
-                    <ScrollView style={{ marginTop: 20, maxHeight: 230}}>
+                    <ScrollView style={{ marginTop: 20, height: 230}}>
                         {cartState.map((item, index) => {
                             return (
-                                <CartItem item={item} navigation={navigation} />
+                                <CartItem item={item} key={index} navigation={navigation} />
                             );
                         })}
-
-                        
                     </ScrollView>
+
                     <View style={styles.sousTotal}>
                         <Text style={{ fontSize: 18}}>Sous total</Text>
                         <Text style={{ fontSize: 18 }}>{calculTotal.toFixed(2)} €</Text>
@@ -84,12 +83,13 @@ const styles = StyleSheet.create({
     header: {
         marginTop: 15,
         marginBottom: 30,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     arrow: {
-        marginTop: 0,
     },
     title: {
-        marginTop: -30,
         color: colors.black,
         fontFamily: "UberMoveMedium",
         fontSize: 30,
