@@ -31,7 +31,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                         theme="blackBtn" 
                         style={{}} 
                         title="Commander" 
-                        onPress={() => console.log("Go to Parcourir")}
+                        onPress={() => navigation.navigate("SearchScreen")}
                     />
                 </View>
             );
