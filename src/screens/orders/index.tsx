@@ -9,11 +9,12 @@ import Bowl from "../../assets/img/bowl.svg";
 import { OrderContext } from "../../context/orderProvider";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { getOrders } from "../../firebase/orderRequests";
-import { DateTime } from 'luxon';
+import { DateTime, Zone } from 'luxon';
 
 
 const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
+    const {orderState} = useContext(OrderContext);
     const [userOrders, setuserOrders] = useState([]);
     
     const getUserOrders = () => {
@@ -25,21 +26,74 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     }
 
     useEffect(() => {
+
         getUserOrders();
-    }, []);
+    }, [orderState]);
+
+    const getDateToString = (date: string) => {
+        const dateTime = DateTime.fromISO(date);
+        return dateTime.setLocale('fr').toLocaleString({ weekday: 'long', month: 'long', day: '2-digit'});
+    }
+
+    const statusToDisplay = (status: string) => { 
+        switch (status) {
+            case "En attente":
+                return (
+                    <View style={[statusStyles.enAttente, statusStyles.base]}>
+                        <Text style={{ 
+                        color: "#FD8415", 
+                        }}>{status}</Text>
+                    </View>
+                )
+            case "En cours":
+                return (
+                    <View style={[statusStyles.enCours, statusStyles.base]}>
+                        <Text style={{ 
+                        color: colors.primary, 
+                        }}>{status}</Text>
+                    </View>
+                ) 
+            case "Terminée":
+                return (
+                    <View style={[statusStyles.termine, statusStyles.base]}>
+                        <Text style={{ 
+                        color: colors.white, 
+                        }}>{status}</Text>
+                    </View>
+                ) 
+            case "Annulé":
+                return (
+                <View style={[statusStyles.annule, statusStyles.base]}>
+                    <Text style={{ 
+                    color: "#BA3E3E", 
+                    }}>{status}</Text>
+                </View>
+                ) 
+            default :
+                return (
+                <View style={[statusStyles.inconnu, statusStyles.base
+                    ]}>
+                    <Text style={{ 
+                    color: "#BA3E3E", 
+                    }}>Statut inconnu</Text> 
+                </View>
+            )
+            
+        }
+    }
 
     const dataToDisplay = () => {
         if(!userOrders.length) {
             return (
-                <View style={{alignItems: "center"}}>
+                <View style={{alignItems: "center", flex: 1, flexDirection: "column", justifyContent:"center"}}>
                     <Bowl/>
-                    <Text style={{ fontFamily: "UberMoveMedium", fontSize:23, paddingBottom: 12 }}>
+                    <Text style={{fontFamily: "UberMoveMedium", fontSize:23, paddingBottom: 12, height: 38 }}>
                         Aucune commande en cours
                         </Text>
                     <Text style={{ fontSize: 17, textAlign:"center", paddingBottom: 35}}>Commencez par ajouter des plats d’un restaurant.</Text>
             
                     <Button
-                        theme="blackBtn" 
+                        theme="blackBtn"  
                         style={{}} 
                         title="Commander" 
                         onPress={() => navigation.navigate("SearchScreen")}
@@ -50,6 +104,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
             return (
                 <ScrollView>
                     {userOrders.map((item, index) => {
+                        
                         return (
                             <View key={index} style={{ flex: 1,  
                                 flexDirection: "row", 
@@ -66,24 +121,11 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                                     flex: 3, 
                                     paddingRight: 25
                                     }}>
-                                    <Text style={{ fontSize: 18}} numberOfLines={1}>{item.restaurantName}</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.foods.length} plats</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.total} €</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.orderDate}</Text>
-                                    <View style={{ 
-                                        paddingHorizontal: 8, 
-                                        paddingVertical: 4, 
-                                        backgroundColor: 'rgba(253, 132, 21, 0.1)',
-                                        alignSelf: "flex-start",
-                                        borderRadius: 5
-                                        }}>
-                                        <Text style={{ 
-                                        color: "#FD8415", 
-                                        }}>{item.status}</Text>
-                                    </View>
+                                    <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
+                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
+                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
+                                    {statusToDisplay(item.status)}
                                 </View>
-
-                                
                             </View>
                         );
                     })}
@@ -94,7 +136,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex:1, backgroundColor: colors.white}}>
-            <View style={styles.container}>
+            <View style={{ flex: 1}}>
         
                 <View style={styles.header}>
                     <Text style={ styles.title }>Commandes</Text>
@@ -106,7 +148,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.content}>
+                <View style={{ flex: 1}}>
                     {dataToDisplay()}
                 </View>
             </View>
@@ -118,20 +160,39 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
 export default Orders;
 
 const styles = StyleSheet.create({
-    container: { 
-        
-    },
     header: { 
         flexDirection: "row", 
         justifyContent:"space-between", 
         alignItems:"center",
         marginTop: 20, 
-        marginHorizontal: 25
-    },
-    content: {
+        marginHorizontal: 25,
     },
     title: {
         fontFamily: "UberMoveBold",
         fontSize: 26,
+    }
+})
+
+const statusStyles = StyleSheet.create({
+    base: {
+        paddingHorizontal: 8, 
+        paddingVertical: 4, 
+        alignSelf: "flex-start",
+        borderRadius: 5
+    },
+    enAttente: {
+        backgroundColor: 'rgba(253, 132, 21, 0.1)',
+    },
+    enCours: {
+        backgroundColor: 'rgba(62, 182, 186, 0.1)',
+    },
+    termine: {
+        backgroundColor: colors.primary,
+    },
+    annule: {
+        backgroundColor: 'rgba(186, 62, 62, 0.1)',
+    },
+    inconnu: {
+        backgroundColor: 'rgba(170, 170, 170, 0.1)',
     }
 })
