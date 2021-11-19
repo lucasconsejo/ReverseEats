@@ -17,8 +17,6 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     const {orderState} = useContext(OrderContext);
     const [userOrders, setuserOrders] = useState([]);
     
-console.log(orderState)
-
     const getUserOrders = () => {
         getOrders(user.id)
         .then(res => res.json())
@@ -36,6 +34,54 @@ console.log(orderState)
         const dateTime = DateTime.fromISO(date);
         return dateTime.setLocale('fr').toLocaleString({ weekday: 'long', month: 'long', day: '2-digit'});
     }
+
+    const statusToDisplay = (status: string) => { 
+        switch (status) {
+            case "En attente":
+                return (
+                    <View style={[statusStyles.enAttente, statusStyles.base]}>
+                        <Text style={{ 
+                        color: "#FD8415", 
+                        }}>{status}</Text>
+                    </View>
+                )
+            case "En cours":
+                return (
+                    <View style={[statusStyles.enCours, statusStyles.base]}>
+                        <Text style={{ 
+                        color: colors.primary, 
+                        }}>{status}</Text>
+                    </View>
+                ) 
+            case "Terminée":
+                return (
+                    <View style={[statusStyles.termine, statusStyles.base]}>
+                        <Text style={{ 
+                        color: colors.white, 
+                        }}>{status}</Text>
+                    </View>
+                ) 
+            case "Annulé":
+                return (
+                <View style={[statusStyles.annule, statusStyles.base]}>
+                    <Text style={{ 
+                    color: "#BA3E3E", 
+                    }}>{status}</Text>
+                </View>
+                ) 
+            default :
+                return (
+                <View style={[statusStyles.inconnu, statusStyles.base
+                    ]}>
+                    <Text style={{ 
+                    color: "#BA3E3E", 
+                    }}>Statut inconnu</Text> 
+                </View>
+            )
+            
+        }
+    }
+
     const dataToDisplay = () => {
         if(!userOrders.length) {
             return (
@@ -47,7 +93,7 @@ console.log(orderState)
                     <Text style={{ fontSize: 17, textAlign:"center", paddingBottom: 35}}>Commencez par ajouter des plats d’un restaurant.</Text>
             
                     <Button
-                        theme="blackBtn" 
+                        theme="blackBtn"  
                         style={{}} 
                         title="Commander" 
                         onPress={() => navigation.navigate("SearchScreen")}
@@ -78,18 +124,7 @@ console.log(orderState)
                                     <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
                                     <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
                                     <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
-                                    <View style={{ 
-                                        marginTop: 4,
-                                        paddingHorizontal: 8, 
-                                        paddingVertical: 4, 
-                                        backgroundColor: 'rgba(253, 132, 21, 0.1)',
-                                        alignSelf: "flex-start",
-                                        borderRadius: 5
-                                        }}>
-                                        <Text style={{ 
-                                        color: "#FD8415", 
-                                        }}>{item.status}</Text>
-                                    </View>
+                                    {statusToDisplay(item.status)}
                                 </View>
                             </View>
                         );
@@ -135,5 +170,29 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: "UberMoveBold",
         fontSize: 26,
+    }
+})
+
+const statusStyles = StyleSheet.create({
+    base: {
+        paddingHorizontal: 8, 
+        paddingVertical: 4, 
+        alignSelf: "flex-start",
+        borderRadius: 5
+    },
+    enAttente: {
+        backgroundColor: 'rgba(253, 132, 21, 0.1)',
+    },
+    enCours: {
+        backgroundColor: 'rgba(62, 182, 186, 0.1)',
+    },
+    termine: {
+        backgroundColor: colors.primary,
+    },
+    annule: {
+        backgroundColor: 'rgba(186, 62, 62, 0.1)',
+    },
+    inconnu: {
+        backgroundColor: 'rgba(170, 170, 170, 0.1)',
     }
 })

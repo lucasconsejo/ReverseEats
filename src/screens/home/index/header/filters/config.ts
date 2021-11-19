@@ -15,7 +15,7 @@ export const filterItems = [
         img: Healthy
     },
     {
-        name: "Française",
+        name: "Français",
         img: French
     },
     {
@@ -23,7 +23,7 @@ export const filterItems = [
         img: Asian
     },
     {
-        name: "Italienne",
+        name: "Italien",
         img: Italian
     },
     {
