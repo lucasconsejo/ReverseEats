@@ -6,7 +6,6 @@ export const orderReducer = (state: any, action: any) => {
     switch (action.type) {
         case "ADD_ORDER":
             // Appel API recup commandes
-            console.log(action.payload);
             return [...state, action.payload];
         case "REMOVE_ORDER":
             // Appel API recup commandes

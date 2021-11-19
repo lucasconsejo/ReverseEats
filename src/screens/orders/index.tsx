@@ -9,13 +9,16 @@ import Bowl from "../../assets/img/bowl.svg";
 import { OrderContext } from "../../context/orderProvider";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { getOrders } from "../../firebase/orderRequests";
-import { DateTime } from 'luxon';
+import { DateTime, Zone } from 'luxon';
 
 
 const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
+    const {orderState} = useContext(OrderContext);
     const [userOrders, setuserOrders] = useState([]);
     
+console.log(orderState)
+
     const getUserOrders = () => {
         getOrders(user.id)
         .then(res => res.json())
@@ -25,15 +28,20 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     }
 
     useEffect(() => {
-        getUserOrders();
-    }, []);
 
+        getUserOrders();
+    }, [orderState]);
+
+    const getDateToString = (date: string) => {
+        const dateTime = DateTime.fromISO(date);
+        return dateTime.setLocale('fr').toLocaleString({ weekday: 'long', month: 'long', day: '2-digit'});
+    }
     const dataToDisplay = () => {
         if(!userOrders.length) {
             return (
-                <View style={{alignItems: "center"}}>
+                <View style={{alignItems: "center", flex: 1, flexDirection: "column", justifyContent:"center"}}>
                     <Bowl/>
-                    <Text style={{ fontFamily: "UberMoveMedium", fontSize:23, paddingBottom: 12 }}>
+                    <Text style={{fontFamily: "UberMoveMedium", fontSize:23, paddingBottom: 12, height: 38 }}>
                         Aucune commande en cours
                         </Text>
                     <Text style={{ fontSize: 17, textAlign:"center", paddingBottom: 35}}>Commencez par ajouter des plats d’un restaurant.</Text>
@@ -50,6 +58,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
             return (
                 <ScrollView>
                     {userOrders.map((item, index) => {
+                        
                         return (
                             <View key={index} style={{ flex: 1,  
                                 flexDirection: "row", 
@@ -66,11 +75,11 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                                     flex: 3, 
                                     paddingRight: 25
                                     }}>
-                                    <Text style={{ fontSize: 18}} numberOfLines={1}>{item.restaurantName}</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.foods.length} plats</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.total} €</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D"}}>{item.orderDate}</Text>
+                                    <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
+                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
+                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
                                     <View style={{ 
+                                        marginTop: 4,
                                         paddingHorizontal: 8, 
                                         paddingVertical: 4, 
                                         backgroundColor: 'rgba(253, 132, 21, 0.1)',
@@ -82,8 +91,6 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                                         }}>{item.status}</Text>
                                     </View>
                                 </View>
-
-                                
                             </View>
                         );
                     })}
@@ -94,7 +101,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex:1, backgroundColor: colors.white}}>
-            <View style={styles.container}>
+            <View style={{ flex: 1}}>
         
                 <View style={styles.header}>
                     <Text style={ styles.title }>Commandes</Text>
@@ -106,7 +113,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.content}>
+                <View style={{ flex: 1}}>
                     {dataToDisplay()}
                 </View>
             </View>
@@ -118,17 +125,12 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
 export default Orders;
 
 const styles = StyleSheet.create({
-    container: { 
-        
-    },
     header: { 
         flexDirection: "row", 
         justifyContent:"space-between", 
         alignItems:"center",
         marginTop: 20, 
-        marginHorizontal: 25
-    },
-    content: {
+        marginHorizontal: 25,
     },
     title: {
         fontFamily: "UberMoveBold",
