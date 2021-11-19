@@ -1,5 +1,6 @@
 {
   "expo": {
+    "entryPoint": "./Root.tsx",
     "name": "Reverse Eats",
     "slug": "reverseEats",
     "version": "1.0.0",

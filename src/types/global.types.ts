@@ -23,7 +23,8 @@ export type User = {
     address: string | null,
     firstName: string,
     lastName: string,
-    role: "customer" | "cook"
+    role: "customer" | "cook",
+    notifToken: string,
 }
 
 export type Restaurant = {

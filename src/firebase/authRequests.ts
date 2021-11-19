@@ -31,6 +31,17 @@ export const postUser = async (id: string, firstName:string, lastName:string, em
     return await fetch(`${API_URL}/users`, requestOptions);
 }
 
+export const patchUserNotifToken = async (id: string, token: string|undefined) => {
+    const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            notifToken: token
+        })
+    };
+    return await fetch(`${API_URL}/users?id=${id}`, requestOptions);
+}
+
 export const resetPassword = (email: string) => {
     const auth = getAuth();
     return sendPasswordResetEmail(auth, email);
