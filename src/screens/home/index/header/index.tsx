@@ -4,11 +4,12 @@ import { View, StyleSheet, Text, Animated } from "react-native";
 import useUser from '../../../../hooks/useUser';
 import { colors } from '../../../../theme/colors';
 import Filters from "./filters";
-import { faEllipsisV, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { HeaderProps } from '../../../../types/props.types';
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ selectedCategory, setSelectedCategory }) => {
     const navigation: NavigationProp<ReactNavigation.RootParamList|any> = useNavigation();
     const [user] = useUser();
     const [animation, setAnimation] = useState<any>(new Animated.Value(0));
@@ -59,7 +60,7 @@ const Header: React.FC = () => {
                 </TouchableOpacity>
             </View>
             <View style={styles.filters}>
-                <Filters />
+                <Filters selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
             </View>
         </View>
     );
@@ -90,6 +91,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     filters: {
-        marginVertical: 15
+        marginTop: 10
     }
 })

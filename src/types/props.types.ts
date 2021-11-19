@@ -140,3 +140,13 @@ export type TitleRenderProps = {
 export type BackgroundRenderProps = {
     cover: string
 }
+
+export type FiltersProps = {
+    selectedCategory: string,
+    setSelectedCategory: any
+}
+
+export type HeaderProps = {
+    selectedCategory: string,
+    setSelectedCategory: any
+}

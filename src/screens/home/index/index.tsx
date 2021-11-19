@@ -16,6 +16,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState, dateDispatch } = useContext(DateContext);
     const [loading, setLoading] = useState<boolean>(true);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>("all");
     
     useEffect(() => {
         getCacheUser()
@@ -42,6 +43,10 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         onRefresh()
     }, [user?.address])
 
+    useEffect(() => {
+        onRefresh()
+    }, [selectedCategory])
+
     const onRefresh = () => {
         setLoading(true)
         if (dateState.date.diffNow("minute").minutes < 0) {
@@ -56,7 +61,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         }
         const address = `${user?.address}`;
         if (address.length && address !== "undefined") {
-            getRestaurants()
+            getRestaurants(selectedCategory)
             .then(res => res.json())
             .then(res => setRestaurants(res.data))
             .finally(() => setLoading(false));
@@ -78,7 +83,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
                     style={{ backgroundColor: colors.background}}
                     refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
                 >
-                    <Header />
+                    <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
                     {showRestaurant()}
                 </ScrollView>
             </SafeAreaView>
