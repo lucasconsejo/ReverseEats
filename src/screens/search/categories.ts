@@ -3,7 +3,7 @@ export const categories = [{
     img: "https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
 },
 {
-    name: "Française",
+    name: "Français",
     img: "https://images.pexels.com/photos/8350198/pexels-photo-8350198.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 },
 {
@@ -11,11 +11,11 @@ export const categories = [{
     img: "https://images.pexels.com/photos/6646369/pexels-photo-6646369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 },
 {
-    name: "Italienne",
+    name: "Italien",
     img: "https://images.pexels.com/photos/6287534/pexels-photo-6287534.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 },
 {
-    name: "Américaine",
+    name: "Américain",
     img: "https://images.pexels.com/photos/3023479/pexels-photo-3023479.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
 },
 {
