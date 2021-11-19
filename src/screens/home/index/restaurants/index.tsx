@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { HomeRestaurantsProps } from '../../../../types/props.types';
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions } from 'react-native';
+import { HomeRestaurantProps, HomeRestaurantsProps } from '../../../../types/props.types';
 import Thai from "../../../../assets/icons/thai.png"
 import TimeIcon from "../../../../assets/icons/time.png"
 import { colors } from '../../../../theme/colors';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { CartContext } from '../../../../context/cartProvider';
+import Header from '../header/index';
 
-const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants }) => (!restaurants.length) ? <NoResults /> : <RestaurantsList restaurants={restaurants} />;
+const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants, loading, selectedCategory, setSelectedCategory, onRefresh, loadMore }) => (!restaurants.length) ? <NoResults /> : <RestaurantsContainer restaurants={restaurants} loading={loading} onRefresh={onRefresh} loadMore={loadMore} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>;
 
 const NoResults: React.FC = () => (
     <View style={styles.container}>
@@ -19,12 +20,28 @@ const NoResults: React.FC = () => (
     </View>
 )
 
-const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => {
+const RestaurantsContainer: React.FC<HomeRestaurantsProps>  = ({ restaurants, loading, onRefresh, loadMore, selectedCategory, setSelectedCategory }) => (
+    <FlatList
+        style={{ height: "100%" }}
+        data={restaurants}
+        nestedScrollEnabled
+        ListHeaderComponent={<Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />}
+        keyExtractor={(item, index) => index.toString()}
+        refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
+        onEndReached={loadMore}
+        onEndReachedThreshold ={0.2}
+        renderItem={({item, index}) => (
+            <RestaurantItem restaurant={item} />
+        )}
+    />
+)
+
+const RestaurantItem: React.FC<HomeRestaurantProps> = ({ restaurant }) => {
     const navigation: NavigationProp<ReactNavigation.RootParamList|any> = useNavigation();
     const { cartState } = useContext(CartContext);
     const nbFood = cartState.reduce((a, b) => a + (b.quantity || 0), 0);
 
-    const onPress = (restaurant: object) => {
+    const onPress = () => {
         navigation.navigate("Restaurant", {
             restaurant,
         });
@@ -41,40 +58,32 @@ const RestaurantsList: React.FC<HomeRestaurantsProps> = ({ restaurants }) => {
     }
 
     return (
-        <View>
-            {
-                restaurants.map((item, index) => {
-                    return (
-                        <TouchableOpacity style={styles.restaurant} key={index} onPress={() => onPress(item)}>
-                            <View>
-                                <View style={{ position: "relative" }}>
-                                    <Image style={{ height: 150 }} source={{ uri: item.cover }}/>
-                                    {SelectedCart(item.id)}
-                                </View>
-                                <View style={styles.restaurantsContainer}>
-                                    <View style={styles.restaurantsHeader}>
-                                        <Text style={styles.restaurantTitle}>{item.name}</Text>
-                                        <Text style={styles.cook}>par {item.cook}</Text>
-                                    </View>
-                                    <View style={styles.opinion}>
-                                        <Text style={styles.textOpinion}>{item.note}</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.moreInfos}>
-                                    <View style={styles.duration}>
-                                        <Image source={TimeIcon}/>
-                                        <Text style={styles.textDuration}>{item.duration}</Text>
-                                    </View>
-                                    <View style={styles.tag}>
-                                        <Text style={styles.textTag}>{item.category}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                })
-            }
-        </View>
+        <TouchableOpacity style={styles.restaurant} onPress={onPress}>
+            <View>
+                <View style={{ position: "relative" }}>
+                    <Image style={{ height: 150 }} source={{ uri: restaurant.cover }}/>
+                    {SelectedCart(restaurant.id)}
+                </View>
+                <View style={styles.restaurantsContainer}>
+                    <View style={styles.restaurantsHeader}>
+                        <Text style={styles.restaurantTitle}>{restaurant.name}</Text>
+                        <Text style={styles.cook}>par {restaurant.cook}</Text>
+                    </View>
+                    <View style={styles.opinion}>
+                        <Text style={styles.textOpinion}>{restaurant.note}</Text>
+                    </View>
+                </View>
+                <View style={styles.moreInfos}>
+                    <View style={styles.duration}>
+                        <Image source={TimeIcon}/>
+                        <Text style={styles.textDuration}>{restaurant.duration}</Text>
+                    </View>
+                    <View style={styles.tag}>
+                        <Text style={styles.textTag}>{restaurant.category}</Text>
+                    </View>
+                </View>
+            </View>
+        </TouchableOpacity>
     )   
 }
 
@@ -82,7 +91,7 @@ export default Restaurants;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        height: "100%",
         alignItems: "center",
         backgroundColor: colors.background
     },

@@ -26,7 +26,15 @@ export type InputProps = {
 }
 
 export type HomeRestaurantsProps = {
-    restaurants: Array<Restaurant>
+    restaurants: Array<Restaurant>,
+    selectedCategory: string, 
+    loading: boolean,
+    setSelectedCategory: any,
+    onRefresh: any,
+    loadMore: any
+}
+export type HomeRestaurantProps = {
+    restaurant: Restaurant
 }
 
 export type SelectDateTimeProps = {

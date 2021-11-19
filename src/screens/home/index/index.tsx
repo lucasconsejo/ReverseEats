@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { StyleSheet, SafeAreaView, ScrollView, View, RefreshControl, StatusBar } from 'react-native'
+import { StyleSheet, SafeAreaView, View, StatusBar } from 'react-native'
 import { ScreenProps } from "../../../types/props.types"
 import { colors } from '../../../theme/colors';
 import Header from "./header"
@@ -17,6 +17,8 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
+    const [page, setPage] = useState<number>(0);
+    const [limit, setLimit] = useState<number>(10);
     
     useEffect(() => {
         getCacheUser()
@@ -40,6 +42,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     }, [])
 
     useEffect(() => {
+        setPage(0)
         onRefresh()
     }, [user?.address])
 
@@ -61,7 +64,7 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         }
         const address = `${user?.address}`;
         if (address.length && address !== "undefined") {
-            getRestaurants(selectedCategory)
+            getRestaurants(selectedCategory, page, limit)
             .then(res => res.json())
             .then(res => setRestaurants(res.data))
             .finally(() => setLoading(false));
@@ -71,21 +74,27 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         }
     }
 
+    const loadMore = () => {
+        // setPage((prev) => prev +1);
+        // onRefresh();
+    }
+
     const showRestaurant = () => {
-        return loading ? <View /> : <Restaurants restaurants={restaurants} />
+        return loading ? <View /> : <Restaurants restaurants={restaurants} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} loading={loading} onRefresh={onRefresh} loadMore={loadMore} />
     }
 
     if (user && user.role === "customer") {
         return (
             <SafeAreaView style={styles.view}>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-                <ScrollView  
-                    style={{ backgroundColor: colors.background}}
-                    refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
-                >
-                    <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-                    {showRestaurant()}
-                </ScrollView>
+                <View style={{ backgroundColor: colors.background}}>
+                    <View style={{ position: restaurants.length ? "absolute": "relative" }}>
+                        <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+                    </View>
+                    <View style={{ backgroundColor: colors.background}}>
+                        {showRestaurant()}
+                    </View>
+                </View>
             </SafeAreaView>
         );
     }
