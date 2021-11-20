@@ -40,10 +40,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#122828"
-      }
+      },
+      "package": "com.lunoxo.reverseEats",
+      "googleServicesFile": "./google-services.json"
+    },
+    "notification": {
+      "icon": "./assets/icon_notification.png",
+      "color": "#3EB6BA",
+      "iosDisplayInForeground": true,
+      "androidMode": "default"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

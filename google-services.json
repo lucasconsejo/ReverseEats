@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219707143145",
+    "project_id": "reverse-eats",
+    "storage_bucket": "reverse-eats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219707143145:android:d96c3df7e54e56d8461178",
+        "android_client_info": {
+          "package_name": "com.lunoxo.reverseEats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219707143145-8u0gf2rajp2jo53im49v5jg7pu3969v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfS1cpP-3oV2Kdbn3qcjwIcewDomlADBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219707143145-8u0gf2rajp2jo53im49v5jg7pu3969v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
