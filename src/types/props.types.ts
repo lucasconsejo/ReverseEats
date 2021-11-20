@@ -37,6 +37,10 @@ export type HomeRestaurantProps = {
     restaurant: Restaurant
 }
 
+export type NoResultsProps = {
+    loading: boolean
+}
+
 export type SelectDateTimeProps = {
     type: "date" | "time",
     icon: IconDefinition

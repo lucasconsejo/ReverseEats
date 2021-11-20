@@ -4,14 +4,9 @@ import { getApps, initializeApp } from 'firebase/app';
 import firebaseConfig from './src/firebase/firebaseConfig';
 import useCachedResources from './src/hooks/useCachedResources';
 import Navigation from './src/navigation';
-import { clearCacheUser, getCacheUser, setCacheUser } from './src/cache/user';
-import UserProvider from './src/context/userProvider';
-import DateProvider from './src/context/dateProvider';
-import OrderProvider from './src/context/orderProvider';
-import CartProvider from './src/context/cartProvider';
+import { getCacheUser, setCacheUser } from './src/cache/user';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
-import { async } from '@firebase/util';
 import { patchUserNotifToken } from './src/firebase/authRequests';
 import useUser from './src/hooks/useUser';
 

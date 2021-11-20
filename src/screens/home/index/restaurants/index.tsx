@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, RefreshControl, Dimensions } from 'react-native';
-import { HomeRestaurantProps, HomeRestaurantsProps } from '../../../../types/props.types';
+import { HomeRestaurantProps, HomeRestaurantsProps, NoResultsProps } from '../../../../types/props.types';
 import Thai from "../../../../assets/icons/thai.png"
 import TimeIcon from "../../../../assets/icons/time.png"
 import { colors } from '../../../../theme/colors';
@@ -8,28 +8,17 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { CartContext } from '../../../../context/cartProvider';
 import Header from '../header/index';
 
-const Restaurants: React.FC<HomeRestaurantsProps> = ({ restaurants, loading, selectedCategory, setSelectedCategory, onRefresh, loadMore }) => (!restaurants.length) ? <NoResults /> : <RestaurantsContainer restaurants={restaurants} loading={loading} onRefresh={onRefresh} loadMore={loadMore} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>;
-
-const NoResults: React.FC = () => (
-    <View style={styles.container}>
-        <View style={styles.img}>
-            <Image source={Thai} style={{ width: 150, height: 150 }}/>
-        </View>
-        <Text style={styles.title}>Aucun résultat trouvé</Text>
-        <Text style={styles.subTitle}>Modifiez les options de livraison pour trouver plus de résultats.</Text>
-    </View>
-)
-
-const RestaurantsContainer: React.FC<HomeRestaurantsProps>  = ({ restaurants, loading, onRefresh, loadMore, selectedCategory, setSelectedCategory }) => (
+const Restaurants: React.FC<HomeRestaurantsProps>  = ({ restaurants, loading, onRefresh, loadMore, selectedCategory, setSelectedCategory }) => (
     <FlatList
-        style={{ height: "100%" }}
+        style={{ flex: 1 }}
         data={restaurants}
-        nestedScrollEnabled
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<NoResults loading={loading} />}
         ListHeaderComponent={<Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />}
         keyExtractor={(item, index) => index.toString()}
         refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
         onEndReached={loadMore}
-        onEndReachedThreshold ={0.2}
+        onEndReachedThreshold={0.5}
         renderItem={({item, index}) => (
             <RestaurantItem restaurant={item} />
         )}
@@ -86,7 +75,19 @@ const RestaurantItem: React.FC<HomeRestaurantProps> = ({ restaurant }) => {
         </TouchableOpacity>
     )   
 }
-
+const NoResults: React.FC<NoResultsProps> = ({ loading }) => {
+    return !loading ? 
+    (
+        <View style={styles.container}>
+            <View style={styles.img}>
+                <Image source={Thai} style={{ width: 150, height: 150 }}/>
+            </View>
+            <Text style={styles.title}>Aucun résultat trouvé</Text>
+            <Text style={styles.subTitle}>Modifiez les options de livraison pour trouver plus de résultats.</Text>
+        </View>
+    )
+    : <View />
+}
 export default Restaurants;
 
 const styles = StyleSheet.create({
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     restaurant: {
         backgroundColor: colors.white,
         paddingHorizontal: 20,
-        marginTop: 10,
+        marginVertical: 5,
         paddingVertical: 10,
     },
     backgroundImg: {

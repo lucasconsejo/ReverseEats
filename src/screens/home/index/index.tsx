@@ -18,7 +18,6 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("all");
     const [page, setPage] = useState<number>(0);
-    const [limit, setLimit] = useState<number>(10);
     
     useEffect(() => {
         getCacheUser()
@@ -38,19 +37,11 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        onRefresh()
-    }, [])
-
-    useEffect(() => {
-        setPage(0)
-        onRefresh()
-    }, [user?.address])
-
-    useEffect(() => {
+        setRestaurants([])
         onRefresh()
     }, [selectedCategory])
 
-    const onRefresh = () => {
+    const onRefresh = (page: number = 0) => {
         setLoading(true)
         if (dateState.date.diffNow("minute").minutes < 0) {
             const now = DateTime.now().setLocale("fr");
@@ -64,37 +55,26 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         }
         const address = `${user?.address}`;
         if (address.length && address !== "undefined") {
-            getRestaurants(selectedCategory, page, limit)
+            getRestaurants(selectedCategory, page, 10)
             .then(res => res.json())
-            .then(res => setRestaurants(res.data))
+            .then(res => setRestaurants((prev) => page === 0 ? res.data : [...prev, ...res.data]))
             .finally(() => setLoading(false));
         } else {
             setRestaurants([]);
             setLoading(false)
         }
+        setPage(page)
     }
 
     const loadMore = () => {
-        // setPage((prev) => prev +1);
-        // onRefresh();
-    }
-
-    const showRestaurant = () => {
-        return loading ? <View /> : <Restaurants restaurants={restaurants} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} loading={loading} onRefresh={onRefresh} loadMore={loadMore} />
+        onRefresh(page+1)
     }
 
     if (user && user.role === "customer") {
         return (
             <SafeAreaView style={styles.view}>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-                <View style={{ backgroundColor: colors.background}}>
-                    <View style={{ position: restaurants.length ? "absolute": "relative" }}>
-                        <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
-                    </View>
-                    <View style={{ backgroundColor: colors.background}}>
-                        {showRestaurant()}
-                    </View>
-                </View>
+                <Restaurants restaurants={restaurants} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} loading={loading} onRefresh={onRefresh} loadMore={loadMore} />
             </SafeAreaView>
         );
     }
@@ -106,6 +86,6 @@ export default Home;
 const styles = StyleSheet.create({
     view: {
         flex: 1,
-        backgroundColor: colors.white
+        backgroundColor: colors.background
     },
 });
