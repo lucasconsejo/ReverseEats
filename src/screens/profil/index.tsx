@@ -1,16 +1,25 @@
-import React from "react"
-import { Text, View, StyleSheet, StatusBar, Image } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import React, { useEffect } from "react"
+import { Text, View, StyleSheet, StatusBar, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { ScreenProps } from "../../types/props.types"
 import { clearCacheUser } from "../../cache/user";
 import { colors } from "../../theme/colors";
 import Button from "../../theme/buttons";
 import useUser from "../../hooks/useUser";
 import Profile from "../../assets/img/Profile.svg";
-
+import { patchUserAvatar } from "../../firebase/authRequests";
 
 const Profil: React.FC<ScreenProps> = ({ navigation }) => {
     const [user, userDispatch] = useUser();
+
+    useEffect(() => {
+        (async () => {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Désolé, nous avons besoin des autorisations de pellicule pour que cela fonctionne !');
+            }
+        })();
+    }, []);
 
     const logout = () => {
         clearCacheUser();
@@ -58,6 +67,29 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
             }
         }
     }
+    
+    const selectAvatar = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            const avatar = result.base64;
+            patchUserAvatar(user.id, avatar)
+            .then(res => res.json())
+            .then((res: any) => {
+                userDispatch({
+                    type: "UPDATE_USER_AVATAR",
+                    payload: res.data.avatar
+                });
+            })
+            .catch(err => console.log(err))
+        }
+    };
 
     if (user) {
         return (
@@ -66,7 +98,19 @@ const Profil: React.FC<ScreenProps> = ({ navigation }) => {
 
                 <View style={{ marginHorizontal: 30, marginTop: 80}}>
                     <View style={{alignItems: "center"}}>
-                        <Profile style={{ marginBottom: 20 }}/>
+                        <TouchableOpacity onPress={selectAvatar}>
+                            {
+                                user?.avatar ? (
+                                    <Image 
+                                        resizeMode="cover"
+                                        source={{ uri: user?.avatar }} 
+                                        style={{ height: 105, width: 105, backgroundColor: colors.lightGray, marginBottom: 20, borderRadius: 100  }} 
+                                        width={105}
+                                        height={105}
+                                    />
+                                ) : <Profile style={{ marginBottom: 20 }}/>
+                            }
+                        </TouchableOpacity>
                         <Text style={styles.name}>{user!.firstName} {user!.lastName}</Text>
                         <Button 
                             theme="secondary" 

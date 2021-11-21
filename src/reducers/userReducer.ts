@@ -16,6 +16,15 @@ export const userReducer = (state: any, action: any) => {
             ...state, 
             address: action.payload
         };
+    case "UPDATE_USER_AVATAR": 
+        setCacheUser({ 
+            ...state, 
+            avatar: action.payload
+        });
+        return { 
+            ...state,
+            avatar: action.payload
+        };
     case "REMOVE_USER":
         clearCacheUser();
         return null;

@@ -42,6 +42,17 @@ export const patchUserNotifToken = async (id: string, token: string|undefined) =
     return await fetch(`${API_URL}/users?id=${id}`, requestOptions);
 }
 
+export const patchUserAvatar = async (id: string, avatar: string | undefined) => {
+    const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            avatar: avatar
+        })
+    };
+    return await fetch(`${API_URL}/users?id=${id}`, requestOptions);
+}
+
 export const resetPassword = (email: string) => {
     const auth = getAuth();
     return sendPasswordResetEmail(auth, email);

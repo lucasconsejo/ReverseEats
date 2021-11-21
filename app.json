@@ -50,6 +50,14 @@
       "iosDisplayInForeground": true,
       "androidMode": "default"
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'application accède à vos photos pour que vous puissiez modifier votre photo de profil."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     },
