@@ -48,6 +48,7 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
                 index: 0,
                     routes: [{ name: "Home" }],
                 });
+                setLoading(false);
             });
         })
         .catch(err => {
@@ -60,8 +61,8 @@ const Login: React.FC<ScreenProps> = ({ navigation }) => {
             else {
                 setMsgError(err.message);
             }
+            setLoading(false)
         })
-        .finally(() => setLoading(false));
     });
 
     const handleError = () => {
