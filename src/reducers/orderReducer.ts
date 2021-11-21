@@ -4,6 +4,8 @@ export const initState = [];
 
 export const orderReducer = (state: any, action: any) => {
     switch (action.type) {
+        case "INIT_ORDER": 
+            return [...action.payload];
         case "ADD_ORDER":
             // Appel API recup commandes
             return [...state, action.payload];

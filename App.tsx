@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Constants from 'expo-constants';
 import { getApps, initializeApp } from 'firebase/app';
 import firebaseConfig from './src/firebase/firebaseConfig';
@@ -9,6 +9,8 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { patchUserNotifToken } from './src/firebase/authRequests';
 import useUser from './src/hooks/useUser';
+import { OrderContext } from './src/context/orderProvider';
+import { getOrders } from './src/firebase/orderRequests';
 
 if (!getApps().length) {
   initializeApp(firebaseConfig);
@@ -25,6 +27,7 @@ Notifications.setNotificationHandler({
 const App: React.FC = () => {
   const [defaultRoute, setDefaultRoute] = useState<string>("Login");
   const isLoadingComplete = useCachedResources();
+  const { orderDispatch } = useContext(OrderContext);
   const [user, userDispatch] = useUser();
   // Notifications
   const [expoPushToken, setExpoPushToken] = useState<string|undefined>('');
@@ -36,12 +39,23 @@ const App: React.FC = () => {
     getCacheUser()
     .then((res: any) => {
       if (res?.length) {
+        const data = JSON.parse(res);
         userDispatch({ 
           type: "ADD_USER",
-          payload: JSON.parse(res)
+          payload: data
         })
-        setDefaultRoute("Home");
-        }
+        getOrders(data.id)
+        .then(res => res.json())
+        .then((res: any) => {
+          if (res.data.length) {
+            orderDispatch({
+              type: "INIT_ORDER",
+              payload: res.data,
+            })
+          }
+          setDefaultRoute("Home");
+        })
+      }
     });
   }, []);
 

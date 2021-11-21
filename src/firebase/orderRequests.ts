@@ -20,6 +20,5 @@ export const postOrder = async (order: Order) => {
 }
 
 export const getOrders = async (id: string) => {
-    const parseArray = JSON.stringify(id);
     return await fetch(`${API_URL}/orders?userId=${id}`);
 }
