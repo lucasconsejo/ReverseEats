@@ -25,6 +25,8 @@ export type User = {
     lastName: string,
     role: "customer" | "cook",
     notifToken: string,
+    long: number | null,
+    lat: number | null,
 }
 
 export type Restaurant = {
@@ -45,6 +47,9 @@ export type Order = {
     restaurantName: string,
     status: string,
     orderDate: Date,
+    address: string,
+    long: number,
+    lat: number,
     total: number,
 }
 

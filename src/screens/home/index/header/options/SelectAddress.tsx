@@ -28,6 +28,8 @@ const SelectAddress: React.FC = () => {
                             address: f.properties.name,
                             zipCode: f.properties.postcode,
                             city: f.properties.city,
+                            long: f.geometry.coordinates[0],
+                            lat: f.geometry.coordinates[1]
                         })
                     });
                     setAddress(apiData);
@@ -50,13 +52,17 @@ const SelectAddress: React.FC = () => {
         setText(isAddress ? user.address : "Veuillez saisir une adresse");
     }, [isAddress])
 
-    const handleClick = (address: string) => {
-        updateAddress(user.id, address)
+    const handleClick = (address: string, lat: number, long: number) => {
+        updateAddress(user.id, address, lat, long)
         .then(() => {
             setInput(address);
             userDispatch({ 
                 type: "UPDATE_USER_ADDRESS",
-                payload: address
+                payload: {
+                    address,
+                    lat,
+                    long
+                }
             });
             setAddress([]);
         })
@@ -95,7 +101,7 @@ const SelectAddress: React.FC = () => {
                 showInput && (
                     <ScrollView>
                         {address.map((item, index) => (
-                            <TouchableOpacity style={[styles.addressItem, {borderBottomWidth: address.length -1 == index ? 0 : 1}]} key={item.id} onPress={() => handleClick(`${item.address} ${item.zipCode} ${item.city}`)}>
+                            <TouchableOpacity style={[styles.addressItem, {borderBottomWidth: address.length -1 == index ? 0 : 1}]} key={item.id} onPress={() => handleClick(`${item.address} ${item.zipCode} ${item.city}`, item.lat, item.long)}>
                                 <Text style={styles.address}>{item.address}</Text>
                                 <Text style={styles.city}>{item.zipCode} {item.city}</Text>
                             </TouchableOpacity>

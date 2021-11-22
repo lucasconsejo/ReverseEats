@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Animated, RefreshControl } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Animated, RefreshControl, ScrollView } from 'react-native'
 import { colors } from '../../theme/colors';
 import { ScreenProps } from '../../types/props.types';
 import { capitalizeFirstLetter } from '../../utils/utils';
@@ -11,6 +10,7 @@ import French from "../../assets/icons/french.png"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { getOrder } from '../../firebase/orderRequests';
+import MapView, { Marker } from 'react-native-maps';
 
 const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { order } = route.params;
@@ -53,6 +53,43 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
         .catch(() => setLoading(false))
     }
 
+    const renderMaps = (status: string) => {
+        var markers = [
+            {
+              latitude: orderState.lat,
+              longitude: orderState.long,
+              title: 'Lieu du rendez-vous',
+              description: orderState.address
+            }
+        ];
+        return status === "En route" ? 
+            <MapView style={{ flex: 1 }} 
+                initialRegion={{
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                    latitude: orderState.lat,
+                    longitude: orderState.long,
+                }}
+            >
+                {markers.map((item, index) => (
+                    <Marker 
+                        key={index} 
+                        coordinate={{ latitude: item.latitude,longitude: item.longitude }}
+                        title={item.title}
+                        description={item.description}/>
+                ))}
+            </MapView>
+         : (
+            <View style={styles.contentStatus}>
+                <View style={styles.statusImg}>
+                    <Image source={getStatusImgRender(orderState.status)} style={{ width: 150, height: 150 }}/>
+                </View>
+                <Text style={styles.statusTitle}>{getStatusTitleRender(orderState.status)}</Text>
+                <Text style={styles.statusSubTitle}>{getStatusSubTitleRender(orderState.status)}</Text>
+            </View> 
+        )
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
             <View style={styles.header}>
@@ -86,13 +123,7 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
                 refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
             >
                 <View style={styles.content}>
-                    <View style={styles.contentStatus}>
-                        <View style={styles.statusImg}>
-                            <Image source={getStatusImgRender(orderState.status)} style={{ width: 150, height: 150 }}/>
-                        </View>
-                        <Text style={styles.statusTitle}>{getStatusTitleRender(orderState.status)}</Text>
-                        <Text style={styles.statusSubTitle}>{getStatusSubTitleRender(orderState.status)}</Text>
-                    </View>  
+                   {renderMaps(orderState.status)} 
                 </View>
                 <View style={styles.infos}>
                     <View style={styles.titleContainer}>

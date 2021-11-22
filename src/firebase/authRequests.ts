@@ -15,7 +15,7 @@ export const createUser = (email:string, password:string) => {
     return createUserWithEmailAndPassword(auth, email, password); 
 }
 
-export const postUser = async (id: string, firstName:string, lastName:string, email:string, role:string, address:string|null) => {
+export const postUser = async (id: string, firstName:string, lastName:string, email:string, role:string, address:string|null, lat: number|null, long:number|null) => {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,6 +26,8 @@ export const postUser = async (id: string, firstName:string, lastName:string, em
             email: email,
             role: role,
             address: address,
+            long: long,
+            lat: lat
         })
     };
     return await fetch(`${API_URL}/users`, requestOptions);

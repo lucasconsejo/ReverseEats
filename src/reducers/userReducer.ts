@@ -10,11 +10,15 @@ export const userReducer = (state: any, action: any) => {
     case "UPDATE_USER_ADDRESS": 
         setCacheUser({ 
             ...state, 
-            address: action.payload
+            address: action.payload.address,
+            lat: action.payload.lat,
+            long: action.payload.long
         });
         return { 
             ...state, 
-            address: action.payload
+            address: action.payload.address,
+            lat: action.payload.lat,
+            long: action.payload.long
         };
     case "UPDATE_USER_AVATAR": 
         setCacheUser({ 

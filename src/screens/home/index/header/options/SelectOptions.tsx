@@ -1,14 +1,12 @@
 import { faArrowLeft, faClock, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useContext, useState } from "react";
-import { TouchableOpacity, StatusBar, View, StyleSheet, Text, Platform } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, SafeAreaView, TouchableOpacity, StatusBar, View, StyleSheet, Text, Platform } from 'react-native';
 import { colors } from "../../../../../theme/colors";
 import { ScreenProps } from "../../../../../types/props.types";
 import SelectAddress from "./SelectAddress";
 import SelectDateTime from "./SelectDateTime";
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { ScrollView } from "react-native-gesture-handler";
 import { DateContext } from "../../../../../context/dateProvider";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { capitalizeFirstLetter } from "../../../../../utils/utils";

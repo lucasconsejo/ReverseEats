@@ -32,6 +32,9 @@ const PaymentRunning: React.FC<ScreenProps> = ({ navigation }) => {
                     options: cart.options,
                     quantity: cart.quantity
                 }}),
+            address: user.address,
+            lat: user.lat,
+            long: user.long,
             restaurantID: cartState[0].restaurantId,
             restaurantName: cartState[0].restaurantName,
             status: "En attente",

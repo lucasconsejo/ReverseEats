@@ -67,10 +67,12 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
             .then(res => {
                 if(res.features.length == 1 && res.features[0].properties.label === input){
                     createUser(email, password)
-                    .then(res => {
+                    .then((res: any) => {
                         const id = res.user.uid;
+                        const lat = res.features[0].geometry.coordinates[1]
+                        const long = res.features[0].geometry.coordinates[0]
                         const bddRole = role === "Client" ? "customer" : "cook";
-                        postUser(id, firstName, lastName, email, bddRole, input)
+                        postUser(id, firstName, lastName, email, bddRole, input, lat, long)
                         .then(() => {
                             navigation.reset({
                                 index: 0,
@@ -100,7 +102,7 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
             .then(res => {
                 const id = res.user.uid;
                 const bddRole = role === "Client" ? "customer" : "cook";
-                postUser(id, firstName, lastName, email, bddRole, null)
+                postUser(id, firstName, lastName, email, bddRole, null, null, null)
                 .then(() => {
                     navigation.reset({
                         index: 0,
