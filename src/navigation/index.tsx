@@ -17,6 +17,7 @@ import Food from '../screens/home/food';
 import Payment from '../screens/home/payment/';
 import PaymentRunning from '../screens/home/payment/paiementRunning';
 import PaymentResult from '../screens/home/payment/paymentResult';
+import OrderStatus from '../screens/orders/OrderStatus';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({ defaultRoute }) => (
 
         {/* Orders */}
         <Stack.Screen name="Orders" component={Orders}/>
+        <Stack.Screen name="OrderStatus" component={OrderStatus}/>
       </Stack.Navigator>
     </NavigationContainer>
 );

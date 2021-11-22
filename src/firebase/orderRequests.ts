@@ -22,3 +22,7 @@ export const postOrder = async (order: Order) => {
 export const getOrders = async (id: string) => {
     return await fetch(`${API_URL}/orders?userId=${id}`);
 }
+
+export const getOrder = async (id: string) => {
+    return await fetch(`${API_URL}/orders?orderId=${id}`);
+}

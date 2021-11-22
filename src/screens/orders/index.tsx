@@ -44,6 +44,8 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                         }}>{status}</Text>
                     </View>
                 )
+            case "Acceptée":
+            case "En route":
             case "En cours":
                 return (
                     <View style={[statusStyles.enCours, statusStyles.base]}>
@@ -81,6 +83,10 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
         }
     }
 
+    const goOrderStatus = (order: any) => {
+        navigation.navigate("OrderStatus", { order });
+    }
+
     const dataToDisplay = () => {
         if(!userOrders.length) {
             return (
@@ -105,27 +111,29 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                     {userOrders.map((item, index) => {
                         
                         return (
-                            <View key={index} style={{ flex: 1,  
-                                flexDirection: "row", 
-                                borderColor: colors.lineGray, 
-                                borderBottomWidth: 1,
-                                paddingVertical: 15
-                                }}>
-
-                                <View style={{ flex: 1, paddingLeft: 25}}>
-                                    <Image style={{ width:69 , height: 49, backgroundColor: colors.lightGray }} source={{ uri: item.cover }}/>
-                                </View>
-
-                                <View style={{ 
-                                    flex: 3, 
-                                    paddingRight: 25
+                            <TouchableOpacity key={index} onPress={() => goOrderStatus(item)}>
+                                <View style={{ flex: 1,  
+                                    flexDirection: "row", 
+                                    borderColor: colors.lineGray, 
+                                    borderBottomWidth: 1,
+                                    paddingVertical: 15
                                     }}>
-                                    <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
-                                    <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
-                                    {statusToDisplay(item.status)}
+
+                                    <View style={{ flex: 1, paddingLeft: 25}}>
+                                        <Image style={{ width:69 , height: 49, backgroundColor: colors.lightGray }} source={{ uri: item.cover }}/>
+                                    </View>
+
+                                    <View style={{ 
+                                        flex: 3, 
+                                        paddingRight: 25
+                                        }}>
+                                        <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
+                                        <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
+                                        <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
+                                        {statusToDisplay(item.status)}
+                                    </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         );
                     })}
                 </ScrollView>
