@@ -74,7 +74,9 @@ const Home: React.FC<ScreenProps> = ({ navigation }) => {
         return (
             <SafeAreaView style={styles.view}>
                 <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
-                <Restaurants restaurants={restaurants} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} loading={loading} onRefresh={onRefresh} loadMore={loadMore} />
+                <View style={styles.container}>
+                    <Restaurants restaurants={restaurants} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} loading={loading} onRefresh={onRefresh} loadMore={loadMore} />
+                </View>
             </SafeAreaView>
         );
     }
@@ -86,6 +88,10 @@ export default Home;
 const styles = StyleSheet.create({
     view: {
         flex: 1,
-        backgroundColor: colors.background
+        backgroundColor: colors.white
     },
+    container: {
+        flex: 1,
+        backgroundColor: colors.background
+    }
 });

@@ -26,7 +26,6 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     }
 
     useEffect(() => {
-
         getUserOrders();
     }, [orderState]);
 
@@ -61,7 +60,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                         }}>{status}</Text>
                     </View>
                 ) 
-            case "Annulé":
+            case "Annulée":
                 return (
                 <View style={[statusStyles.annule, statusStyles.base]}>
                     <Text style={{ 
@@ -85,7 +84,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
     const dataToDisplay = () => {
         if(!userOrders.length) {
             return (
-                <View style={{alignItems: "center", flex: 1, flexDirection: "column", justifyContent:"center"}}>
+                <View style={{alignItems: "center", flex: 1, marginHorizontal: 6, marginTop: 30 }}>
                     <Bowl/>
                     <Text style={{fontFamily: "UberMoveMedium", fontSize:23, paddingBottom: 12, height: 38 }}>
                         Aucune commande en cours
@@ -114,7 +113,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                                 }}>
 
                                 <View style={{ flex: 1, paddingLeft: 25}}>
-                                    <Image style={{ width:69 , height: 49}} source={{ uri: item.cover }}/>
+                                    <Image style={{ width:69 , height: 49, backgroundColor: colors.lightGray }} source={{ uri: item.cover }}/>
                                 </View>
 
                                 <View style={{ 

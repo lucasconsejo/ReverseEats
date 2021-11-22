@@ -50,7 +50,7 @@ const RestaurantItem: React.FC<HomeRestaurantProps> = ({ restaurant }) => {
         <TouchableOpacity style={styles.restaurant} onPress={onPress}>
             <View>
                 <View style={{ position: "relative" }}>
-                    <Image style={{ height: 150 }} source={{ uri: restaurant.cover }}/>
+                    <Image style={{ height: 150, backgroundColor: colors.lineGray }} source={{ uri: restaurant.cover }}/>
                     {SelectedCart(restaurant.id)}
                 </View>
                 <View style={styles.restaurantsContainer}>

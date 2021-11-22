@@ -6,11 +6,10 @@ import { StatusBar } from 'react-native'
 const useCachedResources = () => {
     const [isLoadingComplete, setIsLoadingComplete] = useState(false)
 
-    StatusBar.setBarStyle("light-content");
-
     useEffect(() => {
         const loadDataAndResourcesAsync = async () => {
             try {
+                StatusBar.setBarStyle("light-content");
                 SplashScreen.preventAutoHideAsync()
                 await Font.loadAsync({
                     UberMoveMedium: require('../assets/fonts/UberMoveMedium.otf'),

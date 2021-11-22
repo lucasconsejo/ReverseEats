@@ -10,15 +10,10 @@ import { DateContext } from '../../../context/dateProvider';
 import { CartContext } from '../../../context/cartProvider';
 import CartItem from '../restaurant/cart/CartItem';
 import CartBtn from '../restaurant/cart/CartBtn';
-import { OrderContext } from '../../../context/orderProvider';
-import uuid from 'react-native-uuid';
-import { postOrder } from '../../../firebase/orderRequests';
-import { Order } from '../../../types/global.types';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);
-    const { cartState, cartDispatch } = useContext(CartContext);
-    const { orderState, orderDispatch } = useContext(OrderContext);
+    const { cartState } = useContext(CartContext);
     const [user] = useUser();
 
     const calculTotal = cartState.reduce((a, b) => a + (b.totalPrice || 0), 0);
@@ -30,35 +25,10 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
         }
     }, [cartState])
 
-    const createOrder = () => {
-        const orderParams: Order = {
-            id: uuid.v4().toString(),
-            userID: user.id,
-            foods: cartState.map((cart) => {
-                return {
-                    food: cart.food, 
-                    options: cart.options,
-                    quantity: cart.quantity
-                }}),
-            restaurantID: cartState[0].restaurantId,
-            restaurantName: cartState[0].restaurantName,
-            status: "En attente",
-            orderDate: new Date(),
-            total: calculTotalFrais
-        }
-        orderDispatch({
-            type: "ADD_ORDER",
-            payload: orderParams,
-        })
-        postOrder(orderParams)
-        .then(() => {
-            cartDispatch({
-                type: "RESET_CART",
-            })
-            navigation.reset({
-                index: 0,
-                    routes: [{ name: "PaymentRunning" }],
-            })
+    const onSubmit = () => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: "PaymentRunning" }],
         })
     }
 
@@ -109,7 +79,7 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
                         <Text style={{ fontSize: 18,  fontWeight: "600"}}>{calculTotalFrais.toFixed(2)} €</Text>
                     </View>
                 </View>
-                <CartBtn text="Valider la transaction" onPress={createOrder} />
+                <CartBtn text="Valider la transaction" onPress={onSubmit} />
         </View>
     ) : null
 }
