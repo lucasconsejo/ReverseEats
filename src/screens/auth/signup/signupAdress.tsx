@@ -66,11 +66,11 @@ const SignupAdress: React.FC<ScreenProps> = ({route, navigation}) => {
             .then(res => res.json())
             .then(res => {
                 if(res.features.length == 1 && res.features[0].properties.label === input){
+                    const lat = res.features[0].geometry.coordinates[1]
+                    const long = res.features[0].geometry.coordinates[0]
                     createUser(email, password)
                     .then((res: any) => {
                         const id = res.user.uid;
-                        const lat = res.features[0].geometry.coordinates[1]
-                        const long = res.features[0].geometry.coordinates[0]
                         const bddRole = role === "Client" ? "customer" : "cook";
                         postUser(id, firstName, lastName, email, bddRole, input, lat, long)
                         .then(() => {

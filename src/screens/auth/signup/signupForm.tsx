@@ -140,7 +140,7 @@ const SignupForm: React.FC<ScreenProps> = ({ route, navigation }) => {
                                     label="Mot de passe" 
                                     theme="dark" 
                                     control={control} 
-                                    keyboardType="visible-password" 
+                                    keyboardType="default" 
                                     secureTextEntry
                                     required 
                                 />
