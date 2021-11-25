@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React, { useContext, useEffect } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ScreenProps } from '../../../types/props.types';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { colors } from '../../../theme/colors';
@@ -10,6 +10,8 @@ import { DateContext } from '../../../context/dateProvider';
 import { CartContext } from '../../../context/cartProvider';
 import CartItem from '../restaurant/cart/CartItem';
 import CartBtn from '../restaurant/cart/CartBtn';
+import { getOrders } from '../../../firebase/orderRequests';
+import { Order } from '../../../types/global.types';
 
 const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const { dateState} = useContext(DateContext);
@@ -19,11 +21,6 @@ const Payment: React.FC<ScreenProps> = ({ navigation }) => {
     const calculTotal = cartState.reduce((a, b) => a + (b.totalPrice || 0), 0);
     const calculTotalFrais = calculTotal + 1.99;
 
-    useEffect(() => {
-        if(!cartState.length){
-            navigation.goBack();
-        }
-    }, [cartState])
 
     const onSubmit = () => {
         navigation.reset({

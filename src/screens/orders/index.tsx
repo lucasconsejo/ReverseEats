@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Text, View, StyleSheet, Image } from "react-native"
+import { Text, View, StyleSheet, Image, RefreshControl } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { ScreenProps } from "../../types/props.types"
 import { colors } from "../../theme/colors";
@@ -13,20 +13,27 @@ import { DateTime, Zone } from 'luxon';
 
 
 const Orders: React.FC<ScreenProps> = ({ navigation }) => {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [user, userDispatch] = useUser();
     const {orderState} = useContext(OrderContext);
     const [userOrders, setuserOrders] = useState([]);
     
-    const getUserOrders = () => {
+    const onRefresh = () => {
+        setLoading(true)
         getOrders(user.id)
         .then(res => res.json())
         .then(res => {
             setuserOrders(res.data);
+            setLoading(false);
         })
     }
+    useEffect(() => {
+        onRefresh();
+    }, []) 
 
     useEffect(() => {
-        getUserOrders();
+        onRefresh();
     }, [orderState]);
 
     const getDateToString = (date: string) => {
@@ -107,7 +114,9 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
             );
         } else { 
             return (
-                <ScrollView>
+                <ScrollView 
+                refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
+                >
                     {userOrders.map((item, index) => {
                         
                         return (
@@ -128,7 +137,7 @@ const Orders: React.FC<ScreenProps> = ({ navigation }) => {
                                         paddingRight: 25
                                         }}>
                                         <Text style={{ fontSize: 18, marginBottom: 4}} numberOfLines={1}>{item.restaurantName}</Text>
-                                        <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total} €</Text>
+                                        <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2}}>{item.total.toFixed(2)} €</Text>
                                         <Text style={{ fontSize: 16, color: "#7D7D7D", marginVertical: 2, textTransform: "capitalize"}}>{getDateToString(item.orderDate)}</Text>
                                         {statusToDisplay(item.status)}
                                     </View>

@@ -22,6 +22,10 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
         startAnimation();
     }, [orderState]);
 
+    useEffect(() => {
+        onRefresh();
+    }, []) 
+
     const startAnimation = () => {
         Animated.loop(
             Animated.timing(animation, {
