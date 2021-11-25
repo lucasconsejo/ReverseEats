@@ -34,7 +34,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.lunoxo.reverseEats",
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyAlniORpj4KfSlQbo3hcGa5bUxItufrosI"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -42,7 +46,12 @@
         "backgroundColor": "#122828"
       },
       "package": "com.lunoxo.reverseEats",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC6o1-ng4P-P2uOYHSE62zvbavZLHrf0G0"
+        }
+      }
     },
     "notification": {
       "icon": "./assets/icon_notification.png",

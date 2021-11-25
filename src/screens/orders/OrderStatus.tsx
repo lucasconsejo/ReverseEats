@@ -10,7 +10,7 @@ import French from "../../assets/icons/french.png"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { getOrder } from '../../firebase/orderRequests';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { order } = route.params;
@@ -64,6 +64,7 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
         ];
         return status === "En route" ? 
             <MapView style={{ flex: 1 }} 
+                provider={PROVIDER_GOOGLE}
                 initialRegion={{
                     latitudeDelta: 0.015,
                     longitudeDelta: 0.0121,
