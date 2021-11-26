@@ -162,3 +162,11 @@ export type HeaderProps = {
     selectedCategory: string,
     setSelectedCategory: any
 }
+
+export type MapViewContainerProps = {
+    duration: number,
+    setDuration: any,
+    markers: Array<any>,
+    middleMarker: any,
+    setMiddleMarker: any
+}

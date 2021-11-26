@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Animated, RefreshControl, ScrollView } from 'react-native'
 import { colors } from '../../theme/colors';
 import { ScreenProps } from '../../types/props.types';
@@ -10,20 +10,42 @@ import French from "../../assets/icons/french.png"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { getOrder } from '../../firebase/orderRequests';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewContainer from './MapViewContainer';
 
 const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
     const { order } = route.params;
     const [orderState, setOrderState] = useState(order);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [animation, setAnimation] = useState<any>(new Animated.Value(0));
+    const [middleMarker, setMiddleMarker] = useState<any>(null);
+    const [duration, setDuration] = useState<number>(0);
+    let scroll = new Animated.Value(0)
+    const [animation] = useState<any>(new Animated.Value(0));
+    const markers = [
+        {
+            role: "customer",
+            latitude: orderState.lat,
+            longitude: orderState.long,
+            title: 'Lieu du rendez-vous',
+            description: orderState.address
+        },
+        {
+            role: "cook",
+            latitude: 44.8428,
+            longitude: -0.572696,
+            title: 'Cuisinier',
+            description: ""
+        }
+    ];
 
     useEffect(() => {
         startAnimation();
     }, [orderState]);
 
     useEffect(() => {
-        onRefresh();
+        getOrder(orderState.id)
+        .then(res => res.json())
+        .then(res => {
+            setOrderState(res.data);
+        })
     }, []) 
 
     const startAnimation = () => {
@@ -36,54 +58,25 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
           ).start();
     }
 
-    const getDateToString = (date: string) => {
-        const dateTime = DateTime.fromISO(date);
-        return capitalizeFirstLetter(dateTime.setLocale('fr').toFormat("DDDD à HH:mm"));
-    }
-
     const boxInterpolation = animation.interpolate({
         inputRange: [0, 85],
         outputRange:[0, 85]
     });
 
-    const onRefresh = () => {
-        setLoading(true)
-        getOrder(orderState.id)
-        .then(res => res.json())
-        .then(res => {
-            setOrderState(res.data);
-            setLoading(false);
-        })
-        .catch(() => setLoading(false))
+    const getDateToString = (date: string) => {
+        const dateTime = DateTime.fromISO(date);
+        return capitalizeFirstLetter(dateTime.setLocale('fr').toFormat("DDDD à HH:mm"));
     }
 
     const renderMaps = (status: string) => {
-        var markers = [
-            {
-              latitude: orderState.lat,
-              longitude: orderState.long,
-              title: 'Lieu du rendez-vous',
-              description: orderState.address
-            }
-        ];
         return status === "En route" ? 
-            <MapView style={{ flex: 1 }} 
-                provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                    latitude: orderState.lat,
-                    longitude: orderState.long,
-                }}
-            >
-                {markers.map((item, index) => (
-                    <Marker 
-                        key={index} 
-                        coordinate={{ latitude: item.latitude,longitude: item.longitude }}
-                        title={item.title}
-                        description={item.description}/>
-                ))}
-            </MapView>
+            <MapViewContainer
+                duration={duration}
+                setDuration={setDuration}
+                markers={markers}
+                middleMarker={middleMarker}
+                setMiddleMarker={setMiddleMarker}
+            />
          : (
             <View style={styles.contentStatus}>
                 <View style={styles.statusImg}>
@@ -101,7 +94,14 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <FontAwesomeIcon icon={faArrowLeft} color={colors.black} size={30} />
                 </TouchableOpacity>
-                <Text style={styles.date}>{getDateToString(orderState.orderDate)}</Text>
+                {orderState.status === "En route" ? (
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" }}>
+                        <Text style={{ fontFamily: "UberMoveMedium", fontSize: 35 }}>{DateTime.now().plus({ minutes: duration }).toFormat("HH:mm")}</Text>
+                        <Text style={{ color: colors.cookGray, fontSize: 18, marginBottom: 5 }}>Arrivée estimée</Text>
+                    </View>
+                ) : (
+                    <Text style={styles.date}>{getDateToString(orderState.orderDate)}</Text>
+                )}
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                     {Array.from(Array(4)).map((item, index) =>  {
                         if (index < getStatusBarRender(orderState.status)) {
@@ -122,15 +122,20 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
                 </View>
                 <Text style={styles.subTitleHeader}>{getHeaderStatusMsgRender(orderState.status)}</Text>
             </View>
-            <ScrollView 
-                style={{ flex: 1 }} 
-                showsVerticalScrollIndicator={false} 
-                refreshControl={<RefreshControl tintColor={colors.primary} refreshing={loading} onRefresh={onRefresh} />}
-            >
-                <View style={styles.content}>
-                   {renderMaps(orderState.status)} 
-                </View>
+            <Animated.ScrollView showsVerticalScrollIndicator={false}  onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scroll }}}], {useNativeDriver: true})}>
+                <Animated.View 
+                    style={{
+                        height: 500,
+                        transform: [{translateY: Animated.multiply(scroll, 1)}]
+                      }}>
+                    <View style={styles.content}>
+                        {renderMaps(orderState.status)} 
+                    </View>
+                </Animated.View>
                 <View style={styles.infos}>
+                    <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10 }}>
+                        <View style={{ backgroundColor: colors.lineGray,  height: 5, borderRadius: 5, width: 80 }} />
+                    </View>
                     <View style={styles.titleContainer}>
                         <Text style={{ width: "75%", fontSize: 20, fontFamily: "UberMoveMedium" }}>{orderState.restaurantName}</Text>
                         {statusToDisplay(orderState.status)}
@@ -153,7 +158,7 @@ const OrderStatus: React.FC<ScreenProps> = ({ navigation, route }) => {
                         ))}
                     </View>
                 </View>
-            </ScrollView>
+            </Animated.ScrollView>
         </SafeAreaView>
     )
 }
@@ -178,11 +183,14 @@ const styles = StyleSheet.create({
         backgroundColor: colors.lightGray
     },
     infos: {
-        padding: 15,
+        backgroundColor: colors.white,
+        paddingHorizontal: 15,
+        paddingBottom: 15,
     },
     titleContainer: {
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginTop: 5
     },
     contentStatus: {
         alignItems: "center"
